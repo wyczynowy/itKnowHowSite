@@ -1,0 +1,60 @@
+<h1>Tworzenie projektu maven</h1>
+<div class="contentDiv">
+
+	<p>Aby móc w Eclipse utworzyć projekt maven dla javy EE, należy najpierw zainstalować maven na komputerze a później doinstalować odpowieni plugin do Eclipse.
+	Drugą opcją jest instalacja odpowiedniej wersji Eclipse wraz z preinstalowanym oprogramowaniem maven. Aby w Eclipse utworzyć projekt maven dla javy EE należy
+	kliknąć <span class="clickDiv">File -> New -> Other...</span></p>
+
+	<!-- OBRAZEK Z OKNEM WYBORU PROJEKTU W ECLIPSE -->
+	<img src="obrazki/oknoSelectAWizard.jpg" style="max-width: 525px;" onclick="powiekszZdjecie(this)">
+	
+	<p>Wybieramy <span class="clickDiv">Maven -> Maven Project</span> i przechodzimy do okna ustawień nowego projektu. W tym oknie nie zmieniamy nic. Klikamy <span class="clickDiv">Next</span> i przechodzimy
+	do kolejnego okna konfiguracyjnego nowego projektu:</p>
+	
+	<!-- OBRAZEK Z OKNEM USTAWIEŃ NOWEGO PROJEKTU MAVEN -->
+	<img src="obrazki/oknoNewMavenProject.jpg" style="max-width: 728px;" onclick="powiekszZdjecie(this)">
+	
+	<p>W tym oknie wybieramy archetyp projektu maven. Aby utworzyć projekt maven web aplikacji wybieramy <span class="clickDiv">maven-archetype-webapp</span> 
+	i przechodzimy do następnego okna klikając przycisk <span class="clickDiv">Next</span></p>
+	
+	<!-- OBRAZEK Z OKNEM USTAWIEŃ ARCHETYPU PROJEKTU MAVEN -->
+	<img src="obrazki/oknoNewMavenProjectWebApp_2.jpg" style="max-width: 823px;" onclick="powiekszZdjecie(this)">
+	
+	<p>W tym oknie ustawiamy Group Id oraz Artifact Id i następnie klikamy przycisk <span class="clickDiv">Finish</span>. Projekt zostaje utworzony.</p>
+	
+	<!-- OBRAZEK Z OKNEM USTAWIEŃ NAZWY GROUP ID ORAZ ARTIFACT ID	 -->
+	<img src="obrazki/oknoNewMavenProjectWebApp_3.jpg" style="max-width: 823px;" onclick="powiekszZdjecie(this)">
+	
+	<p>Poniżej przedstawiono drzewo katalogów po utworzeniu projektu web aplikacji maven w Eclipse:</p>
+	
+	<!-- OBRAZEK Z DRZEWKIEM KATALOGÓW NOWO UTWORZONEGO PROJEKTU MAVEN -->
+	<img src="obrazki/drzewoNowegoProjektuMavenWebApp.jpg" style="max-width: 420px;" onclick="powiekszZdjecie(this)">
+	
+	<p>Aby projekt poprawnie się budował i można go było uruchomić to należy dodać do pliku pom.xml zależność <span class="clickDiv">javax.servlet-api</span> 
+	jak pokazano to na poniższym obrazku</p>
+	
+	<!-- OBRAZEK PLIK POM NOWEGO PROJEKTU MAVEN -->
+	<img src="obrazki/plikPOMnowegoProjektuMavenWebApp.jpg" style="max-width: 764px;" onclick="powiekszZdjecie(this)">
+	
+	<p>Po wprowadzeniu jakichkolwiek zmian w pliku pom.xml należy kliknąć ppm na nazwę projektu <span class="clickDiv">Maven -> Update Project</span>. Tak przygotowany projekt można już skompilować.
+	Kompilację robimy z konsoli poleceniem <code>mvn clean package</code>, przechodząc do folderu projektu, jak  pokazano to na załączonym obrazku:</p>
+	
+	<!-- OBRAZEK Z POLECENIEM KOMPILACJI PROJEKTU MAVEN -->
+	<img src="obrazki/budowanieProjektuMavenWebApp.jpg" style="max-width: 677px;" onclick="powiekszZdjecie(this)">
+	
+	<p>Poprawnie skompilowany i spakowany projekt można uruchomić już na serwerze. Wystarczy tylko przenieść utworzony plik nazwaWebAplikacji.war do
+	katalogu głównego serwera i uruchomić go. Efekt można zobaczyć w przeglądarce internetowej:</p>
+	
+	<!-- OBRAZEK URUCHOMIONEGO PROGRAMU W PRZEGLĄDARCE INTERNETOWEJ -->
+	<img src="obrazki/uruchomienieSkompilowanegoProgramuWPrzegladarce.jpg" style="max-width: 610px;" onclick="powiekszZdjecie(this)">
+	
+	<p>Aby móc skonfigurować folder, do którego maven będzie przenosił zbudowany projekt war, należy dodać zależność 
+	<span class="clickDiv">maven-war-plugin</span> do projektu oraz odpowiednio skonfigurować lokalizację wyjściową dla pliku war, jak
+	pokazano to na poniższym obrazku:</p>
+	
+	<!-- OBRAZEK - PLIK POM Z ZALEŻNOŚCIĄ KONFIGURUJĄCĄ OUTPUT DIRECTORY -->
+	<img src="obrazki/plikPomMavenWarPlugin.jpg" style="max-width: 760px;" onclick="powiekszZdjecie(this)">
+
+	<p>Powyższe ustawienia umożliwiają nadanie nazwy gotowemu plikowi war oraz utworzenie go we wskazanej lokalizacji.</p>
+
+</div>

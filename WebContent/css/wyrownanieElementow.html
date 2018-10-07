@@ -1,0 +1,35 @@
+<h1>Wyrównanie elementów w pionie i w poziomie</h1>
+<div class="contentDiv">
+
+	<p>Sposób z tabelą (wyrównanie w pionie i w poziomie):</p>
+	
+	<div class="codeDiv">
+		div {<br>
+		  &nbsp;display: table;<br>
+		  &nbsp;height: 100px;<br>
+		  &nbsp;width: 100%;<br>
+		  &nbsp;text-align: center;<br>
+		  &nbsp;border: 2px dashed #f69c55;<br>
+		}<br>
+		span {<br>
+		  &nbsp;display: table-cell;<br>
+		  &nbsp;vertical-align: middle;<br>
+		}
+		<br>
+		<br>
+		&lt;div&gt;<br>
+		  &nbsp;&lt;span&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/span&gt;<br>
+		&lt;/div&gt;	
+	</div>
+	
+	<p>Wyrównanie elementu &lt;div&gt; w pionie (ten sam sposób można wykorzystać do wyrównania elementu w poziomie):</p>
+	
+	<div class="codeDiv">
+		&lt;div&gt;<br>
+		&nbsp;&lt;div style="position: relative ; top: 50%; transform: translateY(-50%); width: 100%;"&gt;<br>
+		&nbsp;&nbsp;zawartość<br>
+		&nbsp;&lt;/div&gt;<br>
+		&lt;/div&gt;
+	</div>
+
+</div>

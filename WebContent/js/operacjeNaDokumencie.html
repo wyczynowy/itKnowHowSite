@@ -1,0 +1,77 @@
+<h1>Operacje na dokumencie</h1>
+
+<div class="contentDiv">
+	<p>Na dokumencie można wykonać sporo bardzo ciekawych operacji. Niektóre z nich poniżej:</p>
+	
+	<p>
+		<code>document</code> - obiekt dokumentu (wyświetla stronę jako obiekt DOM)<br>
+		<code>document.documentElement</code> - wyświetla korzeń dokumentu czyli &lt;html&gt;<br>
+		<code>document.documentElement.nodeType</code> - wyświetla typ węzła<br>
+		<code>document.documentElement.nodeName</code> - wyświetla nazwę znacznika<br>
+		<code>document.documentElement.tagName</code> - j.w.<br>
+		<code>document.documentElement.nodeValue</code> - wyświetla wartość węzła<br>
+		<code>document.documentElement.hasChildNodes()</code> - wyświetla informacje czy dany węzeł ma dziecko. 
+				W tym przypadku będzie wyświetlona informacja o dzieciach korzenia<br>
+		<code>document.documentElement.childNodes.length</code> - wyświetla ilość dzieci danego węzła. W tym przypadku korzenia<br>
+		<code>document.documentElement.childNodes[arg]</code> - dostęp do elementów dzieci danego węzla przy użyciu tablicopodobnej kolekcji<br>
+		<code>document.documentElement.childNodes[arg].parentNode</code> - uzyskujemy dostęp do rodzica węzła <code>childNodes[arg]</code><br>
+		<code>document.documentElement.childNodes[arg].childNodes.length</code> - wyświetla informacje o ilości dzieci dziecka elementu korzeń
+				czyli np. info o ilości wezłów w elemencie <code>&lt;body&gt;</code><br>
+		<code>document.documentElement.childNodes[arg].hasAttributes()</code> - wyświetla informacje czy węzeł posiada jakieś atrybuty<br>
+		<code>document.documentElement.childNodes[arg].attributes.length</code> - wyświetla informacje o ilości atrybutów danego węzła<br>
+		<code>document.documentElement.childNodes[arg].attributes[arg1].nodeName</code> - wyświetla nazwe atrybutu<br>
+		<code>document.documentElement.childNodes[arg].attributes[arg1].nodeValue</code> - wyświetla wartość atrybutu<br>
+		<code>ocument.documentElement.childNodes[arg].getAttribute['nazwaAtrybutu'].nodeName/nodeValue</code> - j.w.<br>
+		<code>document.documentElement.childNodes[arg].innerHTML/textContent</code> - wyświetla text zawarty pomiędzy znacznikiem początkowym
+				a końcowym węzla (textContent nie działa w IE)<br>
+		<code>document.getElementsByTagName('p')</code> - zwraca tablice elementów o nazwie 'p' czyli w tym przypadku &lt;p&gt;<br>
+		<code>document.getElementsByTagName('p').length</code> - zwraca ilość elementów tablicy<br>
+		<code>document.getElementsByTagName('p')[0]</code> - zwraca cały węzeł<br>
+		<code>document.getElementsByTagName('p')[0].innerHTML</code> - wyświetla zawartość elementu oraz umożliwia jego zmianę<br>
+		<code>document.getElementsByTagName('p')[0].className</code> - zwraca wartość atrybutu class elementu &lt;p&gt;<br>
+		<code>document.getElementsByTagName('p')[0].id</code> - zwraca wartość atrybutu id elementu &lt;p&gt;<br>
+		<code>document.all</code> - umożliwia pobranie wszystkich elementów (dziala w starszych przeglądarkach IE)<br>
+		<code>document.getElementsByTagName('*')</code> - j.w. dla przeglądarek od IE7<br>
+		<code>document.getElementById(arg)</code> - zwraca element o id = arg<br>
+		<code>document.getElementById(arg).element.nextSibling/previousSlibing</code> - umożliwia przejście do następnego/poprzedniego
+				elementu rodzeństwa. Można wywoływać tak: <code>element.nextlibling.nextSlibing.nextSlibing</code><br>
+		<code>document.body</code> - zwraca element &lt;body&gt;<br>
+		<code>document.body.firstChild/lastChild</code> - zwracaja odpowiednio pierwsze dziecko/ostatnie dziecko<br>
+		<code>document.getElementById(arg).style.border = '1px solid red'</code> - zmienia styl obramowania elementu o id = arg<br>
+		<code>document.getElementById(arg).style.fontWeight = 'bold'</code> - zmienia pogrubienie czcionki<br>
+		<code>document.getElementById(arg).align = 'right'</code> - zmienia wyrównanie tekstu<br>
+		<code>document.getElementById(arg).name = 'nowaNazwa'</code> - zmienia nazwę elementu<br>
+		<code>document.getElementById(arg).id</code> - dostęp do id<br>
+		<code>document.createElement('t')</code> - tworzy i zwraca element &lt;t&gt;
+		<code>document.body.appendChild(arg)</code> - dodaje nowo utworzony element do &lt;body&gt; za ostatnim dotychczas dzieckiem<br>
+		<code>document.createTextNode()</code> - tworzy nowy węzeł tekstowy<br>
+		<code>cloneNode(true/false)</code> - kopiuje element. true - kopia z dziecmi / false - kopia plytka.
+				Metode wywołuje się na elemencie do skopiowania<br>
+		<code>document.body.insertBefore(arg0, arg1)</code> - dodaje element arg0 przed element arg1<br>
+		<code>document.body.removeChild(arg0)</code> - usuwa element arg0 z &lt;body&gt;. Funkcja zwraca ten usunięty element<br>
+		<code>document.body.replaceChild(arg0, arg1)</code> - metoda usuwa z &lt;body&gt; element arg0 i zamiast niego wkłada element arg1.
+				Zwraca arg0<br>
+		<code>removeAll(document.body)</code> - usuwa całą zawartość &lt;body&gt;<br>
+		<code>document.write()</code> - pozwala na dodanie do strony kod w czasie jej ładowania. Metoda wywołana po załadowaniu strony
+				nadpisze cała jej zawartość<br>
+		<code>document.writeln()</code> - j.w. tylko dodaje znak nowej linii na końcu <code>/n</code> na koncu<br> 
+		<code>document.cookie</code> - wyświetla łańcuch znaków ciasteczek<br>
+		<code>document.title</code> - zmienia tytuł strony<br>
+		<code>document.domain</code> - pozwala odczytac domenę<br>
+		</p>
+		
+		<h2>Starsze sposoby dostępu do dokumentu</h2>
+		
+		<p>
+		<code>document.images</code> - pobiera wszystkie obrazki ze strony -&gt; odpowiada <code>document.getElementsByTagName('img')</code><br>
+		<code>document.applets</code> - odpowiada <code>document.getElementsByTagName('applets')</code><br>
+		<code>document.links</code> - zwraca wszystkie linki ze strony<br>
+		<code>document.anchors</code> - zwraca wszystkie zakotwiczenia ze strony<br>
+		<code>document.forms</code> - zwraca wszystkie znaczniki form ze strony<br>
+		<code>document.forms[0].elements[arg]</code> - zwraca przyciski i pola tekstowe formularza<br>
+		<code>document.forms[0].elements['nazwaElementu']</code> - notacja tablicowa umożliwia odwołanie się do elementu po nazwie <code>name</code>
+				, jeżeli element takową nazwę posiada<br>
+		<code>document.forms[0].elements.nazwaElementu</code> - odwołanie się bezpośrednio do pola obiektu (j.w.)<br>	
+		</p>
+	
+</div>

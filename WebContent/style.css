@@ -1,0 +1,226 @@
+.menuButton {
+	background-color: #990000;
+	border: 0;
+	border-radius: 0px;
+	width: 98px;
+	height: 40px;
+	font-size: 17px;
+	cursor: pointer;
+	color: #eeeeee;
+	margin: 0;
+	padding: 0;
+}
+
+.menuButtonActivated {
+	background-color: #bc0000;
+}
+
+.menuButtonDiv {
+	float: left;
+	width: 100px;
+	height: 40px; 
+	border-left: 1px solid #990000;
+	border-right: 1px solid #990000;
+	font-size: 0;
+	display: inline-block;
+}
+
+.subMenuButton {
+  display: inline-block;
+  padding: 5px 25px;
+  margin-bottom: 5px; 
+  width: 150px;
+  font-size: 17px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  color: #eeeeee;
+  background-color: #990000;
+  border: none;
+  border-radius: 5px;
+}
+
+.subMenuButton:hover {
+	background-color: #bc0000
+	}
+
+.subMenuButton:active {
+  background-color: #bc0000;
+  transform: translateY(4px);
+}
+
+.content-center {
+	background-color: #ffffff;
+	width: 1300px;
+	height: 100%;
+	float: left;
+}
+
+.content-left {
+	background-color: #ffffff;
+	width: 150px;
+	height: 100%;
+	float: left;
+	z-index: 0;
+}
+
+.content-right {
+	background-color: #ffffff;
+	width: 150px;
+	height: 100%;
+	float: left;
+	z-index: 0;
+}
+
+.content {
+	height: 500px;
+	position: absolute;
+	z-index: 0;
+}
+
+.zasoby {
+	width: 150px; 
+	height: 100%;
+	float: right;
+	border-radius: 20px;
+}
+
+.linki {
+	width: 150px; 
+	height: 100%; 
+	float: left;
+	border-radius: 20px;
+}
+
+code {
+	color: #0066cc;
+	font-family: monospace;
+	font-size: 15px;
+}
+
+.clickDiv {
+	color: #990000;
+}
+
+.important {
+	color: #990000;
+}
+
+.codeDiv {
+	border: 1px solid #80bfff; 
+	border-radius: 5px; 
+	padding: 20px; 
+	padding-right: 80px;
+	color: #0066cc;
+	background-color: #e6f7ff;
+	font-family: monospace;
+	font-size: 15px;
+	display: block;
+	margin: 20px 0;
+}
+
+.codeConsole {
+	border: 1px solid #222222; 
+	border-radius: 5px;
+	margin: 10px 0px; 
+	padding: 10px; 
+	color: #eeeeee;
+	background-color: #555555;
+	font-family: monospace;
+	font-size: 15px;
+	display: inline-block;
+}
+
+p {
+	font-size: 17px; 
+	margin: 20px 0px;
+	text-align: justify;
+}
+
+h1 {
+	text-align: center; 
+	color: #990000;
+}
+
+h2 {
+	color: #990000;
+	text-align: center;
+}
+
+h3 {
+	color: #990000;
+}
+
+.contentDiv {
+	margin: 20px;
+}
+
+.menuDiv {
+	height: 40px; 
+	background-color: #990000; 
+	margin: 30px 0px;
+}
+
+#imgZoomDiv {
+	position: fixed; 
+	z-index: 1001;
+}
+
+#menu {
+	position: relative; 
+	z-index: 1;
+}
+
+table, th, td {
+	border: 1px solid #555555;
+	border-collapse: collapse;
+}
+
+th, td {
+	padding: 25px 15px;
+}
+
+.rowLight {
+	background-color: #e6f9ff;
+}
+
+img {
+	width: 100%; 
+	height: auto; 
+	cursor: pointer; 
+	display: block; 
+	margin-left: auto; 
+	margin-right: auto;
+}
+
+.wciecia {
+	margin-left: 30px; 
+	text-indent: -30px;
+}
+
+.opaqueLayer {
+    display:none;
+    position:fixed;
+    top:0px;
+    left:0px;
+    opacity:0.6;
+    filter:alpha(opacity=60);
+    background-color: #000000;
+    z-Index:1000;
+}
+
+.questionLayer
+{
+    position:fixed;
+    top:0px;
+    left:0px;
+    width:350px;
+    height:200px;
+    display:none;
+    z-Index:1001;
+    border:2px solid black;
+    background-color:#FFFFFF;
+    text-align:center;
+    vertical-align:middle;
+    padding:10px;
+}

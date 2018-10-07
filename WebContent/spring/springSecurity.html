@@ -1,0 +1,179 @@
+<h1>Spring Security</h1>
+<div class="contentDiv">
+
+	<p>Spring Security to jest biblioteka, która ułatwia zarządzanie bezpieczeństwem aplikacji, czyli dostępem do aplikacji.
+	Dzięki Spring Security mamy możliwość zarządzać autoryzacją i uwierzytelnianiem. Aby dodać Spring Security do projektu,
+	należy dodać następujące zależności:</p>
+	
+	<div class="codeDiv">
+		&lt;dependency&gt;<br>
+			&nbsp;&lt;groupId&gt;org.springframework.security&lt;/groupId&gt;<br>
+			&nbsp;&lt;artifactId&gt;spring-security-config&lt;/artifactId&gt;<br>
+			&nbsp;&lt;version&gt;5.0.7.RELEASE&lt;/version&gt;<br>
+		&lt;/dependency&gt;<br>
+		&lt;dependency&gt;<br>
+			&nbsp;&lt;groupId&gt;org.springframework.security&lt;/groupId&gt;<br>
+			&nbsp;&lt;artifactId&gt;spring-security-web&lt;/artifactId&gt;<br>
+			&nbsp;&lt;version&gt;5.0.7.RELEASE&lt;/version&gt;<br>
+		&lt;/dependency&gt;
+	</div>
+	
+	<p>Następnie należy utworzyć plik konfiguracyjny dla Spring Security. Plik ten nazywamy np. <code>security-context.xml</code>
+	i umieszczamy go np. w katalogu <code>webapp/WEB-INF/</code>. Poniżej zawartość pliku <code>security-context.xml</code>:</p>
+	
+	<div class="codeDiv">
+		&lt;?xml version="1.0" encoding="UTF-8"?&gt;<br>
+		&lt;b:beans xmlns="http://www.springframework.org/schema/security"<br>
+				 &nbsp;xmlns:b="http://www.springframework.org/schema/beans"<br>
+				 &nbsp;xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"<br>
+				 &nbsp;xsi:schemaLocation="http://www.springframework.org/schema/beans<br> 
+				 	&nbsp;&nbsp;http://www.springframework.org/schema/beans/spring-beans.xsd<br>
+					&nbsp;&nbsp;http://www.springframework.org/schema/security <br>
+					&nbsp;http://www.springframework.org/schema/security/spring-security.xsd"&gt;<br>
+		<br>
+			&nbsp;&lt;http /&gt;<br>
+		<br>
+			&nbsp;&lt;user-service&gt;<br>
+				&nbsp;&nbsp;&lt;user name="user" password="{noop}password" authorities="ROLE_USER" /&gt;<br>
+			&nbsp;&lt;/user-service&gt;<br>
+		<br>
+		&lt;/b:beans&gt;	
+	</div>
+	
+	<p>Mając już przygotowany powyższy plik z konfiguracją Spring Security należy w pliku konfiguracyjnym <code>web.xml</code>
+	dokonać kilku zmian. Należy dołączyć plik konfiguracyjny, czyli dopisujemy jedną linijkę:</p>
+	
+	<div class="codeDiv">
+		&lt;context-param&gt;<br>
+			&nbsp;&lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;<br>
+			&nbsp;&lt;param-value&gt;<br>
+				&nbsp;&nbsp;/WEB-INF/rootApplicationContext.xml<br>
+				&nbsp;&nbsp;/WEB-INF/security-context.xml<br>
+			&lt;/param-value&gt;<br>
+		&lt;/context-param&gt;<br>															
+	</div>
+
+	<p>Oraz w tym samym pliku konfiguracyjnym <code>web.xml</code> należy skonfigurować filtr:</p>
+	
+	<div class="codeDiv">
+		&lt;filter&gt;<br>
+			&nbsp;&lt;filter-name&gt;springSecurityFilterChain&lt;/filter-name&gt;<br>
+			&nbsp;&lt;filter-class&gt;org.springframework.web.filter.DelegatingFilterProxy&lt;/filter-class&gt;<br>
+		&lt;/filter&gt;<br>
+		&lt;filter-mapping&gt;<br>
+			&nbsp;&lt;filter-name&gt;springSecurityFilterChain&lt;/filter-name&gt;<br>
+			&nbsp;&lt;url-pattern&gt;/*&lt;/url-pattern&gt;<br>
+		&lt;/filter-mapping&gt;	
+	</div>
+	
+	<h2>Własny formularz logowania</h2>
+	
+	<p>Jeżeli chcemy skorzystać z własnego formularza logowania to musimy dokonać nieco zmian w konfiguracji ustawień Spring Security.
+	Zatem modyfikujemy wcześniej utworzony plik <code>security-context.xml</code> w następujący sposób:</p>
+
+	<div class="codeDiv">
+		&lt;http&gt;<br>
+			&nbsp;&lt;intercept-url pattern="/login*" access="isAnonymous()" /&gt;<br>
+			&nbsp;&lt;intercept-url pattern="/**" access="isAuthenticated()" /&gt;<br>
+			&nbsp;&lt;form-login<br>
+		  		&nbsp;&nbsp;login-page="/login.html"<br>
+		  		&nbsp;&nbsp;default-target-url="/index.jsp"<br>
+		  		&nbsp;&nbsp;authentication-failure-url="/login.html?error=true"<br>
+		  		&nbsp;&nbsp;always-use-default-target="true"/&gt;<br>
+			&nbsp;&lt;http-basic /&gt;<br>
+		&lt;/http&gt;
+	</div>
+	
+	<p>Dodatkowo w pliku konfiguracyjnym <code>web.xml</code> należy dodać odpowiednie mapowanie na stronę logowania:</p>
+	
+	<div class="codeDiv">
+		&lt;servlet&gt;<br>
+		    &nbsp;&lt;servlet-name&gt;loginPage&lt;/servlet-name&gt;<br>
+		    &lt;jsp-file&gt;/login.html&lt;/jsp-file&gt;<br>
+		&lt;/servlet&gt;<br>
+		&lt;servlet-mapping&gt;<br>
+		    &nbsp;&lt;servlet-name&gt;loginPage&lt;/servlet-name&gt;<br>
+		    &nbsp;&lt;url-pattern&gt;/login.html&lt;/url-pattern&gt;<br>
+		&lt;/servlet-mapping&gt;
+	</div>
+	
+	<p>Na końcu dodajemy plik ze stroną logowania. W naszym przypadku będzie to plik <code>html</code> umieszczony w
+	katalogu głównym aplikacji webapp:</p>
+	
+	<div class="codeDiv">
+		&lt;html&gt;<br>
+		&lt;head&gt;&lt;/head&gt;<br>
+		&lt;body&gt;<br>
+		   &nbsp;&lt;h1&gt;Login :)&lt;/h1&gt;<br>
+		   &nbsp;&lt;form name='f' action="login" method='POST'&gt;<br>
+		      &nbsp;&nbsp;&lt;table&gt;<br>
+		         &nbsp;&nbsp;&nbsp;&lt;tr&gt;<br>
+		            &nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;User:&lt;/td&gt;<br>
+		            &nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;&lt;input type='text' name='username' value=''&gt;&lt;/td&gt;<br>
+		         &nbsp;&nbsp;&nbsp;&lt;/tr&gt;<br>
+		         &nbsp;&nbsp;&nbsp;&lt;tr&gt;<br>
+		            &nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;Password:&lt;/td&gt;<br>
+		            &nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;&lt;input type='password' name='password' /&gt;&lt;/td&gt;<br>
+		         &nbsp;&nbsp;&nbsp;&lt;/tr&gt;<br>
+		         &nbsp;&nbsp;&nbsp;&lt;tr&gt;<br>
+		            &nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;&lt;input name="submit" type="submit" value="submit" /&gt;&lt;/td&gt;<br>
+		         &nbsp;&nbsp;&nbsp;&lt;/tr&gt;<br>
+		         &nbsp;&nbsp;&nbsp;&lt;tr&gt;<br>
+		         	&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;&lt;input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/&gt;&lt;/td&gt;<br>
+				&nbsp;&nbsp;&nbsp;&lt;/tr&gt;<br>
+		      &nbsp;&nbsp;&lt;/table&gt;<br>
+		  &nbsp;&lt;/form&gt;<br>
+		&nbsp;&lt;/body&gt;<br>
+		&lt;/html&gt;
+	</div>
+	
+	<h2>Logowanie z wykorzystaniem bazy danych</h2>
+
+	<p>Aby móc wykorzystać możliwość logowania się do aplikacji przy użyciu zapisanych loginów i haseł w bazie danych należy wykonać
+	kilka kolejnych zmian. Po pierwsze w bazie danych muszą się znaleźć odpowiednie tabele, które Spring Security będzie przeszukiwał
+	podczas prób logowania się do aplikacji. Zatem najpierw należy utworzyć odpowiednie tabele i dodać conajmniej jednego użytkownika:</p>
+
+	<div class="codeDiv">
+		create table users(<br>
+			&nbsp;username varchar(50) not null primary key,<br>
+			&nbsp;password varchar(60) not null,<br>
+			&nbsp;enabled boolean not null<br>
+		);<br>
+		<br>
+		create table authorities (<br>
+			&nbsp;username varchar(50) not null,<br>
+			&nbsp;authority varchar(50) not null,<br>
+			&nbsp;constraint fk_authorities_users foreign key(username) references users(username)<br>
+		);<br>
+		create unique index ix_auth_username on authorities (username,authority);	
+	</div>
+
+	<p>Następnie należy przenieść bean'a dataSource z pliku <code>applicationContext.xml</code> do pliku <code>security-context.xml</code>
+	, bo w przeciwnym wypadku nie byłby on widoczny w kontekście <code>security-context.xml</code></p>
+
+	<p>Następnie w pliku <code>security-context.xml</code> należy zamienić:</p>
+	
+	<div class="codeDiv">
+		&lt;user-service&gt;<br>
+			&nbsp;&lt;user name="user" password="{noop}password" authorities="ROLE_USER" /&gt;<br>
+		&lt;/user-service&gt;<br>	
+	</div>
+	
+	<p>na:</p>
+	
+	<div class="codeDiv">
+		&lt;authentication-manager&gt;<br>
+			&nbsp;&lt;authentication-provider&gt;<br>
+				&nbsp;&nbsp;&lt;password-encoder ref="bcryptEncoder"/&gt;<br>
+				&nbsp;&nbsp;&lt;jdbc-user-service data-source-ref="dataSource"/&gt;<br>
+			&nbsp;&lt;/authentication-provider&gt;<br>
+		&lt;/authentication-manager&gt;	
+	</div>
+	
+	<p>Należy również do pliku <code>security-context.xml</code> dodać bean'a:</p>
+	
+	<div class="codeDiv">
+		&lt;b:bean name="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/&gt;	
+	</div>
+	
+</div>

@@ -1,0 +1,47 @@
+<h1>Dodawanie Spring MVC do projektu Maven - Java EE</h1>
+<div class="contentDiv">
+
+	<p>Do wcześniej utworzonego projektu maven dla Javy EE dodamy framework Spring MVC. Aby to zrobić trzeba na początek dodać odpowiednie zależności do pliku 
+	<span class="clickDiv">pom.xml</span>. Zatem dodajemy:</p>
+	
+	<!-- OBRAZEK Z OKNEM WYBORU PROJEKTU W ECLIPSE -->
+	<img src="obrazki/dodawanieSpringMvcDoProjektuMaven/dodawanieZaleznosci.jpg" style="max-width: 345px;" onclick="powiekszZdjecie(this)">
+	
+	<p>Kolejną rzeczą, którą trzeba zmienić to konfiguracja w pliku <span class="clickDiv">web.xml</span>:</p>
+	
+	<!-- OBRAZEK Z KONFIGURACJĄ PLIKU WEB.XML -->
+	<img src="obrazki/dodawanieSpringMvcDoProjektuMaven/konfiguracjaPlikuWebXml.jpg" style="max-width: 788px;" onclick="powiekszZdjecie(this)">
+	
+	<p>Należy również dodać plik konfiguracyjny <span class="clickDiv">applicationContext.xml</span> Springa do katalogu webapp/WEB-INF</p>
+	
+	<!-- OBRAZEK - PLIK KONFIURACYJNY APPLICATIONCONTEXT.XML -->
+	<img src="obrazki/dodawanieSpringMvcDoProjektuMaven/plikApplicationContext.jpg" style="max-width: 955px;" onclick="powiekszZdjecie(this)">
+	
+	<p>Kolejny plik konfiguracyjny to plik <span class="clickDiv">rootApplicationContext.xml</span>. Na razie pusty a w przyszłości może zostać on wykorzystany do skonfigurowania
+	całej aplikacji:</p>
+
+	<!-- OBRAZEK - PLIK KONFIURACYJNY ROOTAPPLICATIONCONTEXT.XML -->
+	<img src="obrazki/dodawanieSpringMvcDoProjektuMaven/plikRootApplicationContext.jpg" style="max-width: 1002px;" onclick="powiekszZdjecie(this)">
+
+	<p>Następną rzeczą jaką należy dodać to klasa kontrolera, który będzie obsługiwał żądania HTTP:</p>
+
+	<!-- OBRAZEK - PLIK KLASY KONTROLERA -->
+	<img src="obrazki/dodawanieSpringMvcDoProjektuMaven/klasaKontrolera.jpg" style="max-width: 708px;" onclick="powiekszZdjecie(this)">
+
+	<p>Następną klasą jaką dodajemy jest klasa Repozytorium:</p>
+	
+	<!-- OBRAZEK - PLIK KLASY REPOZYTORIUM -->
+	<img src="obrazki/dodawanieSpringMvcDoProjektuMaven/klasaRepozytorium.jpg" style="max-width: 396px;" onclick="powiekszZdjecie(this)">
+	
+	<p>Ostatnią rzeczą jaką należy dodać to strona <span class="clickDiv">jsp</span>, czyli widok do, którego zostaniemy przekierowani z kontrolera:</p>
+	
+	<!-- OBRAZEK - PLIK STRONY JSP -->
+	<img src="obrazki/dodawanieSpringMvcDoProjektuMaven/stronaJsp.jpg" style="max-width: 531px;" onclick="powiekszZdjecie(this)">
+	
+	<p>Tak przygotowany projekt można już skompilować poleceniem <span class="clickDiv">mvn clean package</span> i uruchomić na serwerze. Aby zobaczyć efekt w przeglądarce
+	internetowej należy przejść pod adres: <span class="clickDiv">nazwaWebAplikacji/kontroler/metoda</span></p>
+
+	<!-- OBRAZEK - WIDOK STRONY Z PRZEGLĄDARKI INTERNETOWEJ -->
+	<img src="obrazki/dodawanieSpringMvcDoProjektuMaven/widokOknaPrzegladarkiInternetowej.jpg" style="max-width: 602px;" onclick="powiekszZdjecie(this)">
+	
+</div>

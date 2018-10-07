@@ -1,0 +1,20 @@
+<h1>Obiekt Error</h1>
+
+<div class="contentDiv">
+
+	<p>Obiekty błędów tworzy się za pomoca konstruktorów: <code>EvalError, RangeError, ReferenceError, SyntaxError, TypeError i URIError</code>.
+	Wszystkie konstruktory dziedziczą po <code>Error</code>. Obiekt <code>Error</code> możemy wykorzystać w następujący sposób:</p>
+	
+	<div class="codeDiv">
+		try {<br>
+		&nbsp;funkcjaKtorejNieMa();<br>
+		} catch (e) {<br>
+		&nbsp;// Obsluga bledu<br>
+		} finally {<br>
+		&nbsp;// Blok finally<br>
+		}
+	</div>
+	
+	<p>Mozna tworzyc swoje bledy w nastepujacy sposob: <code>throw new Error('Nazwa nowego bledu ktora zostanie wyrzucona');</code></p>
+
+</div>

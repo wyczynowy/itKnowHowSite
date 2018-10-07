@@ -1,0 +1,83 @@
+<h1>String</h1>
+<div class="contentDiv">
+	
+	<p>Zmienne typu String w języku javascript tworzymy przy użyciu następującej składni:</p>
+
+	<div class="codeDiv">
+		var string = "Imię"<br>
+		<br>
+		<div class="codeConsole">
+			string<br>
+			>> "Imię"<br>
+			string[0]<br>
+			>> "I"<br>
+			string[3]<br>
+			>> "ę"<br>
+			<br>
+		</div>
+	</div>
+	
+	<p>Innym sposobem tworzenia zmiennych typu String jest użycie konstruktora obiektu String:</p>
+	
+	<div class="codeDiv">
+		var string = new String("Imię")<br>
+		<br>
+		<div class="codeConsole">
+			string<br>
+			>> "Imię"<br>
+			string[0]<br>
+			>> "I"<br>
+			string[3]<br>
+			>> "ę"<br>
+			<br>
+		</div>
+	</div>
+	
+	<p>Nieważne w jaki sposób tworzymy zmienną typu String jest ona zawsze obiektem. W związku z tym, że jest to obiekt istnieją
+	predefiniowane funkcje, które można wywoływać na obiekcie typu String oraz specjalne pola:</p>
+	
+	<p>
+		<code>text.length</code> - zwraca dlugość łancucha znaków<br>
+		<code>text.toUpperCase()</code> - zamiana na duze litery<br>
+		<code>text.toLowerCase()</code> - zamiana na male litery<br>
+		<code>text.charAt(arg)</code> - zwraca znak znajdujący się na określonej pozycji<br>
+		<code>text.indexOf('arg')</code> - przeszukuje ciąg znaków w poszukiwaniu łańcucha znaków 'arg'<br>
+		<code>text.indexOf('arg', poz)</code> - przeszukuje ciąg znaków w poszukiwaniu łańcucha znaków 'arg' zaczynajac od pozycji poz<br>
+		<code>text.lastIndexOf('arg')</code> - przeszukuje ciąg znaków w poszukiwaniu łańcucha znaków zaczynając od końca łańcucha znaków<br>
+		<code>text.slice(arg0, arg1)</code> - zwraca tekst znajdujący się na pozycji określonej pomiędzy arg0 oraz arg1. Można użyć w inny sposób podając argumenty np.(1, -1) co oznacza, że funkcja ma zwrócic ciag znakow od pozycji 1 do pozycji <code>text.lenght - 1</code><br>
+		<code>text.substring(arg0, arg1)</code> - j.w.<br>
+		<code>text.split(" ")</code> - zwraca talice znakow.<br>
+		<code>text.join(" ")</code> - zamienia tablice w obiekt typu String łącząc elementy za pomocą " "<br>
+		<code>text.concat('arg')</code> - łączy ciąg znaków text z ciągiem znaków podanych jako argument funkcji<br>
+		<code>text.search(regexp)</code> - zwraca wynik wyszukiwania. <code>regexp</code> jest wyrażeniem regularnym<br>
+		<code>text.match(regexp)</code> - zwraca tablicę dopasowań. <code>regexp</code> jest wyrażeniem regularnym:<br>
+		</p>
+		<div class="codeDiv">
+			var text = "Każdy kot ma jakieś imię"<br>
+			<div class="codeConsole">
+			text.match(/a/)<br>
+			>> Array [ "a" ]<br>
+			text.match(/a/g)<br>
+			>> Array(3) [ "a", "a", "a" ]<br>
+			</div>
+		</div>
+		<p><code>text.repleace(regexp, arg)</code> - zamienia część ciągu znaków na arg zgodnie z wyrażeniem regularnym</p>
+		<div class="codeDiv">
+			var text = "Każdy kot ma jakieś imię"<br>
+			<div class="codeConsole">
+				text.replace(/[A-Z]/, '')<br>
+				>> "każdy kot ma jakieś imię"<br>
+				text.replace(/[A-Z]/g, "_$&amp;")<br>
+				>> "_Każdy_kot_ma_jakieś_imię"<br>		
+			</div>
+		</div>
+		<p><code>text.replace(/[A-Z]/g, "_&amp;")</code> - Poprzedza dopasowany tekst podkreślnikiem dzięki sekwencji $&amp;</p>		
+		<div class="codeDiv">
+			var csv = 'raz, dwa, trzy ,cztery';
+			<div class="codeConsole">
+				csv.split(/\s*,\s*/)<br>
+				>> ["jeden","dwa","trzy","cztery"]<br>
+			</div>
+		</div>
+		<p><code>csv.split(/\s*,\s*/)</code> - usunięcie wszystkich spacji. Wyrażenie \s* oznacza zero lub więcej spacji</p>
+</div>

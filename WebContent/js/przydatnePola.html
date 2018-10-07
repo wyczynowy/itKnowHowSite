@@ -1,0 +1,42 @@
+<h1>Przydatne pola i funkcje</h1>
+
+<div class="contentDiv">
+	<p>Okno przeglądarki internetowej udostępnia kilka bardzo przydatnych pól oraz funkcji, które mogą się przydać np. przy tworzeniu ciekawszych skryptów, poniżej
+	kilka z nich:</p>
+	
+	<p>
+		<code>navigator.userAgent</code> - wyświetla dane o przeglądarce<br>
+		<code>console.dir(navigator)</code> - wyswietla więcej danych o przegladarce<br>
+		<code>location</code> - obiekt przechowujący informacje o adresie URL aktualnie załadowanej strony<br>
+		<code>location.reload()</code> - przeładuj stronę<br>
+		<code>location.assign</code> - załaduj nową stronę. Nie usuwa adresu URL z historii dokumentu<br> 
+		<code>location.replace()</code> - załaduj nową stronę. Nie powoduje dodania pozycji w historii<br>
+		<code>location.href = 'adres innej strony' </code> - umożliwia przejście na inną stronę<br>
+		<code>location = 'adres innej strony'</code> - j.w.<br>
+		<code>history.length</code> - ilość odwiedzonych adresów w ramach tej samej sesji<br>
+		<code>frames[arg]</code> - umożliwia dostęp do ramek z bieżącej strony<br>
+		<code>screen</code> - ustawienia monitora<br>
+		<code>screen.colorDepth</code> - głębia kolorów<br>
+		<code>screen.width</code> - szerokość<br>
+		<code>screen.availWidth</code> - dostępna szerokość po odjęciu elementów systemowych (np. pasek zadań)<br>
+	</p>
+	
+	<p>
+		<code>history.forward()</code> - przejście do następnej strony<br>
+		<code>history.backward()</code> - przejście do poprzedniej strony<br>
+		<code>history.go(arg)</code> - umożliwia przeskakiwanie po stronach w przód lub tył<br>
+		<code>open('adresStrony', 'nazwaStrony', 'width=300, height=300, resizable=yes')</code> - otwiera nowe okno przeglądarki<br>
+		<code>close()</code> - zamyka okno przeglądarki<br>
+		<code>moveTo(arg0,arg1)</code> - przesuwa okno na pozycje x=arg0, y=arg1 liczżc od lewego górnego rogu ekranu<br>
+		<code>moveBy(arg0,arg1)</code> - przsuwa okno o x=arg0, y=arg1 pikseli względem obecnego położenia<br>
+		<code>resizeTo(arg0,arg1)</code> - zmniejsza okno do rozmiarów x=arg0, y=arg1<br>
+		<code>resizeBy(arg0, arg1)</code> - zmiejsza okno o x=arg0, y=arg1<br>
+		<code>alert(arg)</code> - wyświetla komunikat<br>
+		<code>confirm(arg)</code> - wyświetla info i daje wybór (zwraca true/false)<br>
+		<code>prompt(arg)</code> - wyświetla info z polem tekstowym<br>
+		<code>setTimeout(funkcja, timeout)</code> - umożliwia uruchomienie funkcji po upływie czasu timeout [ms]. Zwraca id zadania<br>
+		<code>clearTimeout(id)</code> - usunięcie timeoutu dla tego zadania<br>
+		<code>setInterval(funkcja, timeout)</code> - j.w. tylko ustawiamy interwał<br>
+		<code>clearInterval(id)</code> - j.w. tylko dla usuwania interwału<br>		
+	</p>
+</div>

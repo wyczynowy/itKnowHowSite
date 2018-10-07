@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="Stylesheet" type="text/css" href="../style.css">
+	<title>HTML</title>
+	<link rel="Shortcut icon" href="../Koala.ico" />
+  	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+  	<script src="../scripts/jquery.js"></script>
+  	<script src="../scripts/wspolneSkrypty.js"></script>
+</head>
+<body>
+<script>
+	// Funkcja sprawdzajaca szerokosc strony i ukrywajaca wybor z submenu w przypadku zwezenia okna przegladarki
+	setInterval(checkSiteWidth,100);
+	// Funkcja ustawiajaca podswietlenie pierwszego przycisku subMenu
+	runFunctionAfterPageLoad(function(){setActiveSubButton(document.getElementsByClassName('subMenuButton')[0]);});
+	// Funkcja laduje zawartosc pliku .html do elementu #contentDiv
+	runFunctionAfterPageLoad(function() {$('#contentDiv').load('../html/zawartoscStrony.html')});
+	// Funkcja laduje menu i podswietla wybrany przycisk menu
+	 zaladujMenuIPodswietlPrzycisk('menu','HTML');
+	// Funckje związane ze mianami rozmiaru okna przeglądarki
+	window.onresize = onResizeWindow;
+</script>
+
+	
+	<!-- MENU -->	
+	<div id="menu"></div>
+	<!-- KONIEC MENU -->
+		
+	<!-- ZAWARTOSC STRONY -->
+	<div class="content">
+		<div class="content-left">
+			<div class="zasoby">
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('zawartoscStrony.html'); setActiveSubButton(this);">Zawartość strony</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('deklaracjaTypuDokumentu.html'); setActiveSubButton(this);">Deklaracja dokumentu</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('kodowanie.html'); setActiveSubButton(this);">Kodowanie</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('tytulStrony.html'); setActiveSubButton(this);">Tytuł strony</button>								
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('obrazekZakladki.html'); setActiveSubButton(this);">Obrazek zakładki</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('arkuszeStylow.html'); setActiveSubButton(this);">Arkusze stylów CSS</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('javascript.html'); setActiveSubButton(this);">Javascript</button>
+			</div>
+		</div>
+		
+		<div id="contentDiv" class="content-center"></div>
+		
+		<div class="content-right">
+			<div class="linki">
+				<!-- TUTAJ JAKIES LINKI DO INNYCH MATERIALOW -->
+			</div>
+		</div>	
+
+	</div>
+	<!-- KONIEC ZAWARTOSC STRONY -->
+	
+	<!-- ELEMENT NIEZBEDNY DO ROBIENIA MASKI NA STRONIE -->
+	<div id="shadow" class="opaqueLayer"></div>
+	
+</body>
+</html>

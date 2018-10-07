@@ -1,0 +1,34 @@
+<h1>Debugowanie</h1>
+<div class="contentDiv">
+
+	<h2>WildFly 12</h2>
+	
+	<p>Aby można było debugować aplikację uruchomioną na serwerze JBoss działającą na tym samym komputerze, należy najpiejw uruchomić serwer JBoss z parametrem
+	<span class="important">standalone.bat --debug</span> i dodać do Eclipse serwer z następującymi ustawieniami:</p>
+	
+	<p>Otwieramy w eclipse zakładkę <code>Servers</code> klikając kolejno: <span class="clickDiv">Window -> Show view -> Servers</span>. Klikamy w nowo otwartym oknie
+	<span class="clickDiv">ppm -> New -> Server</span> i wybieramy serwer typu <code>WildFly12</code> spod <code>JBoss Community</code>, jak pokazano na obrazku poniżej:</p>
+	
+	<!-- OBRAZEK Z OKNEM WYBORU NOWEGO SERWERA W ECLIPSE -->
+	<img src="obrazki/dodawanieNowegoSerwera/oknoDodawaniaNowegoSerwera.jpg" style="max-width: 636px;" onclick="powiekszZdjecie(this)">
+	
+	<p>Klikamy Next i w następnym oknie należy zaznaczyć opcje jak pokazano to na obrazku poniżej:</p>
+	
+	<!-- OBRAZEK Z OKNEM WYBORU NOWEGO SERWERA W ECLIPSE - EKRAN 2 -->
+	<img src="obrazki/dodawanieNowegoSerwera/oknoDodawaniaNowegoSerwera-okno_2.jpg" style="max-width: 636px;" onclick="powiekszZdjecie(this)">
+	
+	<p>W kolejnym oknie pokazanym na obrazku poniżej dodajemy aplikacje, które chcemy na tym serwerze uruchamiać i klikamy Finish</p>
+	
+	<!-- OBRAZEK Z OKNEM WYBORU NOWEGO SERWERA W ECLIPSE - EKRAN 3 -->
+	<img src="obrazki/dodawanieNowegoSerwera/oknoDodawaniaNowegoSerwera-okno_3.jpg" style="max-width: 636px;" onclick="powiekszZdjecie(this)">
+	
+	<p>Następnie aby uruchomić debugger na utworzonym wczesniej serwerze nalezy kliknąć na projekcie, który chcemy debugować: <span class="clickDiv">ppm -> Debug As -> Debug on Server</span>. Wybieramy
+	wcześniej dodany serwer <code>WildFly 12</code> i klikamy Next. W kolejnym oknie możemy jeszcze dodać lub usunąć aplikacje do debugowania i zatwierdzamy przyciskiem Finish. Eclipse powinien podłączyć
+	się w tej chwili do uruchomionego już wcześniej serwera WildFly 12</p>
+	
+	<h3>UWAGA:</h3>
+	
+	<p>W przypadku, kiedy serwer się uruchamia niepoprawnie, tzn. nie wczytuje Springowego Dispatcher Servletu, to należy zatrzymać serwer. Usunąć pliki war aplikacji, które znajdują się w katalogu
+	uruchomieniowym serwera <span class="important">KatalogInstalacjiSerwera\standalone\deployments</span>. Zbudować ponownie aplikację przy użyciu narzędzia maven i uruchomić serwer ponownie.</p>
+
+</div>

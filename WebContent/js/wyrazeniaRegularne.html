@@ -1,0 +1,207 @@
+<h1>Wyrażenia regularne</h1>
+
+<div class="contentDiv">
+
+	<p>Wyrażenia regularne w języku javascript odgrywają bardzo ważną rolę. Stosując wyrażenia regularne w bardzo łatwy sposób
+	można w połączeniu z funkcjami przeszukiwać łańcuchy znaków i wykonywać na nich wszelkiego rodzaju operacje. Obiekt typu RegExp
+	można utworzyć standardowo przy użyciu operatora new:</p>
+	
+	<p>
+		<code>var re = new RegExp("j.*t")</code> - 'j.*t' jest wzorcem wyrażenia regularnego. 
+		Oznacza znajdź takie łańcuchy, które zaczynają się od j i kończą na t, a pomiędzy nimi występuje
+		 0 lub więcej dowolnych znakow. Kropka oznacza dowolny znak. Gwiazdka oznacza zero lub wiecej.<br>
+	</p>
+	
+	<p>Wzorzec wyrażenia regularnego możemy również zapisać jako typ const: <code>const re = /j.*t/</code>. W takiej formie zapis wzorca
+	jest nieco inny niż pokazano to powyżej. Tutaj na początku i na końcu ciągu znaków musi się znaleźć ukośnik <code>/</code>. Plusem
+	takiej formy zapisu jest to, że nie trzeba poprzedzać znaków dodatkowym ukośnikiem <code>\</code></p>
+	
+	<p>Aby użyć powyższego wyrażenia regularnego do odnalezienia ciągu znaków spełniającego jego kryteria należy wykonać na nim metodę 
+	<code>test(ciągZnakówDoPrzeszukania)</code> a jako argument tej metody przekazać ciąg znaków jaki ma zostać przekazany. Metoda zwraca
+	<code>true</code> w przypadku znalezienia ciągu znaków spełniającego kryteria wyrażenia regularnego lub <code>false</code> jeżeli
+	takowego ciągu znaków nie uda się odnaleźć. Poniżej przykład użycia:</p>
+	
+	<div class="codeDiv">
+		var re = new RegExp("j.*t")<br>
+		<div class="codeConsole">
+			re.test('javaScript')<br>
+			>> true<br>
+		</div>
+	</div>
+	
+	<p>Metoda zwracająca odnaleziony ciąg znaków to <code>exec(ciągZnakówDoPrzeszukania)</code>, której należy użyć w następujący sposób:</p>
+	
+	<div class="codeDiv">
+		var re = new RegExp("j.*t")<br>
+		<div class="codeConsole">
+			re.exec('javaScriptToJęzykSkryptowy')<br>
+			>> "javaScript"<br>
+		</div>
+	</div>
+	
+	<p>Każde wyrażenie regularne składa się z tak zwanych metaznaków, które opisują jak mają wyglądać fragmenty wyszukiwanego tekstu. Powyższy
+	przykład: <code>j.*t</code> to nic innego jak właśnie metaznaki. Każd z nich ma swoje znaczenie. Poniżej tabela przedstawiająca znaczenie
+	poszczególnych metaznaków w wyrażeniach regularnych:</p>
+	
+	<table style="width: 100%">
+		<tbody>
+			<tr class="rowLight" style="color: #222244">
+			    <th>Metaznak</th>
+			    <th>Znaczenie</th>
+			    <th style="width:25%">Przykład wyrażenia</th>
+			    <th>Zgodne ciągi z wyrażeniem</th>
+			    <th>Niezgodne ciągi z wyrażeniem</th>
+			</tr>
+			<tr>
+			    <td>^</td>
+			    <td>początek wzorca</td>
+			    <td>^za</td>
+			    <td>zapałka<br>zadra<br>zapłon<br>zarazek</td>
+			    <td>kazanie<br>poza<br>bazar</td>
+			</tr>
+			<tr class="rowLight">
+			    <td rowspan="2">$</td>
+			    <td rowspan="2">koniec wzorca</td>
+			    <td>az$<br></td>
+			    <td>uraz<br>pokaz</td>
+			    <td>azymut<br>pokazy</td>
+			</tr>
+			<tr class="rowLight">
+			    <td>^.arka$</td>
+			    <td>barka<br>warka</td>
+			    <td>parkan</td>
+			</tr>
+			<tr>
+			    <td>.</td>
+			    <td>dowolny pojedynczy znak</td>
+			    <td>.an.a</td>
+			    <td>panda<br>Wanda<br>panna<br>kania</td>
+			    <td>rana<br>konia</td>
+			</tr>
+			<tr class="rowLight">
+			    <td rowspan="2">[...]</td>
+			    <td rowspan="2">
+			        dowolny z wymienionych znaków;<br>
+			        możemy podawać kolejne znaki lub wpisywać zakres - na przykład [a-z]
+			        oznacza wszystkie małe litery.
+			        Wymieniając escapowane znaki (następna table) nie musimy ich poprzedzać ukośnikiem</td>
+			    <td>[a-z]an[nd]a</td>
+			    <td>pana<br>panda<br>wanna</td>
+			    <td>Wanda<br>kania</td>
+			</tr>
+			<tr class="rowLight">
+			    <td>[a-z][a-zA-Z0-9.-]</td>
+			    <td><br>pas<br>mAs<br>p2p</td>
+			    <td><br>Bas<br>bal<br>balu<br>mp3</td>
+			</tr>
+			<tr>
+			    <td>[^...]</td>
+			    <td>dowolny z niewymienionych znaków</td>
+			    <td>kre[^st]</td>
+			    <td>krew<br>krem</td>
+			    <td>kres<br>kret</td>
+			</tr>
+			<tr class="rowLight">
+			    <td rowspan="2">|</td>
+			    <td rowspan="2">dowolny z rozdzielonych znakiem ciągów</td>
+			    <td>[nz]a|pod|przed<br></td>
+			    <td>na<br>za<br>pod<br>przed</td>
+			    <td>&nbsp;</td>
+			</tr>
+			<tr class="rowLight">
+			    <td>trzynasty|13-ty|13</td>
+			    <td>trzynasty<br>13-ty<br>13</td>
+			    <td></td>
+			</tr>
+			<tr>
+			    <td rowspan="2">(...)</td>
+			    <td rowspan="2">zawężenie zasięgu</td>
+			    <td>g(ż|rz)eg(ż|rz)(u|ó)łka<br></td>
+			    <td>gżegżółka<br>gżegrzółka<br>gżegrzułka<br>grzegrzułka</td>
+			    <td>&nbsp;</td>
+			</tr>
+			<tr>
+			    <td>(ósmy|8-my|8)(maj|maja)</td>
+			    <td>ósmy maja<br>8-my maj<br>8 maja</td>
+			    <td></td>
+			</tr>
+			<tr class="rowLight">
+			    <td rowspan="2">?</td>
+			    <td rowspan="2">zero lub jeden poprzedzający znak lub element; elementem może być na przykład wyrażenie umieszczone wewnątrz nawiasów (...)</td>
+			    <td>ro?uter</td>
+			    <td>router<br>ruter</td>
+			    <td>&nbsp;</td>
+			</tr>
+			<tr class="rowLight">
+			    <td>(ósmy|8(-my)?)maja?</td>
+			    <td>ósmy maja<br>ósmy maj<br>8-mymaja<br>8-my maj<br>8 maja<br>8 maj</td>
+			    <td></td>
+			</tr>
+			<tr>
+			    <td rowspan="3">+</td>
+			    <td rowspan="3">jeden lub więcej poprzedzających znaków lub elementów; elementem może być na przykład wyrażenie umieszczone wewnątrz nawiasów (...)</td>
+			    <td>[0-9]+[abc]<br><br></td>
+			    <td>10a<br>1b<br>003c<br>42334b<br><br></td>
+			    <td>a<br>b<br>c<br>z<br>14<br>03<br>12d<br>1231z<br></td>
+			</tr>
+			<tr>
+			    <td>pan+a</td>
+			    <td>panna<br>pannnna</td>
+			    <td></td>
+			</tr>
+			<tr>
+			    <td>(tam)+</td>
+			    <td>tam<br>tamtam<br>tamtamtam</td>
+			    <td>paa<br>panda<br>ta<br>tamta<br>mat</td>
+			</tr>
+			<tr class="rowLight">
+			    <td rowspan="2">*</td>
+			    <td rowspan="2">zero lub więcej poprzedzających znaków lub elementów; elementem może być na przykład wyrażenie umieszczone wewnątrz nawiasów (...)</td>
+			    <td>[0-9]*[abc]</td>
+			    <td>10a<br>1b<br>003c<br>42334b<br>a<br>b<br>c</td>
+			    <td>k<br>2335</td>
+			</tr>
+			<tr class="rowLight">
+			    <td>pora*n*a*</td>
+			    <td>por<br>pora<br>poranna<br>poraannnaa<br>pornnna</td>
+			    <td>porada<br>panna</td>
+			</tr>
+			<tr>
+			    <td>{4}</td>
+			    <td>dokładnie 4 poprzedzające znaki lub elementy</td>
+			    <td>[0-9]{4}</td>
+			    <td>8765<br>8273<br>2635</td>
+			    <td>12345<br>234<br>2123456</td>
+			</tr>
+			<tr class="rowLight">
+			    <td>{4,}</td>
+			    <td>4 lub więcej poprzedzających znaków lub elementów</td>
+			    <td>[ah]{4,}</td>
+			    <td>haha<br>haaaaahaha<br>ahaaa</td>
+			    <td>haa<br>ha<br>hehe<br>aha</td>
+			</tr>
+			<tr>
+			    <td>{2,4}</td>
+			    <td>od 2 do 4 poprzedzających znaków lub elementów</td>
+			    <td>p.{2,4}a</td>
+			    <td>piana<br>pola<br>polana</td>
+			    <td>psa<br>poranna</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<p>Dodatkowo Javascript udostępnia specjalne klasy znaków. Zamiast wyszukiwać wszystkie litery za pomocą <code>[a-zA-Z_]</code> możemy skorzystać z klasy znaków: </p>
+	
+	<table>
+		<tbody>
+			<tr class="rowLight"><th>Klasa znaków</th><th>znaczenie</th></tr>
+			<tr><td>\s</td><td>znak spacji, tabulacji lub nowego wiersza</td></tr>
+			<tr class="rowLight"><td>\S</td><td>znak nie będący spacją, tabulacją lub znakiem nowego wiersza</td></tr>
+			<tr><td>\w</td><td>każdy znak będący literą, cyfrą i znakiem _</td></tr>
+			<tr class="rowLight"><td>\W</td><td>każdy znak nie będący literą, cyfrą i znakiem _</td></tr>
+			<tr><td>\d</td><td>każdy znak będący cyfrą</td></tr>
+			<tr class="rowLight"><td>\D</td><td>każdy znak nie będący cyfrą</td></tr>
+		</tbody>
+	</table>	
+
+</div>

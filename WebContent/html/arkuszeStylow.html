@@ -1,0 +1,77 @@
+<h1>Arkusze stylów - CSS</h1>
+<div class="contentDiv">
+
+	<p>CSS - Kaskadowe Arkusze Stylów, to nazwa mechanizmu umożliwiającego zarządzanie stylami na stronach internetowych.
+	Jest kilka sposobów na to aby dekorować elementy znajdujące się na stronach internetowych. Pierwszy sposób jaki umożliwia twórcom
+	stron html dekorowanie elementów to wpisywanie stylu każdorazowo jako wartość atrybutu <code>style</code> jakiegoś elementu, np.:</p>
+
+	<div class="codeDiv">
+		&lt;button style="color:red; border: 1px solid red; border-radius: 5px;"&gt;Przycisk&lt;/button&gt;
+	</div>
+	
+	<p>Powyższa konstrukcja umożliwia umieszczenie w dokumencie przycisku, którego styl wyglądu jest opisany bezpośrednio jako wartość atrybutu
+	<code>style</code>, Przycisk ten będzie się prezentował tak na stronie internetowej:</p>
+	
+	<button style="color:red; border: 1px solid red; border-radius: 5px;">Przycisk</button>
+	
+	<p>Drugi sposób to deklaracja stylu w nagłówku dokumentu, czyli pomiędzy znacznikami <code>&lt;head&gt;&lt;/head&gt;</code>
+	jak pokazano to poniżej:</p>
+	
+	<div class="codeDiv">
+		&lt;html&gt;<br>
+		&nbsp;&lt;head&gt;<br>
+		&nbsp;&nbsp;&lt;style&gt;<br>
+		&nbsp;&nbsp;&nbsp;.przycisk {<br>
+  		&nbsp;&nbsp;&nbsp;&nbsp;color: green;<br>
+  		&nbsp;&nbsp;&nbsp;&nbsp;border: 1px solid green;<br>
+  		&nbsp;&nbsp;&nbsp;&nbsp;border-radius: 5px;<br>
+  		&nbsp;&nbsp;&nbsp;}<br>
+  		&nbsp;&nbsp;&lt;/style&gt;<br>
+		&nbsp;&lt;/head&gt;<br>
+		&nbsp;&lt;body&gt;<br>
+		&nbsp;&nbsp;&lt;button class="przycisk"&gt;Przycisk&lt;/button&gt;<br>
+		&nbsp;&lt;/body&gt;<br>
+		&lt;/html&gt;
+	</div>
+	
+	<p><button style="color: green; border: 1px solid green; border-radius: 5px;">Przycisk</button></p>
+	
+	<p>W powyższym przykładzie pokazano możliwość deklaracji stylu w nagłówku dokumentu. Powyższa konstrukcja deklaruje klasę, która będzie
+	się cechowała określonym stylem. Oznacza to, że każdy element dokumentu html, który będzie miał określony atrybut <code>class</code>
+	o wartości <code>przycisk</code>, będzie posiadał styl, taki jak to określono w powyższym przykładzie. Deklaracja stylu wpisanego w
+	dokument musi zawsze znajdować się w nagłówku dokumentu pomiędzy znacznikami <code>&lt;style&gt;&lt;/code&gt;</code></p>
+	
+	<p>Trzeci sposób dekorowania elementów w dokumentach html to deklaracja stylów w zewnętrznym dokumencie HTML. Dzięki takiemu zabiegowi
+	separujemy wygląd strony od treści strony co jest bardzo porządanym efektem. Dzięki temu nasz dokument HTML będzie bardziej przejrzysty
+	i będziemy w stanie szybciej zlokalizować poszukiwaną treść, bądź dekorację. Poniżej przedstawiono sposób dołączenia do dokumentu HTML
+	zewnętrznego arkusza stylów :</p>
+	
+	<div class="codeDiv">
+		&lt;html&gt;<br>
+		&nbsp;&lt;head&gt;<br>
+		&nbsp;&nbsp;&lt;link rel="Stylesheet" type="text/css" href="style.css"/&gt;<br>
+		&nbsp;&lt;/head&gt;<br>
+		&nbsp;&lt;body&gt;<br>
+		&nbsp;&nbsp;&lt;button id="przycisk"&gt;Przycisk&lt;/button&gt;<br>
+		&nbsp;&lt;/body&gt;<br>
+		&lt;/html&gt;
+	</div>
+	
+	<p>Zawartość pliku style.css znajdującego się w tym samym katalogu co plik dokumentu HTML</p>
+
+	<div class="codeDiv">
+		#przycisk {<br>
+  		&nbsp;color: blue;<br>
+  		&nbsp;border: 1px solid blue;<br>
+  		&nbsp;border-radius: 5px;<br>
+  		}<br>
+	</div>
+	
+	<p><button style="color: blue; border: 1px solid blue; border-radius: 5px;">Przycisk</button></p>
+	
+	<p>Jak widać powyżej, użycie znacznika <code>&lt;link&gt;&lt;/link&gt;</code> umożliwia dołączenie zewnętrznego arkusza stylów CSS do
+	dokumentu HTML. Atrybut <code>rel</code> informuje, że dołączamy arkusz stylów, atrybut <code>type</code> określa typ dołączanego arkusza a
+	atrybut <code>href</code> określa lokalizację pliku względem dokumentu HTML, do którego jest dołączany. Wartość atrybutu <code>href</code>
+	może zarówno wskazywać na lokalizację w internecie.</p>
+	
+</div>

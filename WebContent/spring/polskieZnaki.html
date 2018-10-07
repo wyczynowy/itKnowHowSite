@@ -1,0 +1,46 @@
+<h1>Spring Data</h1>
+<div class="contentDiv">
+
+<p>Aby w naszym projekcie Springowym wyświetlały się / przesyłały się w żądaniu poprawnie polskie znaki należy dokonać
+odpowiedniego wpisu w pliku konfiguracyjnym <code>web.xml</code> aplikacji. Nowo dodany element filter ustawiający kodowanie
+polskich znaków należy dodać na samym początku pliku <code>web.xml</code>, ponieważ kolejność w jakiej są umieszczone
+filtry ma znaczenie:</p>
+
+<div class="codeDiv">
+	&lt;filter&gt;<br>
+		&nbsp;&lt;filter-name&gt;encodingFilter&lt;/filter-name&gt;<br>
+		&nbsp;&lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;<br>
+		&nbsp;&lt;init-param&gt;<br>
+			&nbsp;&nbsp;&lt;param-name&gt;encoding&lt;/param-name&gt;<br>
+			&nbsp;&nbsp;&lt;param-value&gt;UTF-8&lt;/param-value&gt;<br>
+		&nbsp;&lt;/init-param&gt;<br>
+		&nbsp;&lt;init-param&gt;<br>
+			&nbsp;&nbsp;&lt;param-name&gt;forceEncoding&lt;/param-name&gt;<br>
+			&nbsp;&nbsp;&lt;param-value&gt;true&lt;/param-value&gt;<br>
+		&nbsp;&lt;/init-param&gt;<br>
+	&lt;/filter&gt;<br>
+	&lt;filter-mapping&gt;<br>
+		&nbsp;&lt;filter-name&gt;encodingFilter&lt;/filter-name&gt;<br>
+		&nbsp;&lt;url-pattern&gt;/*&lt;/url-pattern&gt;<br>
+	&lt;/filter-mapping&gt;
+</div>
+
+<p>Kolejną rzeczą, którą należy wykonać jest ustawienie kodowania źródłowego podczas budowania aplikacji. Ustawiamy to
+oczywiście w pliku pom.xml:</p>
+
+<div class="codeDiv">
+	&lt;properties&gt;<br>
+		&nbsp;...<br>
+		&nbsp;...<br>
+		&nbsp;&lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;<br>
+	&lt;/properties&gt;
+</div>
+
+<p>Na koniec należy wymusić kodowanie podczas nawiązywania połączenia z bazą danych. Robimy to poprzez dodanie parametrów do żądania
+nawiązującego połączenie z bazą danych w bean'ie dataSource:</p>
+
+<div class="codeDiv">
+	&lt;property name="url" value="jdbc:mysql://localhost:3306/nazwaBazyDanych?useUnicode=yes&amp;amp;characterEncoding=utf8" /&gt;
+</div>
+
+</div>

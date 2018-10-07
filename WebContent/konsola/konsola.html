@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="Stylesheet" type="text/css" href="../style.css">
+	<title>KONSOLA</title>
+  	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+	<script src="../scripts/jquery.js"></script>
+	<script src="../scripts/wspolneSkrypty.js"></script>
+</head>
+<body>
+
+<script>
+	// Funkcja sprawdzajaca szerokosc strony i ukrywajaca wybor z submenu w przypadku zwezenia okna przegladarki
+	setInterval(checkSiteWidth,100);
+	// Funkcja ustawiajaca podswietlenie pierwszego przycisku subMenu
+	runFunctionAfterPageLoad(function(){setActiveSubButton(document.getElementsByClassName('subMenuButton')[0]);});
+	// Funkcja laduje zawartosc pliku .html do elementu #contentDiv
+	runFunctionAfterPageLoad(function() {$('#contentDiv').load('poleceniaZKonsoli.html')});
+	// Funkcja laduje menu i podswietla wybrany przycisk menu
+	zaladujMenuIPodswietlPrzycisk('menu','KONSOLA');
+	// Funckje związane ze mianami rozmiaru okna przeglądarki
+	window.onresize = onResizeWindow;
+	// Funkcja dopasowuje menu do rozmiaru okna
+	runFunctionAfterPageLoad(skalujMenuGlowne);
+</script>
+
+	
+	<!-- MENU -->
+	<div id="menu"></div>
+	<!-- KONIEC MENU -->
+	
+	<!-- ZAWARTOSC STRONY -->
+	<div class="content">
+		<div class="content-left">
+			<div class="zasoby">
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('poleceniaZKonsoli.html'); setActiveSubButton(this);">Polecenia z konsoli</button>
+			</div>
+		</div>
+		
+		<div id="contentDiv" class="content-center"></div>
+		
+		<div class="content-right">
+			<div class="linki">
+				<!-- TUTAJ JAKIES LINKI DO INNYCH MATERIALOW -->
+			</div>
+		</div>	
+
+	</div>
+	<!-- KONIEC ZAWARTOSC STRONY -->
+	
+	<!-- ELEMENT NIEZBEDNY DO ROBIENIA MASKI NA STRONIE -->
+	<div id="shadow" class="opaqueLayer"> </div>
+	
+</body>
+</html>

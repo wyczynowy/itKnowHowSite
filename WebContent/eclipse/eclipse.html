@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="Stylesheet" type="text/css" href="../style.css">
+	<title>ECLIPSE</title>
+	<link rel="Shortcut icon" href="../Koala.ico" />
+  	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+  	<script src="../scripts/jquery.js"></script>
+  	<script src="../scripts/wspolneSkrypty.js"></script>
+</head>
+<body>
+<script>
+	// Funkcja sprawdzajaca szerokosc strony i ukrywajaca wybor z submenu w przypadku zwezenia okna przegladarki
+	setInterval(checkSiteWidth,100);
+	// Funkcja ustawiajaca podswietlenie pierwszego przycisku subMenu
+	runFunctionAfterPageLoad(function(){setActiveSubButton(document.getElementsByClassName('subMenuButton')[0]);});
+	// Funkcja laduje zawartosc pliku .html do elementu #contentDiv
+	runFunctionAfterPageLoad(function() {$('#contentDiv').load('tworzenieProjektuMaven.html')});
+	// Funkcja laduje menu i podswietla wybrany przycisk menu
+	zaladujMenuIPodswietlPrzycisk('menu','ECLIPSE');
+	// Funckje związane ze mianami rozmiaru okna przeglądarki
+	window.onresize = onResizeWindow;
+</script>
+
+	
+	<!-- MENU -->
+	<div id="menu"></div>
+	<!-- KONIEC MENU -->
+		
+	<!-- ZAWARTOSC STRONY -->
+	<div class="content">
+		<div class="content-left">
+			<div class="zasoby">
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('tworzenieProjektuMaven.html'); setActiveSubButton(this);">Tworzenie projektu maven dla Javy SE</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('tworzenieProjektuMavenEe.html'); setActiveSubButton(this);">Tworzenie projektu maven dla Javy EE</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('dodawanieNowegoServletu.html'); setActiveSubButton(this);">Dodawanie nowego servletu</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('dodawanieSpringMvcDoProjektuMavenDlaJavyEe.html'); setActiveSubButton(this);">Dodawanie Spring MVC Do projektu maven</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('debugowanie.html'); setActiveSubButton(this);">Debugowanie</button>
+			</div>
+		</div>
+		
+		<div id="contentDiv" class="content-center"></div>
+		
+		<div class="content-right">
+			<div class="linki">
+				<!-- TUTAJ JAKIES LINKI DO INNYCH MATERIALOW -->
+			</div>
+		</div>	
+
+	</div>
+	<!-- KONIEC ZAWARTOSC STRONY -->
+	
+	<!-- ELEMENT NIEZBEDNY DO ROBIENIA MASKI NA STRONIE -->
+	<div id="shadow" class="opaqueLayer"></div>
+	<!-- ELEMENT NIEZBEDNY DO WYSWIETLANIA POWIEKSZONYCH OBRAZKOW -->
+	<div id="imgZoomDiv"></div>
+	
+	
+</body>
+</html>

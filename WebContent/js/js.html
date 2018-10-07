@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="Stylesheet" type="text/css" href="../style.css">
+	<title>JS</title>
+  	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+  	<script src="../scripts/jquery.js"></script>
+  	<script src="../scripts/wspolneSkrypty.js"></script>
+</head>
+<body>
+
+<script>
+	//Funkcja sprawdzajaca szerokosc strony i ukrywajaca wybor z submenu w przypadku zwezenia okna przegladarki
+	setInterval(checkSiteWidth,100);
+	// Funkcja ustawiajaca podswietlenie pierwszego przycisku subMenu
+	runFunctionAfterPageLoad(function(){setActiveSubButton(document.getElementsByClassName('subMenuButton')[0]);});
+	// Funkcja laduje zawartosc pliku .html do elementu #contentDiv
+	runFunctionAfterPageLoad(function() {$('#contentDiv').load('obiekt.html')});
+	// Funkcja laduje menu i podswietla wybrany przycisk menu
+	zaladujMenuIPodswietlPrzycisk('menu','JS');
+	// Funckje związane ze mianami rozmiaru okna przeglądarki
+	window.onresize = onResizeWindow;
+</script>
+
+	
+	<!-- MENU -->
+	<div id="menu"></div>
+	<!-- KONIEC MENU -->
+	
+	<!-- ZAWARTOSC STRONY -->
+	<div class="content">
+		<div class="content-left">
+			<div class="zasoby">
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('obiekt.html'); setActiveSubButton(this);">Obiekt</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('tablica.html'); setActiveSubButton(this);">Tablica</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('number.html'); setActiveSubButton(this);">Number</button>								
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('string.html'); setActiveSubButton(this);">String</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('argumentyFunkcji.html'); setActiveSubButton(this);">Argumenty funkcji</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('math.html'); setActiveSubButton(this);">Math</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('date.html'); setActiveSubButton(this);">Date</button>																
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('wyrazeniaRegularne.html'); setActiveSubButton(this);">Wyrażenia regularne</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('error.html'); setActiveSubButton(this);">Error</button>	
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('przydatnePola.html'); setActiveSubButton(this);">Przydatne pola i funkcje</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('operacjeNaDokumencie.html'); setActiveSubButton(this);">Operacje na dokumencie</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('zdarzenia.html'); setActiveSubButton(this);">Zdarzenia</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('ajax.html'); setActiveSubButton(this);">Ajax</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('przykladoweFunkcje.html'); setActiveSubButton(this);">Przykładowe funkcje</button>
+			</div>
+		</div>
+		
+		<div id="contentDiv" class="content-center"></div>
+		
+		<div class="content-right">
+			<div class="linki">
+				<!-- TUTAJ JAKIES LINKI DO INNYCH MATERIALOW -->
+			</div>
+		</div>	
+
+	</div>
+	<!-- KONIEC ZAWARTOSC STRONY -->
+	
+	<!-- ELEMENT NIEZBEDNY DO ROBIENIA MASKI NA STRONIE -->
+	<div id="shadow" class="opaqueLayer"> </div>
+	
+</body>
+</html>

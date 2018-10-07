@@ -1,0 +1,21 @@
+<h1>Dodatkowe zasoby</h1>
+<div class="contentDiv">
+
+	<p>Aby móc korzystać w Springu z dodatkowych zasobów, np. obrazków, dodatkowych plików itd. należy odpowiednio skonfigurować
+	Springa i umieszczać zasoby w odpowiedniej lokalizacji. Konfiguracja to dodanie do pliku konfiguracyjnego
+	<code>applicationContext.xml</code> dwóch linijek kodu:</p>
+	
+	<div class="codeDiv">
+		&lt;mvc:annotation-driven/&gt;<br>
+		&lt;mvc:resources mapping="/resources/**" location="/resources/" /&gt;
+	</div>
+	
+	<p>Pliki należy umieszczać w katalogu <code>resources</code> w katalogu <code>webapp</code></p>
+	
+	<p>Do zasobów należy się odwoływać w sposóbnastępujący w plikach jsp:</p>
+	
+	<div class="codeDiv">
+		&lt;img src="${pageContext.request.contextPath}/resources/grafiki/wymiary.jpg"/&gt;
+	</div>
+
+</div>

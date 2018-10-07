@@ -1,0 +1,52 @@
+<h1>Ajax</h1>
+
+<div class="contentDiv">
+	<p>Technologia Ajax umożliwia komunikację z serwerem z poziomu javascript. Dzięki tej technologi można wysłać żądanie do serwera, przechwycić
+	odpowiedź i zrobić z nią cokolwiek. Poniżej przykład:</p>
+	
+	<div class="codeDiv">
+		&lt;head&gt;<br>
+		&nbsp;&lt;title&gt;My page&lt;/title&gt;<br>
+		&nbsp;&lt;script&gt;<br>
+		&nbsp;&nbsp;function myCallback(xhr) {<br>
+		&nbsp;&nbsp;&nbsp;if(xhr.readyState &lt; 4) { console.log('xhr.readyState &lt; 4'); return; } // Jeszcze niegotowe<br>
+		&nbsp;&nbsp;&nbsp;if(xhr.status !== 200) { alert('Blad !')}; // Kod statusu zadania HTTP jest inny niż OK<br>
+		&nbsp;&nbsp;&nbsp;console.log('xhr.responseText');<br>
+		&nbsp;&nbsp;&nbsp;alert(xhr.responseText); // Wszystko w porzadku<br>  
+		&nbsp;&nbsp;}<br>
+		<br>													
+		&nbsp;&nbsp;function sendToServer() {<br>
+		&nbsp;&nbsp;&nbsp;var xhr = new XMLHttpRequest();<br>
+		&nbsp;&nbsp;&nbsp;xhr.onreadystatechange = myCallback(xhr);<br>
+		&nbsp;&nbsp;&nbsp;xhr.open('POST', 'plik.txt', true);<br>
+		&nbsp;&nbsp;&nbsp;xhr.send('');<br>
+		&nbsp;&nbsp;}<br>
+		&nbsp;&lt;/script&gt;<br>
+		&lt;/head&gt;<br>
+		<br>
+		&lt;body&gt;<br>
+		&nbsp;&lt;input onclick="sendToServer();" type="submit" value="zapytaj serwer"/&gt;<br>
+		&lt;/body&gt;<br>	
+	</div>
+	
+	<p>Alternatywnie zamiast metody <code>responseText</code> można użyć <code>responseXML</code>, zwróci ona obiekt XML DOM,
+	 czyli będzie można przetwarzać przy użyciu metod document.getElementById() itd...</p>
+	 
+	 <p>
+		<code>var xhr = XMLHttpRequest();</code> - utworzenie obiektu<br>
+		<code>xhr.onreadystatechange = myCallback;</code> - przydzielenie obserwatora<br>
+		<code>xhr.open('POST', 'plik.txt', true);</code> - arg0 to typ żądania, arg1 to URL żądania, arg2 określa czy asynchroniczne<br>
+		<code>xhr.send('');</code> - wysłanie przygotowanego zadania z doklejonym ciągiem znaków,
+				 POST pusty łańcuch, GET to łańcuch klucz=wartość&amp;klucz2=wartość2<br>	 	
+	 </p>
+
+	<p>
+		Statusy gotowości:<br>
+		&nbsp;&nbsp;&nbsp;0 - niezainicjowane<br>
+		&nbsp;&nbsp;&nbsp;1 - ładuje się<br>
+		&nbsp;&nbsp;&nbsp;2 - załadowane<br>
+		&nbsp;&nbsp;&nbsp;3 - interaktywne<br>
+		&nbsp;&nbsp;&nbsp;4 - zakończone<br>
+	</p>
+	
+</div>

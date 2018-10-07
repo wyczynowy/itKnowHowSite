@@ -1,0 +1,35 @@
+<h1>Dodawanie nowego servletu</h1>
+<div class="contentDiv">
+
+	<p>Aby do nowo utworzonego projektu web aplikacji przy pomocy maven'a dodać nowy servlet należy najpierw dodać pakiet <code>src/main/java</code>
+	klikając ppm na projekcie i wybierając <span class="clickDiv">New -> Package...</span>. Wszystkie pliki javy muszą się znajdować w tym
+	pakiecie aby maven je poprawnie skompilował i umieścił w odpowiedniej lokalizacji:</p>
+
+	<!-- OBRAZEK - DODAWANIE NOWEGO PAKIETU -->
+	<img src="obrazki/dodawanieNowegoServletu/dodawanieNowegoPakietu.jpg" style="max-width: 497px;" onclick="powiekszZdjecie(this)">
+
+	<p>Nowy servlet do projektu dodajemy klikając ppm na pakiecie <code>src/main/java</code> <span class="clickDiv">New -> Servlet</span></p>
+
+	<!-- OBRAZEK - DODAWANIE NOWEGO SERVLETU -->
+	<img src="obrazki/dodawanieNowegoServletu/dodawanieNowegoServletu.jpg" style="max-width: 539px;" onclick="powiekszZdjecie(this)">
+
+	<p>W oknie dodawania nowego servletu należy podać lokalizację folderu źródłowego, nazwę pakietu oraz nazwę klasy. Gdyby Eclipse nie pozwalał utworzyć w tej lokalizacji klasy, bo nie
+	nie jest to ścieżka plików javy to należy dodać tą lokalizację do java build path</p>
+	
+	<!-- OBRAZEK - DODAWANIE NOWEGO SERVLETU - OKNO PIERWSZE -->
+	<img src="obrazki/dodawanieNowegoServletu/oknoDodawaniaNowegoServletu.jpg" style="max-width: 525px;" onclick="powiekszZdjecie(this)">
+	
+	<p>W kolejnym oknie należy podać nazwę tworzonego servletu oraz opcjonalnie opis. W rubryce URL mappings można ustawić ścieżkę mapowania do servletu:</p>
+
+	<!-- OBRAZEK - DODAWANIE NOWEGO SERVLETU - OKNO DRUBIE -->
+	<img src="obrazki/dodawanieNowegoServletu/oknoDodawaniaNowegoServletu_02.jpg" style="max-width: 525px;" onclick="powiekszZdjecie(this)">
+
+	<p>Zatwierdzamy wykonaną operację klikając <span class="clickDiv">Finish</span>. We wskazanej lokalizacji zostaje utworzony servlet a do
+	pliku konfiguracyjnego web.xml zostają dodane dwa wpisy. Jeden konfigurujący dodany servlet a drugi konfigurujący mapowanie ustawione podczas
+	procesu tworzenia servletu. Tak przygotowany projekt można skompilować poleceniem <code>maven clean package</code> oraz uruchomić. Po
+	wprowadzeniu w przeglądarkę internetową adresu naszej aplikacji oraz ścieżki skonfigurowanej w pliku web.xml zobaczymy:</p>
+
+	<!-- OBRAZEK - OKNO PRZEGLĄDARKI - PIERWSZY SERVLET -->
+	<img src="obrazki/dodawanieNowegoServletu/oknoPrzeglądarkiInternetowejServlet.jpg" style="max-width: 560px;" onclick="powiekszZdjecie(this)">
+
+</div>

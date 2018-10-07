@@ -1,0 +1,61 @@
+<h1>Zdarzenia</h1>
+
+<div class="contentDiv">
+
+	<p>Do elementów dokumentu HTML można dołączać obserwatorów zdarzeń. Obserwator zdarzeń to nic innego jak funkcjonalność wykonania javascriptu
+	po zaistnieniu	określonego wcześniej zdarzenia danego elementu dokumentu. Poniżej przykład dołączenia obserwatora do elementu:</p>
+	
+	<p>
+		<code>var myelement = document.getElementById('idElementu');</code><br>
+		<code>myelement.addEventListener('click', function() {alert('Uuu!'), false);</code> - dołacza do zdarzenia kliknięcia na element
+				wywołanie funkcji anonimowej<br>
+		<code>myelement.addEventListener('click', console.log, false);</code> - j.w. tylko przekazujemy funkcję przez referencję<br>
+		<code>myelement.removeEventListener('click', funkcja, false);</code> - usuwa sluchacza<br>
+	</p>
+	
+	<p>Propagacja zdarzeń to rozchodzenie się zdarzeń po elementach rodziców. Poniżej przykład używania:</p>
+	
+	<p>
+		<code>function f(e) { alert('Uoo !'); e.stopPropagation();}</code><br>
+		<code>myelement.addEventListener('click', f, false)</code> - przykład zatrzymania propagacji (bąbelkowania...)
+				przy użyciu argumentu przekazywanego do funkcji wywoływanej<br>
+		<code>... e.preventDefault()</code> - anulowanie zachowania domyślnego np. anulowanie akcji przenoszenia na nową stronę
+				po kliknięcu w link itp.<br>
+	</p>
+	
+	<p>Dla przeglądarki IE od wersji 5 zamiast <code>addEventListener</code> istnieje metoda <code>attachEvent()</code>. 
+		Tej metodzie trzeba przekazac argument 'onclick'<br></p>	
+		
+	<h2>Rodzaje zdarzeń:</h2>
+	
+	<p>	
+		<code>mousedown, mouseup, click</code> - naciśnięcie przycisku myszki, zwolnienie przycisku, kliknięcie<br>
+		<code>mouseover</code> - kursor nad elementem<br>
+		<code>mouseout</code> - kursor był nad elementem<br>
+		<code>mousemove</code> - ruch myszką nad elementem<br>
+		<code>keydown, keypress, keyup</code> - klawisz na dole, naciśnięcie klawisza, klawisz u góry<br>
+	</p>	
+	
+	<h2>Zdarzenia formularzy:</h2>
+		
+		<p>
+			<code>focus</code> - przejście do pola formularza<br>
+			<code>blur</code> - opuszczenie pola formularza<br>
+			<code>change</code> - opuszczenie pola po zmianie jego wartości<br>
+			<code>select</code> - zaznaczenie tekstu w polu tekstowym<br>
+			<code>reset, submit</code> - wyczyszczenie zawartości formularza lub jego wysłanie<br>
+		</p>
+		
+		<h2>Zdarzenia okna i ładowania</h2>
+		
+		<p>		
+			<code>load</code><br>
+			<code>unload</code><br>
+			<code>beforeunload</code><br>
+			<code>abort</code><br>
+			<code>error</code><br>
+			<code>resize</code><br>
+			<code>scroll</code><br>
+			<code>contextmenu</code><br>
+		</p>
+</div>

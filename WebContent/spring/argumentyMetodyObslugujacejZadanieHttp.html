@@ -1,0 +1,75 @@
+<h1>Mapowanie żądań http</h1>
+<div class="contentDiv">
+
+	<p>Metody kontrolera oznaczone adnotacją <code>@Request mapping</code> mogą przyjmować jako argumenty różne typy danych</p>
+	
+	<h3>Model</h3>
+
+	<p>Model jest obiektem do którego można zapisywać dane i odczytywać je później na stronach widoku:</p>
+	
+	<div class="codeDiv">
+	@Controller<br>
+	public class ExampleController {<br>
+	<br>
+	&nbsp;@RequestMapping("/przyklad/model")<br>
+	&nbsp;public String przykladModelu(Model model) {<br>
+	&nbsp;&nbsp;model.addAttribute("message", "To jest jakaś super informacja");<br>
+	&nbsp;&nbsp;return "glowny";<br>
+	&nbsp;}<br>
+	}
+	</div>
+	
+	<h3>@RequestParam</h3>
+	
+	<p>Przekazując żądanie metodą http czyli np: <code> www.mojaDomena.pl/aplikacja/metoda?a=1&amp;b=2</code> możemy parametry tego żądania pobrać za pomocą adnotacji <code>@RequestParam</code>, którą
+	umieszczamy przed argumentami metody obsługującej dane żądanie:</p>
+	
+	<div class="codeDiv">
+	@Controller<br>
+	public class ExampleController {<br>
+	<br>
+	&nbsp;@RequestMapping("/metoda")<br>
+	&nbsp;public String widok(@RequestParam("a") String danaA, @RequestParam("b") Integer danaB) {<br>
+	&nbsp;&nbsp;System.out.println(danaA);<br>
+	&nbsp;&nbsp;System.out.println(danaB);<br>
+	&nbsp;&nbsp;return "glowny";<br>
+	&nbsp;}<br>
+	}
+	</div>
+	
+	<p>Jeśli z kolei wpiszemy adres /aplikacja/metoda?a=1, otrzymamy błąd (400: BadRequest) ponieważ brakuje jednego z argumentów. 
+	Żeby uniknąć tego rodzaju błędów i oznaczyć któryś z parametrów jako opcjonalny, możemy dodać argument do adnotacji wskazujący, 
+	że nie jest to wymagane pole. Przykład poniżej:</p>
+	
+	<div class="codeDiv">
+	@Controller<br>
+	public class ExampleController {<br>
+	<br>
+	&nbsp;@RequestMapping("/metoda")<br>
+	&nbsp;public String widok(@RequestParam("a") String danaA, @RequestParam(value = "b", required = false, defaultValue = "0") Integer danaB) {<br>
+	&nbsp;&nbsp;System.out.println(danaA);<br>
+	&nbsp;&nbsp;System.out.println(danaB);<br>
+	&nbsp;&nbsp;return "glowny";<br>
+	&nbsp;}<br>
+	}
+	</div>
+	
+	<p>Spring dostarcza specjalny obiekt <code>MultiValueMap</code>, który możemy użyć podczas obsługi żądania HTTP. Spring
+	mapuje wszystkie parametry żądania do mapy typu <code>MultiValueMap</code>, która jako wartości posiada <code>LinkedList'ę</code>
+	zawierającą wartości atrybutów żądania. Przykład poniżej:</p>
+	
+		<div class="codeDiv">
+	@Controller<br>
+	public class ExampleController {<br>
+	<br>
+	&nbsp;@RequestMapping("/metoda")<br>
+	&nbsp;public String widok(@RequestParam MultiValueMap&lt;String, String&gt; params) {<br>
+	&nbsp;&nbsp;System.out.println(params.get("nazwaParametru").get(0););<br>
+	&nbsp;&nbsp;System.out.println(params.get("nazwaParametru").get(1););<br>
+	&nbsp;&nbsp;return "glowny";<br>
+	&nbsp;}<br>
+	}
+	</div>
+	
+	
+</div>

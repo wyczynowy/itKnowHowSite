@@ -1,0 +1,57 @@
+<h1>Spring Data</h1>
+<div class="contentDiv">
+
+	<p>Spring Data to mechanizm upraszczający korzystanie z baz danych. Korzystając ze Spring data w bardzo łatwy sposób można wykonywać 
+	operacje na bazie danych. Aby móc skorzystać z Spring Data to najpiejw należy dodać odpowiednią zależność do projektu:</p>
+	
+	<div class="codeDiv">
+		&lt;dependency&gt;<br>
+			&nbsp;&lt;groupId&gt;org.springframework.data&lt;/groupId&gt;<br>
+			&nbsp;&lt;artifactId&gt;spring-data-jpa&lt;/artifactId&gt;<br>
+			&nbsp;&lt;version&gt;2.0.9.RELEASE&lt;/version&gt;<br>
+		&lt;/dependency&gt;
+	</div>
+	
+	<p>Oraz oczywiście należy odpowiednio skonfigurować Springa, poprzez dodanie odpowiedniego elementu w pliku konfiguracyjnym Springa
+	<code>applicationContext.xml</code>:</p>
+	
+	<div class="codeDiv">
+		&lt;jpa:repositories base-package="pl.nazwaDomeny.nazwaAplikacji"/&gt;	
+	</div>
+
+	<p>To już wszystko jeżeli chodzi o konfiguracje Springa. Teraz należy utworzyć interfejs, który rozszerza interfejs
+	<code>org.springframework.data.repository.Repository&lt;T, ID&gt;</code> i sparametryzować go typem jakim chcemy zarządzać, jak
+	to zostało pokazane na poniższym listingu:</p>
+	
+	<div class="codeDiv">
+		public interface InterfejsLudzi extends org.springframework.data.repository.Repository&lt;Ludzie, Integer&gt; {<br>
+			&nbsp;public Ludzie findById(Integer id);<br>
+			&nbsp;public List&lt;Ludzie&gt; findByImie(String imie);<br>
+		}
+	</div>
+	
+	<p>Tutaj jako sparametryzowane typy należy podać jako pierwszy typ klasy jakiej interfejs tworzymy oraz obiekt reprezentujący odpowiedni
+	typ klucza głównego z bazy danych</p>
+	
+	<p>
+		Interfejs musi rozszerzać interfejs <code>org.springframework.data.repository.Repository</code> oraz być odpowiednimi typami sparametryzowany<br>
+		Tak utworzony interfejs jest zarządzany przez Springa i Spring dostarcza odpowiednie implementacje metod<br>
+		<br>
+		Metody muszą się odpowiednio nazywać aby Spring mógł je poprawnie zinterpretować, oraz muszą posiadać argumenty odpowiednich typów, nazywane odpowienimi nazwami<br>
+		Dla przykładu metoda <code>findById(Integer id)</code> jest zaimplementowana przez Springa w taki sposób, że zwraca odpowiedni obiekt,
+		w tym przypadku obiekt <code>Ludzie</code> po przekazaniu jej odpowiednio <code>id</code>. Nazwy użyte w nazwie metod, muszą się pokrywać
+		z nazwami pól klasy <code>Ludzie</code> oraz nazwy argumentów metody również muszą się pokrywać z nazwami pól klasy <code>Ludzie</code>.
+		Tworząc tak metody można zaoszczędzić sporo czasu na pisanie zbędnego kodu. Spring robi to za nas :)
+	</p>
+
+	<p>Tak przygotowana konfiguracja i interfejs umożliwiają skorzystanie z dostępu do bazy danych w poniższy sposób:</p>
+	
+	<div class="codeDiv">
+		@Autowired<br>
+		private InterfejsLudzi interfejsLudzi;<br>
+		<br>
+		Ludzie czlowiek = interfejsLudzi.findById(1);<br>
+		List&lt;Ludzie&gt; listaLudzi = interfejsLudzi.findByImie("Wiktoria");<br>
+	</div>
+
+</div>

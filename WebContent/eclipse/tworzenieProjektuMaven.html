@@ -1,0 +1,48 @@
+<h1>Tworzenie projektu maven</h1>
+<div class="contentDiv">
+
+	<p>Aby móc w Eclipse utworzyć projekt maven, należy najpierw zainstalować maven na komputerze a później doinstalować odpowieni plugin do Eclipse.
+	Drugą opcją jest instalacja odpowiedniej wersji Eclipse wraz z preinstalowanym oprogramowaniem maven. Aby w Eclipse utworzyć projekt maven należy kliknąć <span class="clickDiv">File -> New -> Other...</span></p>
+	
+	<!-- OBRAZEK Z OKNEM WYBORU PROJEKTU W ECLIPSE -->
+	<img src="obrazki/oknoSelectAWizard.jpg" style="max-width: 525px;" onclick="powiekszZdjecie(this)">
+	
+	<p>Wybieramy <span class="clickDiv">Maven -> Maven Project</span> i przechodzimy do okna ustawień nowego projektu. W tym oknie nie zmieniamy nic. Klikamy <span class="clickDiv">Next</span> i przechodzimy
+	do kolejnego okna konfiguracyjnego nowego projektu:</p>
+	
+	<!-- OBRAZEK Z OKNEM USTAWIEŃ NOWEGO PROJEKTU MAVEN -->
+	<img src="obrazki/oknoNewMavenProject.jpg" style="max-width: 728px;" onclick="powiekszZdjecie(this)">
+	
+	<p>W tym oknie wybieramy archetyp projektu maven. Aby utworzyć prosty projekt maven w tym oknie nie zmieniamy nic i przechodzimy do następnego okna klikając przycisk <span class="clickDiv">Next</span></p>
+	
+	<!-- OBRAZEK Z OKNEM USTAWIEŃ ARCHETYPU PROJEKTU MAVEN -->
+	<img src="obrazki/oknoNewMavenProject_2.jpg" style="max-width: 823px;" onclick="powiekszZdjecie(this)">
+	
+	<p>W tym oknie ustawiamy Group Id oraz Artifact Id i następnie klikamy przycisk <span class="clickDiv">Finish</span>. Projekt zostaje utworzony.</p>
+	
+	<!-- OBRAZEK Z OKNEM USTAWIEŃ NAZWY GROUP ID ORAZ ARTIFACT ID	 -->
+	<img src="obrazki/oknoNewMavenProject_3.jpg" style="max-width: 823px;" onclick="powiekszZdjecie(this)">
+	
+	<p>Poniżej przedstawiono drzewo katalogów po utworzeniu projektu maven w Eclipse:</p>
+	
+	<!-- OBRAZEK Z DRZEWKIEM KATALOGÓW NOWO UTWORZONEGO PROJEKTU MAVEN -->
+	<img src="obrazki/drzewoNowegoProjektuMaven.jpg" style="max-width: 420px;" onclick="powiekszZdjecie(this)">
+	
+	<p>Aby projekt poprawnie się budował i można go było uruchomić bez problemów z konsoli to należy dodać do pliku pom.xml plugin jak pokazano to na poniższym obrazku, oraz ustawić wartość elementu
+	<code>&lt;outputDirectory&gt;</code> (folder w którym zostanie utworzony plik jar) oraz <code>&lt;mainClass&gt;</code> (ścieżkę do pliku z klasą zawierającą metodę main)</p>
+	
+	<!-- OBRAZEK PLIK POM NOWEGO PROJEKTU MAVAN -->
+	<img src="obrazki/plikPOMnowegoProjektuMaven.jpg" style="max-width: 646px;" onclick="powiekszZdjecie(this)">
+	
+	<p>Po wprowadzeniu jakichkolwiek zmian w pliku pom.xml należy kliknąć ppm na nazwę projektu <span class="clickDiv">Maven -> Update Project</span>. Tak przygotowany projekt można już skompilować.
+	Kompilację robimy z konsoli poleceniem <code>mvn clean package</code>, przechodząc do folderu projektu, jak  pokazano to na załączonym obrazku:</p>
+	
+	<!-- OBRAZEK Z POLECENIEM KOMPILACJI PROJEKTU MAVEN -->
+	<img src="obrazki/budowanieProjektuMaven.jpg" style="max-width: 997px;" onclick="powiekszZdjecie(this)">
+	
+	<p>Poprawnie skompilowany projekt można uruchomić poleceniem <code>java -jar nazwaProgramu.jar</code> jak pokazano na poniższym obrazku:</p>
+	
+	<!-- OBRAZEK Z POLECENIEM URUCHOMIENIA SKOMPILOWANEGO PROJEKTU Z KONSOLI -->
+	<img src="obrazki/uruchomienieSkompilowanegoProgramuZKonsoli.jpg" style="max-width: 909px;" onclick="powiekszZdjecie(this)">
+	
+</div>

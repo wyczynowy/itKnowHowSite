@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="Stylesheet" type="text/css" href="../style.css">
+	<title>SPRING</title>
+	<link rel="Shortcut icon" href="../Koala.ico" />
+  	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+  	<script src="../scripts/jquery.js"></script>
+  	<script src="../scripts/wspolneSkrypty.js"></script>
+</head>
+<body>
+<script>
+	// Funkcja sprawdzajaca szerokosc strony i ukrywajaca wybor z submenu w przypadku zwezenia okna przegladarki
+	setInterval(checkSiteWidth,100);
+	// Funkcja ustawiajaca podswietlenie pierwszego przycisku subMenu
+	runFunctionAfterPageLoad(function(){setActiveSubButton(document.getElementsByClassName('subMenuButton')[0]);});
+	// Funkcja laduje zawartosc pliku .html do elementu #contentDiv
+	runFunctionAfterPageLoad(function() {$('#contentDiv').load('stereotypy.html')});
+	// Funkcja laduje menu i podswietla wybrany przycisk menu
+	zaladujMenuIPodswietlPrzycisk('menu','SPRING');
+	// Funckje związane ze mianami rozmiaru okna przeglądarki
+	window.onresize = onResizeWindow;
+	// Funkcja dopasowuje menu do rozmiaru okna
+	runFunctionAfterPageLoad(skalujMenuGlowne);
+</script>
+
+	
+	<!-- MENU -->
+	<div id="menu"></div>
+	<!-- KONIEC MENU -->
+		
+	<!-- ZAWARTOSC STRONY -->
+	<div class="content">
+		<div class="content-left">
+			<div class="zasoby">
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('stereotypy.html'); setActiveSubButton(this);">Stereotypy</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('wstrzykiwanieZaleznosci.html'); setActiveSubButton(this);">Wstrzykiwanie zaleznosci</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('mapowanieZadan.html'); setActiveSubButton(this);">Mapowanie żądań</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('argumentyMetodyObslugujacejZadanieHttp.html'); setActiveSubButton(this);">Argumenty metody obsługującej żądanie http</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('walidacjaFormularzy.html'); setActiveSubButton(this);">Walidacja formularzy</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('jdbc.html'); setActiveSubButton(this);">JDBC</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('springData.html'); setActiveSubButton(this);">Spring Data</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('springSecurity.html'); setActiveSubButton(this);">Spring Security</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('dodatkoweZasoby.html'); setActiveSubButton(this);">Dodatkowe zasoby</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('polskieZnaki.html'); setActiveSubButton(this);">Polskie znaki</button>
+			</div>
+		</div>
+		
+		<div id="contentDiv" class="content-center"></div>
+		
+		<div class="content-right">
+			<div class="linki">
+				<!-- TUTAJ JAKIES LINKI DO INNYCH MATERIALOW -->
+			</div>
+		</div>	
+
+	</div>
+	<!-- KONIEC ZAWARTOSC STRONY -->
+	
+	<!-- ELEMENT NIEZBEDNY DO ROBIENIA MASKI NA STRONIE -->
+	<div id="shadow" class="opaqueLayer"> </div>
+	
+</body>
+</html>

@@ -1,0 +1,136 @@
+<h1>TagLib czyli biblioteka tagów</h1>
+<div class="contentDiv">
+	<p>TagLib czyli biblioteki tagów. Biblioteki, które udostępniają tagi, które można używać w widokach.
+	Tagi udostępniają rozmaite funkcjonalności, od instrukcji warunkowych i pętli,
+	poprzez konstruowanie adresów URL aż po umieszczanie gotowych komponentów HTML na stronie. Biblioteki tagów dołączamy
+	do strony JSP poprzez umieszczenie odpowiedniego tagu na początku dokumentu JSP, jeszcze przed deklaracją typu dokumentu HTML.
+	Oczywiście należy dodać odpowiednią zależność do projektu, aby móc używać w plikach <code>jsp</code> biblioteki <code>jstl</code>:</p>
+	
+	<div class="codeDiv">
+		&lt;dependency&gt;<br>
+			&nbsp;&lt;groupId&gt;jstl&lt;/groupId&gt;<br>
+			&nbsp;&lt;artifactId&gt;jstl&lt;/artifactId&gt;<br>
+			&nbsp;&lt;version&gt;1.2&lt;/version&gt;<br>
+		&lt;/dependency&gt;
+	</div>
+	
+	<h2>core</h2>
+	
+	<div class="codeDiv">
+	&lt;%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %&gt;
+	</div>
+	
+	<h3>pętla — c:forEach</h3>
+	
+	<p>
+	Pętla ta pozwala nam przechodzić po całej kolekcji elementów (podobnie jak uproszczona składnia pętli for),
+	przy czym zbiorem elementów może być np . ciąg znaków (zbiór literek) lub zbiór liczb.
+	Tag ten posiada kilka atrybutów, których możemy używać w zależności od sytuacji, najważniejsze z nich to:<br>
+	<br>
+    <code>items</code> — kolekcja obiektów, jeśli chcemy przejść przez wszystkie obiekty<br>
+    <code>var</code> — nazwa zmiennej, która będzie widoczna wewnątrz tego tagu i dostępna w ramach EL<br>
+    <code>step</code> — krok, czyli co ile elementów się przemieszczamy
+    (domyślnie: 1 — idziemy do przodu po każdym elemencie, możemy też iść do tyłu, przypisując tej zmiennej wartość -1)<br>
+    <code>begin</code> — początkowy element (indeks elementu)<br>
+    <code>end</code> — końcowy element (indeks elementu)<br>
+	</p>
+	
+	<p>Poniżej kilka przykładów użycia:</p>
+	
+	<div class="codeDiv">
+		&lt;c:forEach var="i" begin="1" end="5"&gt;<br>
+	   	&nbsp;Element ${i}&lt;br/&gt;<br>
+		&lt;/c:forEach&gt;
+	</div>
+	
+	<div class="codeDiv">
+		&lt;c:forEach var="element" items="${kolekcja}"&gt;<br>
+	   	&nbsp;Element ${element}&lt;br/&gt;<br>
+		&lt;/c:forEach&gt;
+	</div>
+	
+	<div class="codeDiv">
+		&lt;c:forEach varStatus="status" var="element" items="${kolekcja}"&gt;<br>
+	   	&nbsp;Element ${status.index}: ${element}&lt;br/&gt;<br>
+		&lt;/c:forEach&gt;
+	</div>
+	
+	<h3>warunek — c:if</h3>
+	
+	<p>
+	Tag ten ma podobne zastosowanie, co instrukcja if w języku Java, ale uwaga — za jej pomocą nie można zbudować konstrukcji
+	if-else! Jeśli potrzebujemy funkcjonalność if-else, mamy dwie możliwości — dwukrotnie użyć tego tagu
+	(raz negując warunek) lub skorzystać z c:choose (opis poniżej).
+	Tag ten ma tylko jeden parametr o nazwie test, w którym przekazujemy test logiczny
+	(najczęściej z użyciem ELa) Kilka przykładów użycia :
+	</p>
+	
+	<div class="codeDiv">
+		&lt;c:if test="${pensja &gt; 1000}"&gt;<br>
+		&nbsp;Zarabaiam powyżej 1000!<br>
+		&lt;/c:if&gt;
+	</div>
+	
+	<div class="codeDiv">
+		&lt;c:if test="${pensja &gt; 2000}"&gt;<br>
+		&nbsp;Zarabaiam powyżej 2000!<br>
+		&lt;/c:if&gt;<br>
+		<br>
+		&lt;c:if test="${!(pensja &gt; 2000)}"&gt;<br>
+		&nbsp;Zarabaiam nie więcej niż 2000!<br>
+		&lt;/c:if&gt;
+	</div>
+	
+	<h3>wybór (wiele warunków) — c:choose</h3>
+	
+	<p>
+	Tag choose pozwala wybrać jedną z kilku opcji. Jest on podobny do konstrukcji Switch w Javie, z tym wyjątkiem,
+	że warunki dla poszczególnych elementów mogą być bardzo różnie zdefiniowane. Funkcjonalnie możemy więc myśleć o nim bardziej
+	jak o konstrukcjach if-elseif-else. Wewnątrz tego tagu możemy użyć dwóch innych: c:when — ma jeden atrybut test,
+	w którym podajemy test logiczny c:otherwise — jeśli żaden z powyższych warunków nie będzie prawdą wykonywana
+	jest zawartość tego tagu. Tag ten jest opcjonalny. Przykład użycia:
+	</p>
+	
+	<div class="codeDiv">
+	&lt;c:choose&gt;<br>
+	&nbsp;&lt;c:when test="${pensja &lt;= 2000}"&gt;<br>
+	&nbsp;&nbsp;Zarabiasz bardzo mało<br>
+	&nbsp;&lt;/c:when&gt;<br>
+	&nbsp;&lt;c:when test="${pensja &gt; 10000}"&gt;<br>
+	&nbsp;&nbsp;Zarabiasz dużo<br>
+	&nbsp;&lt;/c:when&gt;<br>
+	&nbsp;&lt;c:otherwise&gt;<br>
+	&nbsp;&nbsp;Zarabiasz umiarkowanie<br>
+	&nbsp;&lt;/c:otherwise&gt;<br>
+	&lt;/c:choose&gt;
+	</div>
+	
+	<h2>funkcje — fn</h2>
+	
+	<p>
+	Możemy też używać funkcji, które rozszerzają możliwości ELa. Funkcje są udostępniane także w postaci taglibów,
+	jedną z podstawowych grup oferuje także JSTL. Możemy z nich skorzystać dodając taglib analogicznie jak powyżej:
+	</p>
+
+	<div class="codeDiv">
+		&lt;%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %&gt;
+	</div>
+	
+	<p>Dzięki temu możemy następnie używać konstrukcji np.:</p>
+	
+	<div class="codeDiv">
+		${fn:length(kolekcja)}
+	</div>
+	
+	<p>do wypisywania lub sprawdzania warunków.</p>
+	
+	<h2>empty i inne operatory</h2>
+	
+	<p>
+		Język EL oferuje oczywiście standardowe operatory takie jak dodawanie, mnożenie, dzielenie, operatory logiczne and i or itp,
+		ale udostępnia także dodatkowy operator — empty. Używamy go przed zmienną (np. ‘empty lista’) do sprawdzenia czy dana zmienna
+		jest pusta. Przy czym pusta, definiujemy jako null, nie posiadająca elementów (w przypadku kolekcji) lub ciąg znaków
+		 o zerowej długości.
+	 </p>
+	
+</div>

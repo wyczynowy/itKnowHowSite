@@ -1,0 +1,61 @@
+	<!-- MENU -->
+	<div class="menuDiv" style="font-size: 0;">
+		<div id="menuDivInsideMenuDiv" style="width: 1020px; height: 40px; margin: 0 auto; font-size: 0;">
+			<div class="menuButtonDiv">
+				<button class="menuButton" onclick="window.open('../html/html.html','_self','');" onmouseover="setActive(this);" onmouseout="setDisactive(this);">HTML</button>
+			</div>
+			<div class="menuButtonDiv">
+				<button class="menuButton" onclick="parent.window.open('../css/css.html','_self','')" onmouseover="setActive(this);" onmouseout="setDisactive(this);">CSS</button>
+			</div>
+			<div class="menuButtonDiv">
+				<button class="menuButton" onclick="window.open('../javaEE/javaEE.html','_self','')" onmouseover="setActive(this);" onmouseout="setDisactive(this);">JAVA</button>
+			</div>
+			<div class="menuButtonDiv">
+				<button class="menuButton" onclick="window.open('../oracleDtb/oracleDtb.html','_self','')" onmouseover="setActive(this);" onmouseout="setDisactive(this);">ORACLE</button>
+			</div>
+			<div class="menuButtonDiv">
+				<button class="menuButton" onclick="window.open('../js/js.html','_self','')" onmouseover="setActive(this);" onmouseout="setDisactive(this);">JS</button>
+			</div>
+			<div class="menuButtonDiv">
+				<button class="menuButton" onclick="window.open('../eclipse/eclipse.html','_self','')" onmouseover="setActive(this);" onmouseout="setDisactive(this);">ECLIPSE</button>
+			</div>
+			<div class="menuButtonDiv">
+				<button class="menuButton" onclick="window.open('../maven/maven.html','_self','')" onmouseover="setActive(this);" onmouseout="setDisactive(this);">MAVEN</button>
+			</div>
+			<div class="menuButtonDiv">
+				<button class="menuButton" onclick="window.open('../spring/spring.html','_self','')" onmouseover="setActive(this);" onmouseout="setDisactive(this);">SPRING</button>
+			</div>
+			<div class="menuButtonDiv">
+				<button class="menuButton" onclick="window.open('../jsp/jsp.html','_self','')" onmouseover="setActive(this);" onmouseout="setDisactive(this);">JSP</button>
+			</div>
+			<div class="menuButtonDiv">
+				<button class="menuButton" onclick="window.open('../konsola/konsola.html','_self','')" onmouseover="setActive(this);" onmouseout="setDisactive(this);">KONSOLA</button>
+			</div>
+			<div id="extendedMenuDiv" class="extendedMenuButtonDiv" style="display: none; font-size: 0; float: left; width: 102px">
+				<button class="menuButton" onmouseover="setActive(this);" onmouseout="setDisactive(this);" onclick="pokazNiewidocznePrzyciski()">...</button>
+			</div>
+		</div>
+	</div>
+	<div class="menuDiv" style="display: none;"></div>
+	<!-- KONIEC MENU -->
+	
+	<script>
+		
+		function sprawdzPrzyciskIPodswietl(przycisk) {
+			console.log(przycisk.innerText);
+			console.log(nazwaPrzycisku);
+			if(przycisk.innerText == nazwaPrzycisku) {
+				przycisk.onmouseover = '';
+				przycisk.onmouseout = '';
+				przycisk.style.fontSize = '22px';
+				przycisk.style.backgroundColor = tablicaKolorowAnimacji[5];
+			}
+		}
+	
+		var przyciskiMenu = document.getElementsByClassName('menuButton');
+	  	var przyciskiMenuArray = Array.from(przyciskiMenu);
+	  	
+	  	przyciskiMenuArray.forEach(sprawdzPrzyciskIPodswietl);
+	  	
+	  	setTimeout(skalujMenuGlowne, 100);
+	</script>

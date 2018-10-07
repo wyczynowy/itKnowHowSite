@@ -1,0 +1,41 @@
+<h1>Mapowanie żądań http</h1>
+<div class="contentDiv">
+
+	<p>Do wskazania kontrolera oraz metody, która ma zostać wywołana do obsługi określonego żądania http służy adnotacja <code>@RequestMapping</code>. Adnotacja ta
+	musi się znaleźć nad klasą lub metodą, która będzie wywoływana w chwili obsługi określonego żądania w klasie kontrolera, czyli klasie oznaczonej
+	adnotacją Springową <code>@Controller</code>:</p>
+	
+	<div class="codeDiv">
+	@Controller<br> 
+	@RequestMapping("/kontroler")<br>
+	public class AlbumController { <br>
+	<br>
+	&nbsp;@Autowired<br>
+	&nbsp;private AlbumDao albumDao;<br> 
+	<br>
+	&nbsp;@RequestMapping("/metoda")<br>
+	&nbsp;public String metoda() {<br>
+	&nbsp;&nbsp;return "glowny";<br>
+	&nbsp;}<br>
+	}
+	</div>
+	
+	<p>W powyższym wypadku metoda ta będzie uruchomiona po wejściu na adres http://example.com:8080/aplikacja/kontroler/metoda</p>
+	
+	<div class="codeDiv">
+		@Controller<br>
+		public class  AlbumController {<br>
+		<br>
+		&nbsp;@Autowired<br>
+		&nbsp;private AlbumDao albumDao;<br>
+		<br>
+		&nbsp;@RequestMapping("/metoda")<br> 
+		&nbsp;public String metoda() {<br>
+		&nbsp;&nbsp;return "glowny";<br>
+		&nbsp;}<br>
+		}	
+	</div>
+	
+	<p>W tym wypadku metoda ta będzie uruchomiona po wejściu na adres http://example.com:8080/aplikacja/metoda</p>
+
+</div>

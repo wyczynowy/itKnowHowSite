@@ -1,0 +1,119 @@
+<h1>Wątki</h1>
+<div class="contentDiv">
+
+	<p>W Javie mamy możliwośc uruchamiać zadania w kilku wątkach. Poniżej podstawowy przykład uruchomienia zadań w kilku wątkach:</p>
+	
+	<div class="codeDiv">
+		class Zadanie implements Runnable {<br>
+		<br>
+		&nbsp;private int id;<br>
+		<br>
+		&nbsp;public Zadanie(int id) {<br>
+			&nbsp;&nbsp;this.id = id;<br>
+		&nbsp;}<br>
+		<br>
+		&nbsp;@Override<br>
+		&nbsp;public void run() {<br>
+			&nbsp;&nbsp;System.out.println("Uruchomienie zadania: " + id);<br>
+			&nbsp;&nbsp;while(true) {<br>
+				&nbsp;&nbsp;&nbsp;System.out.println("Zadanie: " + id);<br>
+				&nbsp;&nbsp;&nbsp;try {<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;Thread.sleep(1000);<br>
+				&nbsp;&nbsp;&nbsp;} catch (InterruptedException e) {<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+				&nbsp;&nbsp;&nbsp;}<br>
+			&nbsp;&nbsp;}<br>
+		&nbsp;}<br>
+	}<br>
+	<br>
+	public class Main {<br>
+		&nbsp;public static void main(final String... args) throws InterruptedException {<br>
+			&nbsp;&nbsp;for(int i = 0; i &lt; 5; i++) {<br>
+				&nbsp;&nbsp;&nbsp;new Thread(new Zadanie(i)).start();<br>
+			&nbsp;&nbsp;}<br>
+		&nbsp;}<br>
+	}
+	</div>
+
+	<h2>Wykonawcy</h2>
+	
+	<p>
+	W javie mamy możliwość skorzystania z kilku rodzajów wykonawców. Wykonawcy to środki upraszczania programowania współbieżnego
+	przez zarządzanie tworzeniem obiektów klasy Thread. Obiekty klasy <code>Executor</code> pozwalają na zarządzanie wykonaniem zadań
+	asynchronicznych, eliminując konieczność jawnego zarządzania cyklem życia wątków. Mamy możliwość skorzystania z kilku rodzajów wykonawców:<br>
+	<code>CachedThreadPool()</code> - tworzy po jednym wątku dla każdego przekazanego zadania.<br>
+	<code>FixedThreadPool</code> - j.w. tylko przeprowadza kosztowną operację alokacji puli wątków jednorazowon na początku działania, dysponując
+	od tego czasu ustaloną liczbą wątków. W ten sposób oczczędzamy czas wykonania, który w przypadku puli dynamicznej jest poświęcany
+	na tworzenie nowych wątków dla kolejnych zadań.<br>
+	<code>SingleThreadExecutor</code> -  to szczególny przypadek puli wątków, o liczbie wątków równej jeden. Używany do kolejkowania zadań,
+	które chcemy uruchomić<br>
+	<br>
+	Poniżej przykład użycia wykonawcy:
+	</p>
+	
+	<div class="codeDiv">
+		public static void main(final String... args) throws InterruptedException {<br>
+		<br>
+		&nbsp;ExecutorService exec = Executors.newFixedThreadPool(5);<br>	
+		&nbsp;for(int i = 0; i &lt; 5; i++) {<br>
+			&nbsp;&nbsp;Thread watek = new Thread(new Zadanie(i));<br>
+			&nbsp;&nbsp;exec.execute(watek);<br>
+		&nbsp;}<br>
+	}
+	</div>
+
+	<h2>Zwracanie wyniku</h2>
+	
+	<p>
+		W przypadku kiedy chcemy zwrócić jakiś rezultat wykonywanego zadania musimy skorzystać  z implementacji innego interface'u. Jest to
+		interface <code>Callabce&lt;T&gt;</code>
+	</p>
+	
+	<div class="codeDiv">
+	
+		class ZadanieZWynikiem implements Callable&lt;String&gt; {<br>
+			&nbsp;private int id;<br>
+			<br>
+			&nbsp;public ZadanieZWynikiem(int idZadania) {<br>
+				&nbsp;&nbsp;this.id = idZadania;<br>
+			&nbsp;}<br>
+			<br>
+			&nbsp;@Override<br>
+			&nbsp;public String call() throws Exception {<br>
+				&nbsp;&nbsp;for(int i = 0; i &lt; 5; i++) {<br>
+					&nbsp;&nbsp;&nbsp;System.out.println("Wykonuję zadanie nr: " + id + ", " + i + " raz.");<br>
+					&nbsp;&nbsp;&nbsp;TimeUnit.MILLISECONDS.sleep(100);<br>
+				&nbsp;&nbsp;}<br>
+				&nbsp;&nbsp;return "Zadanie nr: " + id + " Wykonane";<br>
+			&nbsp;}<br>
+		}<br>
+		<br>
+		public class CallableExample {<br>
+		<br>
+			&nbsp;public static void main(String[] args) {<br>
+				&nbsp;&nbsp;ExecutorService exec = Executors.newCachedThreadPool();<br>
+				&nbsp;&nbsp;ArrayList&lt;Future&lt;String&gt;&gt; results = new ArrayList&lt;&lt;&gt;();<br>
+				<br>
+				&nbsp;&nbsp;for(int i = 0; i &lt; 5; i++) {<br>
+					&nbsp;&nbsp;&nbsp;results.add(exec.submit(new ZadanieZWynikiem(i)));<br>
+				&nbsp;&nbsp;}<br>
+				<br>
+				&nbsp;&nbsp;for(Future&lt;String&gt; fs : results) {<br>
+					&nbsp;&nbsp;&nbsp;try {<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;// Wywolanie get() blokuje wywolujacego<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(fs.get());<br>
+					&nbsp;&nbsp;&nbsp;} catch(InterruptedException e) {<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(e);<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+					&nbsp;&nbsp;&nbsp;} catch(ExecutionException e) {<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(e);<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+					&nbsp;&nbsp;&nbsp;} finally {<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;exec.shutdown();<br>
+					&nbsp;&nbsp;&nbsp;}<br>
+				&nbsp;&nbsp;}<br>
+			&nbsp;}<br>
+		}
+	</div>
+
+</div>

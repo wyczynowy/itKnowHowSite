@@ -1,0 +1,26 @@
+<h1>Stereotypy w Spring</h1>
+<div class="contentDiv">
+
+	<p>W Springu mamy możliwość oznaczania klas adnotacjami, zwanymi stereotypami. Poniżej lista stereotypów wraz z ich opisem przeznaczenia:</p>
+	
+	<p class="wciecia">
+		<code>@Component</code> - bazowy stereotyp, oznacza, że na podstawie tej klasy będzie utworzony bean Springa 
+		(innymi słowy: klasa ta jest zarządzana przez Spring’a, lub też cykl życia tej klasy będzie zarządzany przez Springa). 
+		Tego stereotypu używamy najczęściej do klas, które są pomocnicze i nie oferują elementów logiki biznesowej, 
+		a jedynie pomocnicze funkcje (np. konwersja między typami, jakieś wspólne elementy)
+	</p>
+	
+	<p class="wciecia">
+		<code>@Servie</code> - stereotyp który wskazuje, że ta klasa jest serwisem, tzn. oferuje pewną logikę biznesową którą będziemy wykorzystywać w innych miejscach 
+		(np. kontrolerach; ogólnie w wyższych warstwach)
+	</p>
+	
+	<p class="wciecia">
+		<code>@Repository</code> - wskazuje że klasa pozwala na dostęp do danych, np. wspiera obsługę bazy danych. Adnotacje tą stosujemy np. w obiektach typu DAO.
+	</p>
+	
+	<p class="wciecia">
+		<code>@Controller</code> - oznaczamy nią kontrolery, tj. klasy, które będą obsługiwały zapytania wysyłane poprzez przeglądarkę od użytkowników.
+	</p>
+
+</div>

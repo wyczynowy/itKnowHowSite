@@ -1,0 +1,185 @@
+<h1>JDBC</h1>
+<div class="contentDiv">
+
+	<p>Aby umożliwić połączenie z bazą danych naszej aplikacji Springowej należy wykonać kilka kroków. Trzeba dodać odpowiednie zależności do pliku pom.xml:</p>
+	
+	<div class="codeDiv">
+		&lt;dependency&gt;<br>
+			&nbsp;&lt;groupId&gt;org.springframework&lt;/groupId&gt;<br>
+			&nbsp;&lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;<br>
+			&nbsp;&lt;version&gt;5.0.8.RELEASE&lt;/version&gt;<br>
+		&lt;/dependency&gt;<br>
+		<br>
+		&lt;dependency&gt;<br>
+			&nbsp;&lt;groupId&gt;mysql&lt;/groupId&gt;<br>
+			&nbsp;&lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;<br>
+			&nbsp;&lt;version&gt;5.0.5&lt;/version&gt;<br>
+		&lt;/dependency&gt;
+	</div>
+	
+	<p>Pierwszy artefakt <code>spring-jdbc</code> to są odpowiednie biblioteki springowe, niezbędne do skorzystania z jdbc w Spring. Drugi artefakc <code>mysql-connector-java</code> to jest
+	sterownik do bazy danych. Do różnych baz danych są różne sterowniki. Powyższy sterownik służy do bazy danych <span class="important">MySql</span>. Wersja sterownika do bazy danych
+	<span class="important">MySql</span> potrafi przysporzyć nieco problemów. Dlatego ważne aby korzystać ze sprawdzonych wersji, bo nie każda wersja sterownika działa z każdą wersją Springa,
+	co jest oczywiste.</p>
+	
+	<p>Po dodaniu nezbędnych zależności do projektu należy w pliku konfiguracyjnym Springa <code>applicationContext.xml</code> dodać odpowiedniego bean'a, który będzie nam dostarczał
+	połączenie z bazą danych. Należy zatem w pliku <code>applicationContext.xml</code> umieścić następujący wpis:</p>
+	
+	<div class="codeDiv">
+		&lt;bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"&gt;<br>
+		&nbsp;&lt;property name="driverClassName" value="com.mysql.jdbc.Driver" /&gt;<br>
+		&nbsp;&lt;property name="url" value="jdbc:mysql://localhost:3306/nazwaBazyDanych" /&gt;<br>
+		&nbsp;&lt;property name="username" value="login" /&gt;<br>
+		&nbsp;&lt;property name="password" value="hasło" /&gt;<br>
+	&lt;/bean&gt;
+	</div>
+	
+	<p>To już cała konfiguracja, która umożliwia skorzystanie w najprostrzej z opcji z dostępu do bazy danych. Przykład w jaki należy uzyskać dostęp do bazy danych znajduje się na
+	listingu poniżej:</p>
+	
+	<div class="codeDiv">
+		@Controller<br>
+		@RequestMapping("/kontroler")<br>
+		public class Kontroler {<br>
+		<br>
+			&nbsp;@Autowired<br>
+			&nbsp;private DataSource dataSource;<br>
+			<br>		
+			&nbsp;String sql = "SELECT * FROM nazwaTabeli";<br>
+			<br>			
+			&nbsp;@RequestMapping("/metoda")<br>
+			&nbsp;public String metoda(Model model) {<br>
+			<br>		
+				&nbsp;&nbsp;java.sql.Connection conn = null;<br>
+				&nbsp;&nbsp;try {<br>
+					&nbsp;&nbsp;&nbsp;conn = dataSource.getConnection();<br>
+					&nbsp;&nbsp;&nbsp;PreparedStatement ps = conn.prepareStatement(sql);<br>
+					&nbsp;&nbsp;&nbsp;ResultSet rs = ps.executeQuery();<br>
+					&nbsp;&nbsp;&nbsp;if(rs.next()) {<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;String informacjaZBazy_01 = rs.getString("nazwaKolumny_01");<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;String informacjaZBazy_02 = rs.getString("nazwaKolumny_02");<br>
+					&nbsp;&nbsp;&nbsp;}<br>
+					&nbsp;&nbsp;&nbsp;rs.close();<br>
+					&nbsp;&nbsp;&nbsp;ps.close();<br>
+				&nbsp;&nbsp;} catch (SQLException e) {<br>
+					&nbsp;&nbsp;&nbsp;throw new RuntimeException(e);<br>
+				&nbsp;&nbsp;} finally {<br>
+					&nbsp;&nbsp;&nbsp;if(conn != null) {<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conn.close();<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;} catch(SQLException e) {}<br>
+					&nbsp;&nbsp;&nbsp;}<br>
+				&nbsp;&nbsp;}<br>		
+			&nbsp;}<br>
+		}
+	</div>
+	
+	<p>Powyżej pokazany przykład umożliwia dostęp do bazy danych w bardzo uproszczony sposób.</p>
+	
+	<h2>JPA, Hibernate i EntityManager</h2>
+	
+	<p>Poniżej pokazano nieco bardziej zaawansowany sposób dostępu do bazy danych przy użyciu <code>hibernate</code>. Aby móc skorzystać
+	z możliwości hibernate należy dodać oczywiście niezbędne zależności do projektu oprócz tych opisanych powyżej:</p>
+	
+	<div class="codeDiv">
+		&lt;dependency&gt;<br>
+			&nbsp;&lt;groupId&gt;org.hibernate&lt;/groupId&gt;<br>
+			&nbsp;&lt;artifactId&gt;hibernate-core&lt;/artifactId&gt;<br>
+			&lt;version&gt;5.0.8.Final&lt;/version&gt;<br>
+		&lt;/dependency&gt;<br>
+		&lt;dependency&gt;<br>
+			&nbsp;&lt;groupId&gt;org.hibernate&lt;/groupId&gt;<br>
+			&nbsp;&lt;artifactId&gt;hibernate-entitymanager&lt;/artifactId&gt;<br>
+			&nbsp;&lt;version&gt;5.0.8.Final&lt;/version&gt;<br>
+		&lt;/dependency&gt;<br>
+		&lt;dependency&gt;<br>
+			&nbsp;&lt;groupId&gt;org.springframework&lt;/groupId&gt;<br>
+			&nbsp;&lt;artifactId&gt;spring-orm&lt;/artifactId&gt;<br>
+			&nbsp;&lt;version&gt;5.0.8.RELEASE&lt;/version&gt;<br>
+		&lt;/dependency&gt;	
+	</div>
+	
+	<p>Następną czynnością jaką należy wykonać jest odpowiednia konfiguracja w pliku <code>applicationContext.xml</code></p>
+
+	<div class="codeDiv">
+		&lt;tx:annotation-driven /&gt;<br> 
+		&lt;bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"&gt;<br> 
+			&nbsp;&lt;property name="dataSource" ref="dataSource" /&gt;<br> 
+			&nbsp;&lt;property name="packagesToScan" value="pl.nazwaDomeny.nazwaAplikacji.model" /&gt;<br> 
+			&nbsp;&lt;property name="jpaVendorAdapter"&gt;<br> 
+				&nbsp;&nbsp;&lt;bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"&gt;<br> 
+					&nbsp;&nbsp;&nbsp;&lt;property name="showSql" value="false" /&gt;<br> 
+					&nbsp;&nbsp;&nbsp;&lt;property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" /&gt;<br> 
+				&nbsp;&nbsp;&lt;/bean&gt;<br> 
+			&nbsp;&lt;/property&gt;<br> 
+			&nbsp;&lt;property name="jpaProperties"&gt;<br> 
+				&nbsp;&nbsp;&lt;props&gt;<br> 
+					&nbsp;&nbsp;&nbsp;&lt;prop key="hibernate.hbm2ddl.auto"&gt;update&lt;/prop&gt;<br> 
+				&nbsp;&nbsp;&lt;/props&gt;<br> 
+			&nbsp;&lt;/property&gt;<br> 
+		&lt;/bean&gt;<br> 
+		&lt;bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" /&gt;<br> 
+		&lt;bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" /&gt;<br> 
+		&lt;bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"&gt;<br>
+			&nbsp;&lt;property name="entityManagerFactory" ref="entityManagerFactory" /&gt;<br>
+	&lt;/bean&gt;	
+	</div>
+	
+	<p>
+		Znaczenie poszczególnych elementów konfiguracyjnych:<br>
+		<br>
+		<code>dataSource</code> — to odniesienie do beana, który definiuje nasz DataSource (dodawałaś go w lekcji, w której uczyliśmy się obsługiwać bazę danych)<br>
+		<code>packagesToScan</code> — jest to początek nazw pakietów, w których mamy swoje encje<br>
+		<code>jpaVendoAdapter</code> — to z kolei bean (w naszym wypadku, możemy też zdefiniować go oddzielnie i użyć tylko atrybutu ref żeby wskazać jego nazwę). Bean ten ma dwa parametry dodatkowe:<br>
+		<br>		
+		    &nbsp;<code>showSQL</code> — steruje tym, czy na konsole mają być wypisywane zapytania SQL, które trafiają do bazy danych. Jest to przydatne przy rozwijaniu aplikacji (możemy łatwo zobaczyć, czy operacja, która powinna się wykonać, faktycznie została wykonana)<br>
+		    &nbsp;<code>databasePlatform</code> — wskazuje nazwę klasy, która opisuje naszą bazę danych. Ponieważ różne bazy danych (np. MySQL, PostgreSQL, Oracle) w różny sposób rozszerzają standardową składnię języka SQL, Hibernate stara się wykorzystywać te różnice, żeby zoptymalizować czy przyspieszyć pewne rzeczy. W tym miejscu możemy więc wskazać z jakiej bazy danych korzystamy, aby ‘pomóc’ bibliotece Hibernate zoptymalizować swoje działania<br>
+		<br>
+		<code>jpaProperties</code> — tutaj możemy zdefiniować wszystkie niestandardowe ustawienia, np. specyficzne dla naszej implementacji, w naszym przypadku wykorzystamy przede wszystkim jedną opcję:<br>
+		<br>		
+		    &nbsp;<code>hibernate.hbm2ddl.auto</code> — określa ona, jak hibernate ma się zachowywać przy uruchomieniu. Dostępne jest kilka opcji:<br>
+		        &nbsp;&nbsp;<code>validate</code> — tylko weryfikuje, tej opcji powinniśmy używać w działającej aplikacji, jeśli pojawi się jakaś niespójność, aplikacja się nie uruchomi<br>
+		        &nbsp;&nbsp;<code>update</code> — Hibernate w przypadku natrafienia na niespójność spróbuje ją usunąć poprzez modyfikację schematu; narażamy się przez to na utratę danych, opcja nadaje się głównie do testowania i rozwoju<br>
+		        &nbsp;&nbsp;<code>create</code> — tworzy schemat i strukturę, usuwając istniejące dane<br>
+		        &nbsp;&nbsp;<code>create-drop</code> — podobnie jak create tworzy schemat i strukturę usuwając istniejące dane, ale przy zamykaniu aplikacji automatycznie usuwa całą zawartość używanej bazy danych	
+	</p>
+
+	<p>Mając już poprawnie skonfigurowaną i przygotowaną aplikację można wstrzyknąć do klasy w której będziemy potrzebować dostępu do bazy danych
+	EntityManagera i wykonywać operację przy jego użyciu, jak pokazano to poniżej:</p>
+	
+	<div class="codeDiv">
+		@Controller<br>
+		@RequestMapping("/kontroler")<br>
+		public class Kontroler {<br>
+			&nbsp;@PersistenceContext EntityManager entityManager;<br>
+			<br>				
+				&nbsp;@RequestMapping("/metoda")<br>
+				&nbsp;@Transactional<br>
+				&nbsp;public String metoda(Model model) {<br>
+					<br>					
+					&nbsp;&nbsp;// BAZA DANYCH<br>
+					&nbsp;&nbsp;// Klasa encji to Czlowiek, ktora opatrzona jest adnotacja @Table(name="ludzie")<br>
+					<br>					
+					&nbsp;&nbsp;Czlowiek czlowiek = new Czlowiek();<br>
+					&nbsp;&nbsp;czlowiek = entityManager.find(Czlowiek.class, 1);<br>
+					&nbsp;&nbsp;System.out.println("Pobrano z bazy: " + czlowiek.getImie() + " " + czlowiek.getNazwisko());<br>
+					<br>
+					&nbsp;&nbsp;// Przyklad pobierania listy ludzi<br>
+					&nbsp;&nbsp;Query query = entityManager.createNativeQuery("select * from ludzie where imie = :imie", Czlowiek.class);<br>
+					&nbsp;&nbsp;query.setParameter("imie", "dawid");<br>
+					<br>
+					&nbsp;&nbsp;@SuppressWarnings("unchecked")<br>
+					&nbsp;&nbsp;List&lt;Czlowiek.class&gt; listaLudzi = query.getResultList();<br>
+					<br>
+					&nbsp;&nbsp;// Lub z wykorzystaniem JPQL<br>
+					&nbsp;&nbsp;TypedQuery&lt;Czlowiek&gt; typedQuery = entityManager.createQuery("select l from Ludzie l where l.imie = :imie", Czlowiek.class);<br>
+					&nbsp;&nbsp;typedQuery.setParameter("imie", "dawid");<br>
+					&nbsp;&nbsp;List&lt;Czlowiek&gt; listaLudzi2 = typedQuery.getResultList();<br>
+				&nbsp;}<br>	
+		}		
+	</div>
+	
+	<p><span class="important">UWAGA: </span>Jeżeli będą występować problemy z uruchomieniem się aplikacji na serwerze, to należy spróbować
+	usunąć wszystkie repozytoria z katalogu <code>.m2</code> i pobrać je ponownie. Powinno pomóć.</p>
+
+</div>
