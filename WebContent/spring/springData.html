@@ -18,6 +18,13 @@
 	<div class="codeDiv">
 		&lt;jpa:repositories base-package="pl.nazwaDomeny.nazwaAplikacji"/&gt;	
 	</div>
+	
+	<p>lub jeżeli korzystamy z klasy konfiguracyjnej springa to w klasie <span class="clickDiv">WebConfig.java</span>
+	umieszczamy adnotację konfigurującą nad nazwą klasy:</p>
+	
+	<div class="codeDiv">
+		@EnableJpaRepositories(basePackages = "pl.nazwaDomeny.nazwaAplikacji")	
+	</div>
 
 	<p>To już wszystko jeżeli chodzi o konfiguracje Springa. Teraz należy utworzyć interfejs, który rozszerza interfejs
 	<code>org.springframework.data.repository.Repository&lt;T, ID&gt;</code> i sparametryzować go typem jakim chcemy zarządzać, jak

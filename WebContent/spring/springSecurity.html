@@ -81,22 +81,38 @@
 		  		&nbsp;&nbsp;authentication-failure-url="/login.html?error=true"<br>
 		  		&nbsp;&nbsp;always-use-default-target="true"/&gt;<br>
 			&nbsp;&lt;http-basic /&gt;<br>
+			&nbsp;&lt;logout invalidate-session="false" delete-cookies="JSESSIONID"/&gt;<br>
 		&lt;/http&gt;
 	</div>
 	
-	<p>Dodatkowo w pliku konfiguracyjnym <code>web.xml</code> należy dodać odpowiednie mapowanie na stronę logowania:</p>
+	<p>Powyższe ustawienia konfigurują również defaultową obsługę wylogowywania poprzez przejście pod adres:</p>
 	
 	<div class="codeDiv">
-		&lt;servlet&gt;<br>
-		    &nbsp;&lt;servlet-name&gt;loginPage&lt;/servlet-name&gt;<br>
-		    &lt;jsp-file&gt;/login.html&lt;/jsp-file&gt;<br>
-		&lt;/servlet&gt;<br>
-		&lt;servlet-mapping&gt;<br>
-		    &nbsp;&lt;servlet-name&gt;loginPage&lt;/servlet-name&gt;<br>
-		    &nbsp;&lt;url-pattern&gt;/login.html&lt;/url-pattern&gt;<br>
-		&lt;/servlet-mapping&gt;
+		&lt;form action="${pageContext.request.contextPath}/logout" method="post"&gt;<br>
+			&nbsp;&lt;div&gt;<br>
+				&nbsp;&lt;span&gt;Zalogowany:&lt;security:authentication property="principal.username" /&gt;&lt;/span&gt;<br>
+				&nbsp;&nbsp;&lt;input type="submit" class="btn btn-outline-danger" value="Wyloguj" /&gt;<br>				
+				&nbsp;&nbsp;&lt;input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/&gt;<br>	
+			&nbsp;&lt;/div&gt;<br>
+		&lt;/form&gt;		
 	</div>
 	
+	<p>Aby skorzystać z tagu security na stronie jsp należy dodać odpowiedni taglib do strony jsp:</p>
+	
+	<div class="codeDiv">
+		&lt;%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%&gt;
+	</div>
+	
+	<p>oraz odpowiednią zależność do projektu:</p>
+
+	<div class="codeDiv">
+		&lt;dependency&gt;<br>
+			&nbsp;&lt;groupId&gt;org.springframework.security&lt;/groupId&gt;<br>
+			&nbsp;&lt;artifactId&gt;spring-security-taglibs&lt;/artifactId&gt;<br>
+			&nbsp;&lt;version&gt;5.0.8.RELEASE&lt;/version&gt;<br>
+		&lt;/dependency&gt;
+	</div>
+		
 	<p>Na końcu dodajemy plik ze stroną logowania. W naszym przypadku będzie to plik <code>html</code> umieszczony w
 	katalogu głównym aplikacji webapp:</p>
 	

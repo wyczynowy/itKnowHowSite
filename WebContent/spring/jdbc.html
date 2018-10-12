@@ -13,7 +13,7 @@
 		&lt;dependency&gt;<br>
 			&nbsp;&lt;groupId&gt;mysql&lt;/groupId&gt;<br>
 			&nbsp;&lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;<br>
-			&nbsp;&lt;version&gt;5.0.5&lt;/version&gt;<br>
+			&nbsp;&lt;version&gt;5.0.5&lt;/version&gt;&nbsp;// 5.1.39 Też działa dobrze<br>
 		&lt;/dependency&gt;
 	</div>
 	
@@ -22,8 +22,10 @@
 	<span class="important">MySql</span> potrafi przysporzyć nieco problemów. Dlatego ważne aby korzystać ze sprawdzonych wersji, bo nie każda wersja sterownika działa z każdą wersją Springa,
 	co jest oczywiste.</p>
 	
-	<p>Po dodaniu nezbędnych zależności do projektu należy w pliku konfiguracyjnym Springa <code>applicationContext.xml</code> dodać odpowiedniego bean'a, który będzie nam dostarczał
-	połączenie z bazą danych. Należy zatem w pliku <code>applicationContext.xml</code> umieścić następujący wpis:</p>
+	<p>Po dodaniu nezbędnych zależności do projektu należy w pliku konfiguracyjnym Springa <code>applicationContext.xml</code>
+	lub klasie konfiguracyjnej <code>WebConfig.java</code> w przypadku gdy konfigurujemy Springa za pomocą adnotacji,
+	dodać odpowiedniego bean'a, który będzie nam dostarczał	połączenie z bazą danych.
+	Należy zatem w pliku <code>applicationContext.xml</code> umieścić następujący wpis:</p>
 	
 	<div class="codeDiv">
 		&lt;bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"&gt;<br>
@@ -32,6 +34,21 @@
 		&nbsp;&lt;property name="username" value="login" /&gt;<br>
 		&nbsp;&lt;property name="password" value="hasło" /&gt;<br>
 	&lt;/bean&gt;
+	</div>
+	
+	<p>lub metodę w klasie <code>WebConfig.java</code>:</p>
+	
+	<div class="codeDiv">
+		@Bean<br>
+		public DataSource dataSource() {<br>
+			&nbsp;DriverManagerDataSource dataSource = new DriverManagerDataSource();<br>
+			&nbsp;dataSource.setDriverClassName("com.mysql.jdbc.Driver");<br>
+			&nbsp;dataSource.setUrl("jdbc:mysql://localhost:3306/nazwa_bazy_danych");<br>
+			&nbsp;dataSource.setUsername("login");<br>
+			&nbsp;dataSource.setPassword("hasło");<br>
+			<br>	
+			return dataSource;<br>
+		}	
 	</div>
 	
 	<p>To już cała konfiguracja, która umożliwia skorzystanie w najprostrzej z opcji z dostępu do bazy danych. Przykład w jaki należy uzyskać dostęp do bazy danych znajduje się na
@@ -123,6 +140,45 @@
 		&lt;bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"&gt;<br>
 			&nbsp;&lt;property name="entityManagerFactory" ref="entityManagerFactory" /&gt;<br>
 	&lt;/bean&gt;	
+	</div>
+	
+	<p>lub jeżeli korzystamy z konfiguracji adnotacjami, to w pliku <span class="clickDiv">WebConfig.java</span> należy dodać kilka
+	beanów, jak przedstawiono to poniżej:</p>
+	
+	<div class="codeDiv">
+		@Bean<br>
+		public LocalContainerEntityManagerFactoryBean entityManagerFactory() {<br>
+			&nbsp;LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();<br>
+			&nbsp;em.setDataSource(dataSource());<br>
+			&nbsp;em.setPackagesToScan(new String[] { "pl.softService.springMVC.domain" });<br>
+		<br>
+			&nbsp;JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();<br>
+			&nbsp;em.setJpaVendorAdapter(vendorAdapter);<br>
+			&nbsp;em.setJpaProperties(additionalProperties());<br>
+		<br>
+			&nbsp;return em;<br>
+		}<br>
+		<br>
+		@Bean<br>
+		public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {<br>
+			&nbsp;JpaTransactionManager transactionManager = new JpaTransactionManager();<br>
+			&nbsp;transactionManager.setEntityManagerFactory(emf);<br>
+		<br>
+			&nbsp;return transactionManager;<br>
+		}<br>
+		<br>
+		@Bean<br>
+		public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {<br>
+			&nbsp;return new PersistenceExceptionTranslationPostProcessor();<br>
+		}<br>
+		<br>
+		Properties additionalProperties() {<br>
+			&nbsp;Properties properties = new Properties();<br>
+			&nbsp;properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");<br>
+			&nbsp;properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");<br>
+		<br>
+			&nbsp;return properties;<br>
+		}	
 	</div>
 	
 	<p>
