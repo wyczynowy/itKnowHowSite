@@ -199,58 +199,69 @@ function loadHtmlIntoIframe(id, location) {
     
     function skalujMenuGlowne() {
     	var menuDivInsideMenuDiv = document.getElementById('menuDivInsideMenuDiv');
-    	var menuButtonDiv = document.getElementsByClassName('menuButtonDiv');
-    	var menuButton = document.getElementsByClassName('menuButton');
-    	
-    	var iloscMozliwychDoWyswietleniaPrzyciskowMenu = parseInt((window.innerWidth - 50)/102);
-    	var iloscAktualnieWyswietlanychPrzyciskowMenu = 0; // parseInt(menuDivInsideMenuDiv.style.width.substring(0,menuDivInsideMenuDiv.style.width.length - 2)/102);
-    	
-    	ukrytePrzyciskiMenuArray.forEach(function(element){if(element == true){iloscAktualnieWyswietlanychPrzyciskowMenu++}});
-    	
-    	menuDivInsideMenuDiv.style.width = iloscMozliwychDoWyswietleniaPrzyciskowMenu > menuButtonDiv.length ? (menuButtonDiv.length * 102) + 'px' : (iloscMozliwychDoWyswietleniaPrzyciskowMenu * 102) + 'px';
-    	menuDivInsideMenuDiv.style.margin = '0 auto;'
+    	if(menuDivInsideMenuDiv != null) {
+        	var menuButtonDiv = document.getElementsByClassName('menuButtonDiv');
+        	var menuButton = document.getElementsByClassName('menuButton');
+        	
+        	var contentElement = document.getElementsByClassName('content')[0];
+        	var iloscMozliwychDoWyswietleniaPrzyciskowMenu = parseInt((window.innerWidth - 50) /102);
+        	var iloscAktualnieWyswietlanychPrzyciskowMenu = 0;
+        	
+        	for(var i = 0; i < menuDivInsideMenuDiv.children.length; i++) {
+        		if((menuDivInsideMenuDiv.children[i].style.display == "" || menuDivInsideMenuDiv.children[i].style.display == "inline-block") && 
+        				menuDivInsideMenuDiv.children[i].className == "menuButtonDiv") {
+        			iloscAktualnieWyswietlanychPrzyciskowMenu++;
+        		}
+        	}
+        	  	
+        	menuDivInsideMenuDiv.style.width = iloscMozliwychDoWyswietleniaPrzyciskowMenu > menuButtonDiv.length ? (menuButtonDiv.length * 102) + 'px' : (iloscMozliwychDoWyswietleniaPrzyciskowMenu * 102) + 'px';
+        	menuDivInsideMenuDiv.style.margin = '0 auto;'
 
-    	// Wyświetlamy potrzebne przyciski
-    	for(var i = 0; i < (iloscMozliwychDoWyswietleniaPrzyciskowMenu > menuButtonDiv.length ? menuButtonDiv.length : iloscMozliwychDoWyswietleniaPrzyciskowMenu - 1) ; i++) {
-    		menuButtonDiv[i].style.display = 'inline-block';
-    		ukrytePrzyciskiMenuArray[i] = true;
-    	}
-    	
-    	// Chowamy zbędne przyciski
-    	for(var i = iloscMozliwychDoWyswietleniaPrzyciskowMenu - 1; i < menuButtonDiv.length; i++) {
-    		menuButtonDiv[i].style.display = 'none';
-    		ukrytePrzyciskiMenuArray[i] = false;
-    		// document.getElementById('extendedMenuDiv').appendChild(menuButtonDiv[i].cloneNode(true));
-    	}
-    	
-    	var przyciskDodatkowyMenu = document.getElementsByClassName('extendedMenuButtonDiv')[0];
-    	if(iloscMozliwychDoWyswietleniaPrzyciskowMenu - 1 < menuButtonDiv.length) {
-    		przyciskDodatkowyMenu.style.display = 'inline-block';
-    	} else {
-    		przyciskDodatkowyMenu.style.display = 'none';
-    	}
-    	
-    	// Usuniecie poprzednio skopiowanych elementow do kontenera o id = 'extendedMenuDiv'
-    	var lvExtendedMenuDiv = document.getElementById('extendedMenuDiv');
-    	var lvIloscElementowDoUsuniecia = lvExtendedMenuDiv.childNodes.length;
-    	for(var i = 2; i < lvIloscElementowDoUsuniecia; i++) {
-	    		lvExtendedMenuDiv.childNodes[lvExtendedMenuDiv.childNodes.length - 1].remove(true);
-    	}
-    	ukrytePrzyciskiMenuArray.forEach(function(element,pos){
-    		if(!element){
-    			document.getElementById('extendedMenuDiv').appendChild(menuButtonDiv[pos].cloneNode(true));
-    		}
-    		});
-    	
+        	// Wyświetlamy potrzebne przyciski
+        	for(var i = 0; i < (iloscMozliwychDoWyswietleniaPrzyciskowMenu > (menuDivInsideMenuDiv.children.length - 1) ? (menuDivInsideMenuDiv.children.length - 1) : iloscMozliwychDoWyswietleniaPrzyciskowMenu - 1) ; i++) {
+        		if(menuDivInsideMenuDiv.children[i].className == "menuButtonDiv") {
+        			menuDivInsideMenuDiv.children[i].style.display = 'inline-block';
+        			ukrytePrzyciskiMenuArray[i] = true;
+        		}
+        	}
+        	
+        	// Chowamy zbędne przyciski
+        	for(var i = iloscMozliwychDoWyswietleniaPrzyciskowMenu - 1; i < menuDivInsideMenuDiv.children.length - 1; i++) {
+        		menuButtonDiv[i].style.display = 'none';
+        		ukrytePrzyciskiMenuArray[i] = false;
+        		// document.getElementById('extendedMenuDiv').appendChild(menuButtonDiv[i].cloneNode(true));
+        	}
+        	
+        	// Wyświetlamy lub chowamy przycisk dodatkowy "..."
+        	var przyciskDodatkowyMenu = document.getElementsByClassName('extendedMenuButtonDiv')[0];
+        	if((iloscMozliwychDoWyswietleniaPrzyciskowMenu - 1) < (menuDivInsideMenuDiv.children.length - 1)) {
+        		przyciskDodatkowyMenu.style.display = 'inline-block';
+        	} else {
+        		przyciskDodatkowyMenu.style.display = 'none';
+        	}
+        	
+        	// Usuniecie poprzednio skopiowanych elementow do kontenera o id = 'extendedMenuDiv'
+        	var lvExtendedMenuDiv = document.getElementById('extendedMenuDiv');
+        	while(lvExtendedMenuDiv.children.length > 1) {
+        		lvExtendedMenuDiv.children[lvExtendedMenuDiv.children.length - 1].remove();
+        	}
+        	
+        	ukrytePrzyciskiMenuArray.forEach(function(element,pos){
+        		if(!element){
+        			document.getElementById('extendedMenuDiv').appendChild(menuButtonDiv[pos].cloneNode(true));
+        		}
+        		});
+         		
+    	}   	
     }
     
     function pokazNiewidocznePrzyciski() {
     	var kontener = document.getElementById('extendedMenuDiv');
-    	var wysokosc = (kontener.childNodes.length - 1) * 40;
+    	var wysokosc = (kontener.children.length) * 40;
     	kontener.style.height = wysokosc + 'px';
-    	for(var i = 2; i < kontener.childNodes.length; i++) {
-    		kontener.childNodes[i].style.display = 'inline-block';
-    		kontener.childNodes[i].style.width = '98px';
+    	for(var i = 1; i < kontener.children.length; i++) {
+    		kontener.children[i].style.display = 'inline-block';
+    		kontener.children[i].style.width = '98px';
     	}
     	kontener.onmouseleave = ukryjNiewidocznePrzyciski;
     	kontener.zIndex = 1001;
@@ -259,7 +270,7 @@ function loadHtmlIntoIframe(id, location) {
 	function ukryjNiewidocznePrzyciski() {
 		var kontener = document.getElementById('extendedMenuDiv');
 		kontener.style.height = '40px';
-    	for(var i = 2; i < kontener.childNodes.length; i++) {
-    		kontener.childNodes[i].style.display = 'none';
+    	for(var i = 1; i < kontener.children.length; i++) {
+    		kontener.children[i].style.display = 'none';
     	}
 	}

@@ -66,7 +66,73 @@
 		&lt;/filter-mapping&gt;	
 	</div>
 	
-	<h2>Własny formularz logowania</h2>
+	<p>W przypadku gdy konfigurujemy Springa adnotacjami to należy utworzyć klasę konfiguracyjną dla <code>Spring Security</code>.
+	Klasę tą umieszczamy w pakiecie wraz z pozostałą konfiguracją. Klasę nazywamy na przykład <span class="clickDiv">WebSecurityConfig.java</span>.
+	Jej zawartość jest przedstawiona na listingu poniżej:</p>
+
+	<div class="codeDiv">
+		@EnableWebSecurity<br>
+		public class WebSecurityConfig extends WebSecurityConfigurerAdapter {<br>
+		<br>
+		  &nbsp;@Autowired<br>
+		  &nbsp;private DataSource dataSource;<br>
+		<br>
+		  &nbsp;@Override<br>
+		  &nbsp;protected void configure(AuthenticationManagerBuilder auth) throws Exception {<br>
+		    &nbsp;&nbsp;auth.jdbcAuthentication().dataSource(dataSource)<br>
+		        &nbsp;&nbsp;&nbsp;.usersByUsernameQuery("select username, password, enabled"<br>
+		           &nbsp;&nbsp;&nbsp;&nbsp;+ " from users where username=?")<br>
+		        &nbsp;&nbsp;&nbsp;.authoritiesByUsernameQuery("select username, authority "<br>
+		            &nbsp;&nbsp;&nbsp;&nbsp;+ "from authorities where username=?")<br>
+		       &nbsp;&nbsp;&nbsp;.passwordEncoder(new BCryptPasswordEncoder());<br>
+		  &nbsp;}<br>
+		<br>
+		 &nbsp; @Override<br>
+		  &nbsp;protected void configure(HttpSecurity http) throws Exception {<br>
+				&nbsp;&nbsp;http<br>
+					&nbsp;&nbsp;&nbsp;.authorizeRequests()<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;.anyRequest().authenticated()<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;.and()<br>
+					&nbsp;&nbsp;&nbsp;.formLogin()<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;.loginPage("/login")<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;.permitAll()<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;.and()<br>
+					&nbsp;&nbsp;&nbsp;.logout()<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;.logoutUrl("/");<br>
+			&nbsp;}<br>
+		<br>
+		 }
+	</div>
+	
+	<p>Aby powyższa konfiguracja została wczytana to należy dodać ją w metodzie <code>getServletConfigClasses()</code>
+	klasy <span class="clickDiv">MyDispatcherServlet.java</span></p>
+	
+	<p>Wczytanie powyższej konfiguracji jeszcze niczym nie skutkuje. Aby włączyć Spring Security to należy utworzyć jeszcze jedną klasę
+	która dziedziczy po <code>AbstractSecurityWebApplicationInitializer</code>:</p>
+	
+	<div class="codeDiv">
+		public class SecurityWebApplicationInitializer extends AbstractSecurityWebApplicationInitializer {<br>
+		    &nbsp;@Override<br>
+		   &nbsp; protected void beforeSpringSecurityFilterChain(ServletContext servletContext) {<br>
+		        &nbsp;&nbsp;super.beforeSpringSecurityFilterChain(servletContext);<br>
+		 <br>
+		        &nbsp;&nbsp;FilterRegistration.Dynamic characterEncodingFilter;<br>
+		        &nbsp;&nbsp;characterEncodingFilter = servletContext.addFilter("encodingFilter",<br>
+		                &nbsp;&nbsp;&nbsp;new CharacterEncodingFilter());<br>
+		        &nbsp;&nbsp;characterEncodingFilter.setInitParameter("encoding", "UTF-8");<br>
+		        &nbsp;&nbsp;characterEncodingFilter.setInitParameter("forceEncoding", "true");<br>
+		        &nbsp;&nbsp;characterEncodingFilter.addMappingForUrlPatterns(null, false, "/*");<br>
+		    &nbsp;}<br>
+		}	
+	</div>
+	
+	<p>Umieszczenie tej klasy w pakiecie z pozostałymi klasami konfiguracyjnymi włączy już Spring Security. Dodatkowo
+	w klasie <span class="clickDiv">SecurityWebApplicationInitializer.java</span> zostało skonfigurowane kodowanie, a w klasie
+	<span class="clickDiv">WebSecurityConfig.java</span> zostało skonfigurowane logowanie przy użyciu bazy danych oraz
+	został skonfigurowany swój formularz logowania. Dla konfiguracji XML pokazano ustawienie własnego formularza
+	logowania i logowania przy użyciu bazy danych poniżej.</p>
+	
+	<h2>Własny formularz logowania - konfiguracja XML</h2>
 	
 	<p>Jeżeli chcemy skorzystać z własnego formularza logowania to musimy dokonać nieco zmian w konfiguracji ustawień Spring Security.
 	Zatem modyfikujemy wcześniej utworzony plik <code>security-context.xml</code> w następujący sposób:</p>
@@ -143,7 +209,7 @@
 		&lt;/html&gt;
 	</div>
 	
-	<h2>Logowanie z wykorzystaniem bazy danych</h2>
+	<h2>Logowanie z wykorzystaniem bazy danych - konfiguracja XML</h2>
 
 	<p>Aby móc wykorzystać możliwość logowania się do aplikacji przy użyciu zapisanych loginów i haseł w bazie danych należy wykonać
 	kilka kolejnych zmian. Po pierwsze w bazie danych muszą się znaleźć odpowiednie tabele, które Spring Security będzie przeszukiwał

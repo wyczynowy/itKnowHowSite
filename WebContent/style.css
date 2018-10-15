@@ -1,3 +1,36 @@
+.tabbed1 {
+	padding-left: 2em;
+}
+
+.tabbed2 {
+	padding-left: 4em;
+}
+
+.tabbed3 {
+	padding-left: 6em;
+}
+
+.tabbed4 {
+	padding-left: 8em;
+}
+
+.tabbed5 {
+	padding-left: 10em;
+}
+
+.tabbed6 {
+	padding-left: 12em;
+}
+
+.tabbed7 {
+	padding-left: 14em;
+}
+
+.tabbed8 {
+	padding-left: 16em;
+}
+
+
 .menuButton {
 	background-color: #990000;
 	border: 0;

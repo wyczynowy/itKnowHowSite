@@ -10,12 +10,33 @@
 		&lt;mvc:resources mapping="/resources/**" location="/resources/" /&gt;
 	</div>
 	
+	<p>w przypadku kiedy korzystamy z adnotacji do konfiguracji Springa to należy w klasie konfiguracyjnej Springa
+	<span class="clickDiv">WebConfig.java</span> nadpisać metodę:</p>
+	
+	<div class="codeDiv">
+		@Override<br>
+		public void addResourceHandlers(ResourceHandlerRegistry registry) {<br>
+			&nbsp;registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");<br>
+		}	
+	</div>
+	
 	<p>Pliki należy umieszczać w katalogu <code>resources</code> w katalogu <code>webapp</code></p>
 	
 	<p>Do zasobów należy się odwoływać w sposóbnastępujący w plikach jsp:</p>
 	
 	<div class="codeDiv">
 		&lt;img src="${pageContext.request.contextPath}/resources/grafiki/wymiary.jpg"/&gt;
+	</div>
+
+	<p>Aby korzystać z elementu <code>pageContext</code> należy dodać zależność do projektu <span class="clickDiv">jsp-api</span>:</p>
+	
+	<div class="codeDiv">
+		&lt;dependency&gt;<br>
+			&nbsp;&lt;groupId&gt;javax.servlet&lt;/groupId&gt;<br>
+			&nbsp;&lt;artifactId&gt;jsp-api&lt;/artifactId&gt;<br>
+			&nbsp;&lt;version&gt;2.0&lt;/version&gt;<br>
+			&nbsp;&lt;scope&gt;provided&lt;/scope&gt;<br>
+		&lt;/dependency&gt;	
 	</div>
 
 </div>
