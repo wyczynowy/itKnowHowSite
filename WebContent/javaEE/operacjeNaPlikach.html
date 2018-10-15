@@ -1,0 +1,83 @@
+<h1>Operacje na plikach</h1>
+<div class="contentDiv">
+
+	<h3>Dostęp do plików w folderze w którym znajduje się program:</h3>
+	
+	<div class="codeDiv">
+		public class Main {<br>
+		<br>
+		<span class='tabbed1'>public static void main(String[] args) {</span><br>
+		<br>
+		<span class='tabbed2'>File folder = new File("./");</span><br>
+		<span class='tabbed2'>File[] listOfFiles = folder.listFiles();</span><br>
+		<br>
+		<span class='tabbed2'>for (File file : listOfFiles) {</span><br>
+		<span class='tabbed3'>System.out.println("Nazwa pliku: " + file.getName());</span><br>
+		<span class='tabbed3'>System.out.println("Ścieżka absolutna: " + file.getAbsolutePath());</span><br>
+		<span class='tabbed2'>}</span><br>
+		<span class='tabbed1'>}</span><br>
+		}<br>
+	</div>
+	
+	<h3>Odczyt danych z pliku:</h3>
+	
+	<div class="codeDiv">
+		public class Main {<br>
+		<br>
+		<span class='tabbed1'>public static void main(String[] args) {</span><br>
+		<br>
+		<span class='tabbed2'>BufferedReader bufferedReader = null;</span><br>
+		<span class='tabbed2'></span><br>
+		<span class='tabbed2'>try {</span><br>
+		<span class='tabbed3'>bufferedReader = new BufferedReader(new FileReader("C:\\exampleFolder\\exampl</span><br>
+		<span class='tabbed4'>eFile.txt"));</span><br>
+		<span class='tabbed3'>String readedLine = "";</span><br>
+		<span class='tabbed3'>while((readedLine = bufferedReader.readLine()) != null) {</span><br>
+		<span class='tabbed4'>System.out.println(readedLine);</span><br>
+		<span class='tabbed3'>}</span><br>
+		<span class='tabbed2'>} catch (Exception e) {</span><br>
+		<span class='tabbed3'>e.printStackTrace();</span><br>
+		<span class='tabbed2'>} finally {</span><br>
+		<span class='tabbed3'>if (bufferedReader != null) {</span><br>
+		<span class='tabbed4'>try {</span><br>
+		<span class='tabbed5'>bufferedReader.close();</span><br>
+		<span class='tabbed4'>} catch (IOException e) {</span><br>
+		<span class='tabbed5'>e.printStackTrace();</span><br>
+		<span class='tabbed4'>}</span><br>
+		<span class='tabbed3'>}</span><br>
+		<span class='tabbed2'>}</span><br>
+		<span class='tabbed1'>}</span><br>
+		}<br>	
+	</div>
+	
+	<h3>Zapis danych do pliku:</h3>
+	
+	<div class="codeDiv">
+		public class Main {<br>
+		<br>
+		<span class='tabbed1'>public static void main(String[] args) {</span><br>
+		<br>
+		<span class='tabbed2'>BufferedWriter bufferedWriter = null;</span><br>
+		<span class='tabbed2'></span><br>
+		<span class='tabbed2'>try {</span><br>
+		<span class='tabbed3'>bufferedWriter = new BufferedWriter(new FileWriter("C:\\exampleFolder\\exampl</span><br>
+		<span class='tabbed4'>eFile.txt"));</span><br>
+		<span class='tabbed3'>bufferedWriter.write("Linia pierwsza \r\n");</span><br>
+		<span class='tabbed3'>bufferedWriter.write("Linia druga \r\n");</span><br>
+		<span class='tabbed3'>bufferedWriter.write("Linia trzecia \r\n");</span><br>
+		<span class='tabbed2'>} catch (Exception e) {</span><br>
+		<span class='tabbed3'>e.printStackTrace();</span><br>
+		<span class='tabbed2'>} finally {</span><br>
+		<span class='tabbed3'>if (bufferedWriter != null) {</span><br>
+		<span class='tabbed4'>try {</span><br>
+		<span class='tabbed5'>bufferedWriter.close();</span><br>
+		<span class='tabbed4'>} catch (IOException e) {</span><br>
+		<span class='tabbed5'>e.printStackTrace();</span><br>
+		<span class='tabbed4'>}</span><br>
+		<span class='tabbed3'>}</span><br>
+		<span class='tabbed2'>}</span><br>
+		<span class='tabbed1'>}</span><br>
+		}<br>	
+	</div>
+
+</div>

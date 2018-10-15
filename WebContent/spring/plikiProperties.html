@@ -1,0 +1,34 @@
+<h1>Pliki Properties</h1>
+<div class="contentDiv">
+	<p>Aby móc skorzystać z plików properties w klasach Javy Springa należy skorzystać z adnotacji
+	<span class="clickDiv">@PropertySource</span>, którą umieszczamy nad deklaracją klasy, jak pokazano to poniżej:</p>
+	
+	<div class="codeDiv">
+		@Configuration<br>
+		@ComponentScan(basePackages = {"com.electroline.myapp"})<br>
+		@PropertySource("classpath:META-INF/spring/database.properties")<br>
+		@PropertySource("classpath:META-INF/spring/fileLogger.properties")<br>
+		@EnableWebMvc<br>
+		public class WebConfig implements WebMvcConfigurer{<br>
+		<br>	
+		    &nbsp;@Value("${database.driverClassName}")<br>
+		    &nbsp;protected String driverClassName;<br>
+		    &nbsp;@Value("${database.url}")<br>
+		    &nbsp;protected String url;<br>
+		    &nbsp;@Value("${database.username}")<br>
+		    &nbsp;protected String username;<br>
+		    &nbsp;@Value("${database.password}")<br>
+		    &nbsp;protected String password;<br>
+		<br>
+		    &nbsp;@Value("${fileLogger.logFolderUrl}")<br>
+		    &nbsp;private String logFolderUrl;<br>
+		<br>    
+		    &nbsp;...<br>
+		<br>    
+		}	
+	</div>
+	
+	<p>Pliki <span class="clickDiv">properties</span> muszą się znajdować w lokalizacji <code>classpath</code>, na
+	przykład w folderze <span class="clickDiv">src/main/resources</span></p>
+		
+</div>
