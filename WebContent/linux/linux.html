@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="Stylesheet" type="text/css" href="../style.css">
-	<title>HTML</title>
+	<title>LINUX</title>
 	<link rel="Shortcut icon" href="../Koala.ico" />
   	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
   	<script src="../scripts/jquery.js"></script>
@@ -16,9 +16,9 @@
 	// Funkcja ustawiajaca podswietlenie pierwszego przycisku subMenu
 	runFunctionAfterPageLoad(function(){setActiveSubButton(document.getElementsByClassName('subMenuButton')[0]);});
 	// Funkcja laduje zawartosc pliku .html do elementu #contentDiv
-	runFunctionAfterPageLoad(function() {$('#contentDiv').load('../html/zawartoscStrony.html')});
+	runFunctionAfterPageLoad(function() {$('#contentDiv').load('../linux/poleceniaZKonsoli.html')});
 	// Funkcja laduje menu i podswietla wybrany przycisk menu
-	 zaladujMenuIPodswietlPrzycisk('menu','HTML');
+	 zaladujMenuIPodswietlPrzycisk('menu','LINUX');
 	// Funckje związane ze mianami rozmiaru okna przeglądarki
 	window.onresize = onResizeWindow;
 </script>
@@ -32,14 +32,11 @@
 	<div class="content">
 		<div class="content-left">
 			<div class="zasoby">
-				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('zawartoscStrony.html'); setActiveSubButton(this);">Zawartość strony</button>
-				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('deklaracjaTypuDokumentu.html'); setActiveSubButton(this);">Deklaracja dokumentu</button>
-				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('kodowanie.html'); setActiveSubButton(this);">Kodowanie</button>
-				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('tytulStrony.html'); setActiveSubButton(this);">Tytuł strony</button>								
-				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('obrazekZakladki.html'); setActiveSubButton(this);">Obrazek zakładki</button>
-				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('arkuszeStylow.html'); setActiveSubButton(this);">Arkusze stylów CSS</button>
-				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('javascript.html'); setActiveSubButton(this);">Javascript</button>
-				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('przekierowanieNaInnaStrone.html'); setActiveButton(this);">Przekierowanie na inną stronę</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('poleceniaZKonsoli.html'); setActiveSubButton(this);">Polecenia z konsoli</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('instalacjaTomcat.html'); setActiveSubButton(this);">Instalacja Tomcat</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('instalacjaSerweraFtp.html'); setActiveSubButton(this);">Instalacja FTP</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('lokalizacje.html'); setActiveSubButton(this);">Lokalizacje</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('mySQL.html'); setActiveSubButton(this);">mySQL</button>
 			</div>
 		</div>
 		

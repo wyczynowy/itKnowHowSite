@@ -1,0 +1,90 @@
+<h1>Wysyłanie maili</h1>
+<div class="contentDiv">
+
+	<h3>Wysyłanie maili za pomocą <code>javax.mail</code>:</h3>
+	<a href="https://mvnrepository.com/artifact/com.sun.mail/javax.mail">Pobierz Jar</a>
+	
+	<div class="codeDiv">
+		package pl.softService.app;<br>
+		<br>
+		import java.util.Properties;<br>
+		<br>
+		import javax.mail.Message;<br>
+		import javax.mail.MessagingException;<br>
+		import javax.mail.Session;<br>
+		import javax.mail.Transport;<br>
+		import javax.mail.internet.InternetAddress;<br>
+		import javax.mail.internet.MimeMessage;<br>
+		<br>
+		public class MailSender {<br>
+		<span class='tabbed1'></span><br>
+		<span class='tabbed1'>private String host;</span><br>
+		<span class='tabbed1'>private int port;</span><br>
+		<span class='tabbed1'>private String from;</span><br>
+		<span class='tabbed1'>private String to;</span><br>
+		<span class='tabbed1'>private String password;</span><br>
+		<span class='tabbed1'>private String subject;</span><br>
+		<span class='tabbed1'>private String content;</span><br>
+		<span class='tabbed1'></span><br>
+		<span class='tabbed1'>/**</span><br>
+		<span class='tabbed1'> * @param host - nazwa hosta (np. dla gmail: smtp.gmail.com)</span><br>
+		<span class='tabbed1'> * 							 (np. dla nazwa.pl: domena.nazwa.pl)</span><br>
+		<span class='tabbed1'> * @param port - port (np. dla gmail: 465)</span><br>
+		<span class='tabbed1'> * 					  (np. dla nazwa.pl: 465)</span><br>
+		<span class='tabbed1'> * @param from - adres mailowy nadawcy</span><br>
+		<span class='tabbed1'> * 				 (np. dla nazwa.pl: poczta@domena.nazwa.pl)</span><br>
+		<span class='tabbed1'> * @param to - adres mailowy odbiorcy</span><br>
+		<span class='tabbed1'> * @param password - haslo do konta pocztowego</span><br>
+		<span class='tabbed1'> * @param subject - temat wiadomosci</span><br>
+		<span class='tabbed1'> * @param content - tresc wiadomosci</span><br>
+		<span class='tabbed1'> */</span><br>
+		<span class='tabbed1'>public MailSender(String host, int port, String from, String to, String passwor</span><br>
+		<span class='tabbed2'>d, String subject, String content) {</span><br>
+		<span class='tabbed2'>this.host = host;</span><br>
+		<span class='tabbed2'>this.port = port;</span><br>
+		<span class='tabbed2'>this.from = from;</span><br>
+		<span class='tabbed2'>this.to = to;</span><br>
+		<span class='tabbed2'>this.password = password;</span><br>
+		<span class='tabbed2'>this.subject = subject;</span><br>
+		<span class='tabbed2'>this.content = content;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<span class='tabbed1'></span><br>
+		<span class='tabbed1'>/**</span><br>
+		<span class='tabbed1'> * Wysyla maila</span><br>
+		<span class='tabbed1'> */</span><br>
+		<span class='tabbed1'>public void send() throws MessagingException {</span><br>
+		<br>
+		<span class='tabbed2'>Properties props = new Properties();</span><br>
+		<span class='tabbed2'>props.put("mail.transport.protocol", "smtps");</span><br>
+		<span class='tabbed2'>props.put("mail.smtps.auth", "true");</span><br>
+		<br>
+		<span class='tabbed2'>// Inicjalizacja sesji</span><br>
+		<span class='tabbed2'>Session mailSession = Session.getDefaultInstance(props);</span><br>
+		<br>
+		<span class='tabbed2'>// ustawienie debagowania, jeśli nie chcesz oglądać logów to usuń</span><br>
+		<span class='tabbed2'>// linijkę poniżej lub zmień wartość na false</span><br>
+		<span class='tabbed2'>mailSession.setDebug(true);</span><br>
+		<br>
+		<span class='tabbed2'>// Tworzenie wiadomości email</span><br>
+		<span class='tabbed2'>MimeMessage message = new MimeMessage(mailSession);</span><br>
+		<span class='tabbed2'>message.setSubject(subject);</span><br>
+		<span class='tabbed2'>message.setContent(content, "text/plain; charset=ISO-8859-2");</span><br>
+		<span class='tabbed2'>message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));</span><br>
+		<span class='tabbed2'>message.setFrom(from);</span><br>
+		<br>
+		<span class='tabbed2'>Transport transport = mailSession.getTransport();</span><br>
+		<span class='tabbed2'>transport.connect(host, port, from, password);</span><br>
+		<br>
+		<span class='tabbed2'>// wysłanie wiadomości</span><br>
+		<span class='tabbed2'>transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO)</span><br>
+		<span class='tabbed3'>);</span><br>
+		<span class='tabbed2'>transport.close();</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		}<br>
+	</div>
+	
+	<p>W przypadku poczty na Gmail'u musimy zmniejszyć poziom bezpieczeństwa aby umożliwić aplikacji logowanie się. Należy to zrobić
+		<a href="https://myaccount.google.com/lesssecureapps?pli=1">tutaj</a> po zalogowaniu się do Gmail'a</p>
+	
+</div>

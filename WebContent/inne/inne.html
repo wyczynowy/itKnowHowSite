@@ -16,9 +16,9 @@
 	// Funkcja ustawiajaca podswietlenie pierwszego przycisku subMenu
 	runFunctionAfterPageLoad(function(){setActiveSubButton(document.getElementsByClassName('subMenuButton')[0]);});
 	// Funkcja laduje zawartosc pliku .html do elementu #contentDiv
-//	runFunctionAfterPageLoad(function() {$('#contentDiv').load('../html/zawartoscStrony.html')});
+	runFunctionAfterPageLoad(function() {$('#contentDiv').load('../inne/doPobrania.html')});
 	// Funkcja laduje menu i podswietla wybrany przycisk menu
-	zaladujMenuIPodswietlPrzycisk('menu','ORACLE');
+	zaladujMenuIPodswietlPrzycisk('menu','INNE');
 	// Funckje związane ze mianami rozmiaru okna przeglądarki
 	window.onresize = onResizeWindow;
 </script>
@@ -32,8 +32,7 @@
 	<div class="content">
 		<div class="content-left">
 			<div class="zasoby">
-				<button type="button" class="subMenuButton" onclick="loadHtmlIntoIframe('iframe','html/zawartoscStrony.html'); setActiveSubButton(this);">SQL Developer</button>
-				<button type="button" class="subMenuButton" onclick="loadHtmlIntoIframe('iframe','html/kodowanie.html'); setActiveSubButton(this);">Select</button>
+				<button type="button" class="subMenuButton" onclick="loadHtmlIntoIframe('iframe','html/zawartoscStrony.html'); setActiveSubButton(this);">Do pobrania</button>
 			</div>
 		</div>
 		
