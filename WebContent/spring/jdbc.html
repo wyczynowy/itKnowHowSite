@@ -30,7 +30,7 @@
 	<div class="codeDiv">
 		&lt;bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"&gt;<br>
 		&nbsp;&lt;property name="driverClassName" value="com.mysql.jdbc.Driver" /&gt;<br>
-		&nbsp;&lt;property name="url" value="jdbc:mysql://localhost:3306/nazwaBazyDanych" /&gt;<br>
+		&nbsp;&lt;property name="url" value="jdbc:mysql://localhost:3306/nazwaBazyDanych?useUnicode=yes&amp;characterEncoding=utf8" /&gt;<br>
 		&nbsp;&lt;property name="username" value="login" /&gt;<br>
 		&nbsp;&lt;property name="password" value="hasło" /&gt;<br>
 	&lt;/bean&gt;
@@ -174,7 +174,7 @@
 		<br>
 		Properties additionalProperties() {<br>
 			&nbsp;Properties properties = new Properties();<br>
-			&nbsp;properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");<br>
+			&nbsp;/* properties.setProperty("hibernate.hbm2ddl.auto", "create-drop"); */&nbsp;// nie używać na produkcji<br>
 			&nbsp;properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");<br>
 		<br>
 			&nbsp;return properties;<br>
@@ -200,8 +200,11 @@
 		        &nbsp;&nbsp;<code>create-drop</code> — podobnie jak create tworzy schemat i strukturę usuwając istniejące dane, ale przy zamykaniu aplikacji automatycznie usuwa całą zawartość używanej bazy danych	
 	</p>
 
-	<p>Mając już poprawnie skonfigurowaną i przygotowaną aplikację można wstrzyknąć do klasy w której będziemy potrzebować dostępu do bazy danych
-	EntityManagera i wykonywać operację przy jego użyciu, jak pokazano to poniżej:</p>
+	<p>Do poprawnego skonfigurowania brakuje jeszcze tylko umieszczenia adnotacji <code>@EnableTransactionManagement</code> nad nazwą klasy
+		konfigurującej <span class="important">WebConfig</span>, która jest odpowiednikiem XML'owego elementu
+		<code>&lt;tx:annotation-driven/&gt;</code>. Mając już poprawnie skonfigurowaną i przygotowaną aplikację można
+		wstrzyknąć do klasy w której będziemy potrzebować dostępu do bazy danych EntityManagera i wykonywać operację
+		przy jego użyciu, jak pokazano to poniżej:</p>
 	
 	<div class="codeDiv">
 		@Controller<br>
@@ -237,5 +240,13 @@
 	
 	<p><span class="important">UWAGA: </span>Jeżeli będą występować problemy z uruchomieniem się aplikacji na serwerze, to należy spróbować
 	usunąć wszystkie repozytoria z katalogu <code>.m2</code> i pobrać je ponownie. Powinno pomóć.</p>
+	
+	<h3>Rollback</h3>
+	<p>W przypadku gdy korzystamy z <code>EntityManagera</code> w sposób opisany powyżej, czyli naszymi tranzakcjami zarządza kontener, to aby
+	zrobić <span class="important">Rollback</span> to należy to zrobić w sposób następujący:</p>
+	
+	<div class="codeDiv">
+		TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+	</div>
 
 </div>

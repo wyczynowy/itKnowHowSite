@@ -1,0 +1,19 @@
+<h1>Wyrażenia języka EL</h1>
+<div class="contentDiv">
+
+	<h3>Wyświetlenie parametrów żądania na stronie JSP</h3>
+	
+	<p>
+		<code>${parametr}</code> - dostęp do parametru umieszczonego w modelu, np: <code>model.addAttribute("nazwaParametru",parametr);</code><br>
+		<code>${param.parametr}</code> - dostęp do parametru znajdującego się w żądaniu GET lub POST<br> 
+		<code>${paramValues.parametr[0]}</code> - dostęp do parametru znajdującego się w żądaniu GET lub POST<br>
+	</p>
+
+	<p>Iteracja po mapie parametrów:</p>
+	<div class="codeDiv">
+		&lt;c:forEach var="par" items="${paramValues}"&gt;<br>
+				&nbsp;${par.key} = ${par.value[0]}<br>
+		&lt;/c:forEach&gt;	
+	</div>
+	
+</div>

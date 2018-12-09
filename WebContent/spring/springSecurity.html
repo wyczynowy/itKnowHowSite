@@ -74,35 +74,71 @@
 		@EnableWebSecurity<br>
 		public class WebSecurityConfig extends WebSecurityConfigurerAdapter {<br>
 		<br>
-		  &nbsp;@Autowired<br>
-		  &nbsp;private DataSource dataSource;<br>
+		<span class='tabbed1'>@Autowired</span><br>
+		<span class='tabbed1'>private DataSource dataSource;</span><br>
 		<br>
-		  &nbsp;@Override<br>
-		  &nbsp;protected void configure(AuthenticationManagerBuilder auth) throws Exception {<br>
-		    &nbsp;&nbsp;auth.jdbcAuthentication().dataSource(dataSource)<br>
-		        &nbsp;&nbsp;&nbsp;.usersByUsernameQuery("select username, password, enabled"<br>
-		           &nbsp;&nbsp;&nbsp;&nbsp;+ " from users where username=?")<br>
-		        &nbsp;&nbsp;&nbsp;.authoritiesByUsernameQuery("select username, authority "<br>
-		            &nbsp;&nbsp;&nbsp;&nbsp;+ "from authorities where username=?")<br>
-		       &nbsp;&nbsp;&nbsp;.passwordEncoder(new BCryptPasswordEncoder());<br>
-		  &nbsp;}<br>
+		<span class='tabbed1'>@Override</span><br>
+		<span class='tabbed1'>protected void configure(AuthenticationManagerBuilder auth) throws Exception {</span><br>
+		<span class='tabbed2'>auth.jdbcAuthentication().dataSource(dataSource)</span><br>
+		<span class='tabbed4'>.usersByUsernameQuery("select username, password, enabled"</span><br>
+		<span class='tabbed6'>+ " from users where username=?")</span><br>
+		<span class='tabbed4'>.authoritiesByUsernameQuery("select username, authority "</span><br>
+		<span class='tabbed6'>+ "from authorities where username=?")</span><br>
+		<span class='tabbed4'>.passwordEncoder(new BCryptPasswordEncoder());</span><br>
+		<span class='tabbed1'>}</span><br>
 		<br>
-		 &nbsp; @Override<br>
-		  &nbsp;protected void configure(HttpSecurity http) throws Exception {<br>
-				&nbsp;&nbsp;http<br>
-					&nbsp;&nbsp;&nbsp;.authorizeRequests()<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;.anyRequest().authenticated()<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;.and()<br>
-					&nbsp;&nbsp;&nbsp;.formLogin()<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;.loginPage("/login")<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;.permitAll()<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;.and()<br>
-					&nbsp;&nbsp;&nbsp;.logout()<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;.logoutUrl("/");<br>
-			&nbsp;}<br>
+		<span class='tabbed1'>@Override</span><br>
+		<span class='tabbed1'>protected void configure(HttpSecurity http) throws Exception {</span><br>
+		<span class='tabbed2'>http</span><br>
+		<span class='tabbed4'>.authorizeRequests()</span><br>
+		<span class='tabbed4'>.antMatchers("/signin/**").anonymous()</span><br>
+		<span class='tabbed4'>.antMatchers("/kalkulator/pobierzKalkulator").permitAll()</span><br>
+		<span class='tabbed4'>.antMatchers("/signin/potwierdzAdresMailowy").permitAll()</span><br>
+		<span class='tabbed4'>.antMatchers("/resources/**").permitAll()</span><br>
+		<span class='tabbed4'>.antMatchers("/login*").permitAll()</span><br>
+		<span class='tabbed4'>.anyRequest().authenticated()</span><br>
+		<span class='tabbed4'>.and()</span><br>
+		<span class='tabbed4'>.formLogin()</span><br>
+		<span class='tabbed4'>.loginPage("/login")</span><br>
+		<span class='tabbed4'>.defaultSuccessUrl("/kalkulator/menuUzytkownika", true)</span><br>
+		<span class='tabbed4'>.failureForwardUrl("/login?error=true")</span><br>
+		<span class='tabbed4'>.permitAll()</span><br>
+		<span class='tabbed4'>.and()</span><br>
+		<span class='tabbed4'>.logout()</span><br>
+		<span class='tabbed4'>.logoutSuccessUrl("/login?logout=successfull")</span><br>
+		<span class='tabbed4'>.deleteCookies("JSESSIONID")</span><br>
+		<span class='tabbed4'>.invalidateHttpSession(false)</span><br>
+		<span class='tabbed4'>.permitAll()</span><br>
+		<span class='tabbed4'>.and()</span><br>
+		<span class='tabbed4'>.sessionManagement()</span><br>
+		<span class='tabbed4'>.invalidSessionUrl("/login?logout=successfull")</span><br>
+		<span class='tabbed4'>.sessionFixation().newSession();</span><br>
+		<span class='tabbed1'>}</span><br>
 		<br>
-		 }
+		}<br>
 	</div>
+	
+	<p>
+	&nbsp;&nbsp;&nbsp;* <code>.failureForwardUrl("/login?error=true")</code> - Przechodzi pod ten URL w chwili niepoprawnej autentykacji (logowania)<br>
+	&nbsp;&nbsp;&nbsp;* <code>.logoutSuccessUrl("/login?logout=successfull")</code> - Przechodzi pod ten URL w chwili poprawnego wylogowania z aplikacji<br>
+	&nbsp;&nbsp;&nbsp;* <code>.invalidateHttpSession(false)</code> - Ustawienie wartosci false sprawia, ze podczas wylogowania Spring przechodzi
+												 bezposrednio pod wskazany adres w logoutSuccessUrl() a nie pod ten i na koncu
+												 adres wskazany w loginPage(). Dokładnie chodzi o to, że gdy sesja jest
+												 unieważniana to Spring najpierw przechodzi pod URL wskazany w
+												 logoutSuccessUrl() a poznij pod URL wskazany w loginPage(), co moze sprawiac
+												 problemy w przypadku przekazywania parametrow bezposrednio do strony spod
+												 wskazanego URL<br>
+	&nbsp;&nbsp;&nbsp;* <code>.invalidSessionUrl("/login?logout=sessionExpired")</code> - URL dla wygasnietej/nieprawidlowej sesji. Aby Spring przeszedl TYLKO pod ten
+																	 url a nie URL wskazany w loginPage() to nalezy skonfigurowac URL "/login"
+																	 jako dostepny dla wszystkich czyli .antMatchers("/login*").permitAll(), co
+																	 moze sprawiac problemy w przypadku przekazywania parametrow bezposrednio do
+																	 strony spod wskazanego URL<br>
+	&nbsp;&nbsp;&nbsp;* <code>.sessionFixation().newSession()</code> - To ustawienie powoduje, że sesja nie jest migrowana, czyli wylogowanie i
+													ponowne zalogowanie się do aplikacji tworzy nową sesję ale nie migruje
+													atrybutów ze starej sesji do nowej. Metoda migrateSession() powoduje
+													przeniesienie atrybutów ze starej sesji do nowej sesji po ponownym
+													zalogowaniu się bez wylogowywania z aplikacji.<br>
+	</p>
 	
 	<p>Aby powyższa konfiguracja została wczytana to należy dodać ją w metodzie <code>getServletConfigClasses()</code>
 	klasy <span class="clickDiv">MyDispatcherServlet.java</span></p>
@@ -131,6 +167,26 @@
 	<span class="clickDiv">WebSecurityConfig.java</span> zostało skonfigurowane logowanie przy użyciu bazy danych oraz
 	został skonfigurowany swój formularz logowania. Dla konfiguracji XML pokazano ustawienie własnego formularza
 	logowania i logowania przy użyciu bazy danych poniżej.</p>
+	
+	<p>Po powyższej konfiguracji uwierzytelniania, logowania i wylogowywania należy obsłużyć żądania logowania i wylogowania,
+		robimy to np. w sposób następujący:</p>
+		
+	<div class="codeDiv">
+		@Controller<br>
+		public class Logowanie {<br>
+		<br>
+		<span class='tabbed1'>@RequestMapping("/login")</span><br>
+		<span class='tabbed1'>public String zaloguj(HttpServletRequest request, HttpServletResponse response)</span><br>
+		<span class='tabbed2'>return "login";</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>@RequestMapping("/")</span><br>
+		<span class='tabbed1'>public String home(HttpServletRequest request, HttpServletResponse response) {</span><br>
+		<span class='tabbed2'>return "login";</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		}<br>	
+	</div>
 	
 	<h2>Własny formularz logowania - konfiguracja XML</h2>
 	
