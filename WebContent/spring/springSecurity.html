@@ -116,6 +116,11 @@
 		<span class='tabbed1'>}</span><br>
 		<br>
 		}<br>
+		<br>
+		<span class='tabbed1'>@Override</span><br>
+		<span class='tabbed1'>public void configure(WebSecurity web) throws Exception {</span><br>
+		<span class='tabbed2'>web.ignoring().antMatchers("/kalkulator/pobierzKalkulator","/resources/**");</span><br>
+		<span class='tabbed1'>}</span><br>
 	</div>
 	
 	<p>
@@ -138,6 +143,9 @@
 													atrybutów ze starej sesji do nowej. Metoda migrateSession() powoduje
 													przeniesienie atrybutów ze starej sesji do nowej sesji po ponownym
 													zalogowaniu się bez wylogowywania z aplikacji.<br>
+	&nbsp;&nbsp;&nbsp;* <code>web.ignoring().antMatchers("/URL", "/URL2")</code> - Wykluczenie bezpieczeństwa dla podanych adresów. Należy zastasować takie rozwiązanie
+													aby dla stron o dostępie dla użytkowników z rolą "anonymous" po wygaśnięcu sesji użytkownik nie zostawał przekierowywany
+													na stronę logowania<br>
 	</p>
 	
 	<p>Aby powyższa konfiguracja została wczytana to należy dodać ją w metodzie <code>getServletConfigClasses()</code>
