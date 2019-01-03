@@ -1,14 +1,59 @@
 <h1>Wstrzykiwanie zaleznosci</h1>
 <div class="contentDiv">
 	
-	<p>Do wstrzykiwania zależności w Springu używamy adnotacji <code>@Autowired</code>. Wstrzykiwanie zależności polega na tym, 
+	<p>Do automatycznego wstrzykiwania zależności w Springu używamy adnotacji <code>@Autowired</code>. Wstrzykiwanie zależności polega na tym, 
 	że ‘mówimy’ Springowi o tym, jakich zależności nasz bean (to ważne, ponieważ wstrzykiwania zależności możemy dokonywać 
-	tylko i wyłącznie w obiektach, którymi zarządza Spring) potrzebuje, a Spring sam zadba, aby te zależności rozwiązać 
+	tylko i wyłącznie w komponentach, którymi zarządza Spring) potrzebuje, a Spring sam zadba, aby te zależności rozwiązać 
 	(tzw. dependency resolution — po prostu wstawienie odpowiedniego innego beana (to także bardzo ważne — 
 	wstrzykiwane mogą być tylko zależności zarządzane przez Springa) w to pole klasy). 
 	Mechanizm ten jest bardzo elastyczny (możemy np. za każdym razem wstawiać nowy obiekt danego typu albo wszędzie 
 	używać jednej instancji tego samego obiektu — to jest domyślne zachowanie</p>
 	
+	<p>Adnotując pole klasy przy użyciu adnotacji <code>@Autowired</code> mówimy aby w to pole Spring wstrzyknął jakąś zależność.
+		Nie określając dodatkowych parametrów wiązania Spring szuka w kontenerze zależności danego typu. Jest to wiązanie po typie zależności.
+		np: </p>
 	
+	<div class="codeDiv">
+		@Autowired<br>
+		private MessageProvider messageProvider;	
+	</div>
+	
+	<p>W powyższym przykładzie Spring szuka w kontenerze zależności typu <code>MessageProvider</code> i wstrzykuje ją w to pole.
+		<code>MessageProvider</code> nie musi być klasą, może to być interfejs. W takim przypadku spring będzie szukał w swoim
+		kontenerze klasy implementującej interfejs <code>MessageProvider</code> i jak taką klasę znajdzie to dopiero wstrzyknie
+		ją do tego pola.</p>
+		
+	<h2>Adnotacja <code>@Qualifier</code></h2>
+	
+	<p>Adnotacja <code>@Qualifier</code> umieszczona nad polem, którego referencja ma zostać wstrzyknięta oznacza, że kontener
+		będzie szukał komponentu o konkretnej nazwie, np:</p>
+		
+	<div class="codeDiv">
+		@Autowired<br>
+		@Qualifier("messageProvider")<br>
+		private MessageProvider messageProvider;
+	</div>
+	
+	<p>W powyższym przykładzie Spring w kontenerze poszukuje komponentu o nazwie <span class="important">messageProvider</span> i
+		po znalezieniu go dopiero wstrzykuje jego referencję do tego pola.</p>
+	
+	<p>Defaultowo nazwa komponentu to jest nazwa jego klasy zaczynająca się od małej litery, czyli dla komponentu klasy
+		<code>MessageProvider</code> jego nazwą defaultową będzie <span class="important">messageProvider</span> np:</p>
+	
+	<div class="codeDiv">
+		@Component<br>
+		class MessageProvider {<br>
+		<span class="tabbed1">...</span><br>
+		}<br>
+	</div>
+	
+	<p>Można zmienić defaultową nazwę komponentu wpisując przy adnotacji określającej dany stereotyp jego nazwę, np:</p>
+	
+	<div class="codeDiv">
+		@Component("nowaNazwaKomponentu")<br>
+		class MessageProvider {<br>
+		<span class="tabbed1">...</span><br>
+		}<br>
+	</div>
 	
 </div>

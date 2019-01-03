@@ -1,0 +1,145 @@
+<h1>Komponenty w Spring</h1>
+<div class="contentDiv">
+
+	<h2>Stereotypy</h2>
+
+	<p>W Springu mamy możliwość oznaczania klas adnotacjami, zwanymi stereotypami. Poniżej lista stereotypów wraz z ich opisem przeznaczenia:</p>
+	
+	<p class="wciecia">
+		<code>@Component</code> - bazowy stereotyp, oznacza, że na podstawie tej klasy będzie utworzony bean Springa 
+		(innymi słowy: klasa ta jest zarządzana przez Spring’a, lub też cykl życia tej klasy będzie zarządzany przez Springa). 
+		Tego stereotypu używamy najczęściej do klas, które są pomocnicze i nie oferują elementów logiki biznesowej, 
+		a jedynie pomocnicze funkcje (np. konwersja między typami, jakieś wspólne elementy)
+	</p>
+	
+	<p class="wciecia">
+		<code>@Servie</code> - stereotyp który wskazuje, że ta klasa jest serwisem, tzn. oferuje pewną logikę biznesową którą będziemy wykorzystywać w innych miejscach 
+		(np. kontrolerach; ogólnie w wyższych warstwach)
+	</p>
+	
+	<p class="wciecia">
+		<code>@Repository</code> - wskazuje że klasa pozwala na dostęp do danych, np. wspiera obsługę bazy danych. Adnotacje tą stosujemy np. w obiektach typu DAO.
+	</p>
+	
+	<p class="wciecia">
+		<code>@Controller</code> - oznaczamy nią kontrolery, tj. klasy, które będą obsługiwały zapytania wysyłane poprzez przeglądarkę od użytkowników.
+	</p>
+	
+	<h2>Dodatkowe adnotacje komponentów:</h2>
+	
+	<p class="wciecia"><code>@Lazy</code> - inicjalizacja "leniwa komponentu" oznacza, że komponent zostaje utworzony dopiero kiedy po raz pierwszy będzie
+		on potrzebny a nie przy starcie aplikacji jak jest to defaultowo</p>
+		
+	<p class="wciecia"><code>@Primary</code> - w przypadku kiedy korzystamy np. z wiązania komponentów po nazwie i w kontenerze Springa znajdują się dwa 
+		komponenty o tej samej nazwie to, możemy oznaczyć jeden z nich adnotacją <code>@Primary</code> aby Spring wiedział, który komponent 
+		należy wstrzyknąć. W przeciwnym wypadku zostanie rzucony wyjątek.</p>
+
+	<p class="wciecia"><code>@Qualifier("nazwaKomponentu")</code> - adnotacja ta służy do nadania nazwy komponentu. Jeżeli takiej adnotacji 
+		nie użyjemy to nazwa komponentu jest taka sama jak nazwa klasy, tylko pierwsza litera nazwy jest literą małą.</p>
+		
+	<h2>Scopes</h2>
+	
+	<p>Pod pojęciem <span class="important">Scope</span> w Springu kryje się "zasięg komponentu". Czyli określając <span class="important">Scope</span> 
+		dla danego komponentu określamy co ma robić kontener w chwili kiedy "sięgamy" po komponent z kontekstu aplikacji. Do wyboru jest kilka opcji:<br>
+		<br>
+		&nbsp;<code>Singleton</code> - jedna instancja komponentu na całą aplikację<br>
+		&nbsp;<code>Prototype</code> - za każdym razem kiedy sięgamy do kontekstu aplikacji po komponent to jest tworzona nowa instancja<br>
+		&nbsp;<code>Request</code> - tak jak Prototype tylko dla aplikacji Webowowych<br>
+		&nbsp;<code>Session</code> - tak jak Singleton tylko dla aplikacji Webowych<br>
+		&nbsp;<code>Global session</code> - element może być współdzielony pomiędzy wszystkimi portletami aplikacji Springa (tylko Web)<br>
+		&nbsp;<code>Thread</code> - nowa instancja tworzona dla każdego nowego wątku aplikacji Springa<br>
+		&nbsp;<code>Custom</code> - instancja tworzona dla implementacji interfejsu <code>org.springframework.beans.factory.config.Scope</code><br>
+		</p>
+		
+	<p>Należy pamiętać, że typ adnotacji wpisujemy zaczynając od małej litery np: <code>@Scope("prototype")</code></p>
+		
+	<h2>Inicjalizacja, niszczenie komponentu</h2>
+	
+	<p>Aby podczas tworzenia komponentu, po wstrzyknięciu już wszystkich zależności spring wywołał określoną metodę 
+		lub gdy kontekst aplikacji jest niszczony spring wywołał inną, to możemy to zrobić
+		np. implementując interfejs <code>InitalizingBean, DisposableBean</code>. Wtedy nasz komponent może wyglądać tak:</p>
+		
+	<div class="codeDiv">
+		@Component<br>
+		public class TestBeanImplementation implements TestBeanInterface, InitializingBean, DisposableBean {<br>
+		<span class='tabbed1'>an, DisposableBean {</span><br>
+		<br>
+		<span class='tabbed1'>public void getInfo() {</span><br>
+		<span class='tabbed2'>System.out.println("getInfo() from TestBeanImplementation.class");</span><br>
+		<span class='tabbed2'></span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public void afterPropertiesSet() throws Exception {</span><br>
+		<span class='tabbed2'>System.out.println("afterPropertiesSet() from TestBeanImplementation.class");</span><br>
+		<span class='tabbed2'>// Tutaj możemy wykonać na przykład sprawdzenie wszystkich zależności i z</span><br>
+		<span class='tabbed3'>adziałać odpowiednie w przypadku jak coś poszło źle</span><br>
+		<span class='tabbed2'></span><br>
+		<span class='tabbed1'>}</span><br>
+		<span class='tabbed1'></span><br>
+		<span class='tabbed1'>public void destroy() {</span><br>
+		<span class='tabbed2'>System.out.println("destroy() from TestBeanImplementation.class");</span><br>
+		<span class='tabbed2'>// Tutaj możemy wykonać na przykład czynności związane z zamknięciem poł</span><br>
+		<span class='tabbed3'>ączenia do bazy danych itp...</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		}<br>	
+	</div>
+	
+	<p>Lub w przypadku kiedy korzystamy z Java 8 JSR-250, to wystarczy dowolną metodę komponentu oznaczyć adnotacją 
+		<code>@PostConstruct</code> lub <code>@PreDestroy</code></p>
+		
+	<p class="wciecia"><span class="important">UWAGA!</span><br>Aby metoda <code>destroy()</code> lub metoda opatrzona adnotacją
+		<code>@PreDestroy</code> została wywołana to kontekst aplikacji musi zostać zamknięty. W przypadku kiedy np. nasza aplikacja
+		ma kilka miejsc zakończenia jej działania i nie zostanie kontekst aplikacji zamknięty lub zniszczony to te metody nie
+		zostaną wywołane. Aby ominąć ten problem można skorzystać z metody <code>registerShutdownHook()</code> obiektu klasy 
+		kontekstu aplikacji. Metoda ta jest dostępna w klasie <code>GenericApplicationContext</code>. Zatem można to zrobić
+		w sposób następujący:</p>
+		
+	<div class="codeDiv">
+		public class Main {<br>
+		<br>
+		<span class='tabbed1'>public static void main(String[] args) {</span><br>
+		<br>
+		<span class='tabbed2'>GenericApplicationContext ctx = new AnnotationConfigApplicationContext(SpringC</span><br>
+		<span class='tabbed3'>onfiguration.class);</span><br>
+		<span class='tabbed2'>MessageRenderer mr = ctx.getBean("messageRenderer", MessageRenderer.class);</span><br>
+		<span class='tabbed2'>ctx.registerShutdownHook(); // Wywołanie tej metody spowoduje, że kiedy apli</span><br>
+		<span class='tabbed3'>kacja zostanie zakończona to zostaną wywołane metody niszczące naszych komponentów</span><br>
+		<span class='tabbed2'>// ctx.close();</span><br>
+		<span class='tabbed2'>...</span><br>
+		<br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		}<br>	
+	</div>
+	
+	<h2>Dostęp do kontekstu aplikacji</h2>
+	
+	<p>Jeżeli nasz komponent będzie implementował interfejs <code>ApplicationContextAware</code> to podczas jego tworzenia kontener
+		przekaże mu kontekst aplikacji przez setter <code>setApplicationContext(ApplicationContext ctx)</code>. Można to wykorzystać
+		np. do wywołania metody kontekstu <code>registerShutdownHook()</code>. Zatem wystarczy stworzyć taki komponent, który
+		będzie podczas tworzenia kontekstu aplikacji wywoływał metodę <code>registerShutdownHook()</code> i nie trzeba
+		się martwić o to, że gdy wyjdziemy z aplikacji w innym miejscu to nie zostaną wywołane metody <code>destroy()</code>
+		komponentów. Przykład:</p>
+		
+	<div class="codeDiv">
+		@Component<br>
+		public class ShutdownHookBean implements ApplicationContextAware {<br>
+		<span class='tabbed1'></span><br>
+		<span class='tabbed1'>private ApplicationContext ctx;</span><br>
+		<br>
+		<span class='tabbed1'>@Override</span><br>
+		<span class='tabbed1'>public void setApplicationContext(ApplicationContext ctx) throws BeansException</span><br>
+		<span class='tabbed2'> {</span><br>
+		<span class='tabbed2'>this.ctx = ctx;</span><br>
+		<span class='tabbed2'></span><br>
+		<span class='tabbed2'>if(ctx instanceof GenericApplicationContext) {</span><br>
+		<span class='tabbed3'>((GenericApplicationContext) ctx).registerShutdownHook();</span><br>
+		<span class='tabbed2'>}</span><br>
+		<span class='tabbed2'></span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		}<br>	
+	</div>
+
+</div>

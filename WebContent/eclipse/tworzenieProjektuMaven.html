@@ -7,17 +7,12 @@
 	<!-- OBRAZEK Z OKNEM WYBORU PROJEKTU W ECLIPSE -->
 	<img src="obrazki/oknoSelectAWizard.jpg" style="max-width: 525px;" onclick="powiekszZdjecie(this)">
 	
-	<p>Wybieramy <span class="clickDiv">Maven -> Maven Project</span> i przechodzimy do okna ustawień nowego projektu. W tym oknie nie zmieniamy nic. Klikamy <span class="clickDiv">Next</span> i przechodzimy
-	do kolejnego okna konfiguracyjnego nowego projektu:</p>
+	<p>Wybieramy <span class="clickDiv">Maven -> Maven Project</span> i przechodzimy do okna ustawień nowego projektu. W tym oknie zaznaczamy opcję <span class="important">Create a simple project (skip archetype selection)</span>. 
+		Klikamy <span class="clickDiv">Next</span> i przechodzimy do kolejnego okna konfiguracyjnego nowego projektu:</p>
 	
 	<!-- OBRAZEK Z OKNEM USTAWIEŃ NOWEGO PROJEKTU MAVEN -->
 	<img src="obrazki/oknoNewMavenProject.jpg" style="max-width: 529px;" onclick="powiekszZdjecie(this)">
-	
-	<p>W tym oknie wybieramy archetyp projektu maven. Aby utworzyć prosty projekt maven w tym oknie nie zmieniamy nic i przechodzimy do następnego okna klikając przycisk <span class="clickDiv">Next</span></p>
-	
-	<!-- OBRAZEK Z OKNEM USTAWIEŃ ARCHETYPU PROJEKTU MAVEN -->
-	<img src="obrazki/oknoNewMavenProject_2.jpg" style="max-width: 823px;" onclick="powiekszZdjecie(this)">
-	
+		
 	<p>W tym oknie ustawiamy Group Id oraz Artifact Id i następnie klikamy przycisk <span class="clickDiv">Finish</span>. Projekt zostaje utworzony.</p>
 	
 	<!-- OBRAZEK Z OKNEM USTAWIEŃ NAZWY GROUP ID ORAZ ARTIFACT ID	 -->
@@ -31,8 +26,48 @@
 	<p>Aby projekt poprawnie się budował i można go było uruchomić bez problemów z konsoli to należy dodać do pliku pom.xml plugin jak pokazano to na poniższym obrazku, oraz ustawić wartość elementu
 	<code>&lt;outputDirectory&gt;</code> (folder w którym zostanie utworzony plik jar) oraz <code>&lt;mainClass&gt;</code> (ścieżkę do pliku z klasą zawierającą metodę main)</p>
 	
-	<!-- OBRAZEK PLIK POM NOWEGO PROJEKTU MAVAN -->
-	<img src="obrazki/plikPOMnowegoProjektuMaven.jpg" style="max-width: 646px;" onclick="powiekszZdjecie(this)">
+	<div class="codeDiv">
+		&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"<br>
+		<span class='tabbed1'>rg/2001/XMLSchema-instance"</span><br>
+		<span class='tabbed1'>xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/x</span><br>
+		<span class='tabbed2'>sd/maven-4.0.0.xsd"&gt;</span><br>
+		<span class='tabbed1'>&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br>
+		<span class='tabbed1'>&lt;groupId&gt;pl.softService&lt;/groupId&gt;</span><br>
+		<span class='tabbed1'>&lt;artifactId&gt;spring&lt;/artifactId&gt;</span><br>
+		<span class='tabbed1'>&lt;version&gt;0.0.1&lt;/version&gt;</span><br>
+		<br>
+		<span class='tabbed1'>&lt;properties&gt;</span><br>
+		<span class='tabbed2'>&lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;</span><br>
+		<span class='tabbed2'>&lt;spring.version&gt;5.0.8.RELEASE&lt;/spring.version&gt;</span><br>
+		<span class='tabbed1'>&lt;/properties&gt;</span><br>
+		<br>
+		<span class='tabbed1'>&lt;dependencies&gt;</span><br>
+		<span class='tabbed2'>&lt;dependency&gt;</span><br>
+		<span class='tabbed3'>&lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br>
+		<span class='tabbed3'>&lt;artifactId&gt;spring-context&lt;/artifactId&gt;</span><br>
+		<span class='tabbed3'>&lt;version&gt;5.0.8.RELEASE&lt;/version&gt;</span><br>
+		<span class='tabbed2'>&lt;/dependency&gt;</span><br>
+		<span class='tabbed1'>&lt;/dependencies&gt;</span><br>
+		<br>
+		<span class='tabbed1'>&lt;build&gt;</span><br>
+		<span class='tabbed2'>&lt;plugins&gt;</span><br>
+		<span class='tabbed3'>&lt;plugin&gt;</span><br>
+		<span class='tabbed4'>&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br>
+		<span class='tabbed4'>&lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;</span><br>
+		<span class='tabbed4'>&lt;version&gt;2.4&lt;/version&gt;</span><br>
+		<span class='tabbed4'>&lt;configuration&gt;</span><br>
+		<span class='tabbed5'>&lt;outputDirectory&gt;Output&lt;/outputDirectory&gt;</span><br>
+		<span class='tabbed5'>&lt;archive&gt;</span><br>
+		<span class='tabbed6'>&lt;manifest&gt;</span><br>
+		<span class='tabbed7'>&lt;mainClass&gt;pl.softService.spring.app.Main&lt;/mainClass&gt;</span><br>
+		<span class='tabbed6'>&lt;/manifest&gt;</span><br>
+		<span class='tabbed5'>&lt;/archive&gt;</span><br>
+		<span class='tabbed4'>&lt;/configuration&gt;</span><br>
+		<span class='tabbed3'>&lt;/plugin&gt;</span><br>
+		<span class='tabbed2'>&lt;/plugins&gt;</span><br>
+		<span class='tabbed1'>&lt;/build&gt;</span><br>
+		&lt;/project&gt;<br>
+	</div>
 	
 	<p>Po wprowadzeniu jakichkolwiek zmian w pliku pom.xml należy kliknąć ppm na nazwę projektu <span class="clickDiv">Maven -> Update Project</span>. Tak przygotowany projekt można już skompilować.
 	Kompilację robimy z konsoli poleceniem <code>mvn clean package</code>, przechodząc do folderu projektu, jak  pokazano to na załączonym obrazku:</p>

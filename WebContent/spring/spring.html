@@ -16,7 +16,7 @@
 	// Funkcja ustawiajaca podswietlenie pierwszego przycisku subMenu
 	runFunctionAfterPageLoad(function(){setActiveSubButton(document.getElementsByClassName('subMenuButton')[0]);});
 	// Funkcja laduje zawartosc pliku .html do elementu #contentDiv
-	runFunctionAfterPageLoad(function() {$('#contentDiv').load('stereotypy.html')});
+	runFunctionAfterPageLoad(function() {$('#contentDiv').load('komponenty.html')});
 	// Funkcja laduje menu i podswietla wybrany przycisk menu
 	zaladujMenuIPodswietlPrzycisk('menu','SPRING');
 	// Funckje związane ze mianami rozmiaru okna przeglądarki
@@ -34,14 +34,15 @@
 	<div class="content">
 		<div class="content-left">
 			<div class="zasoby">
-				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('stereotypy.html'); setActiveSubButton(this);">Stereotypy</button>
-				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('wstrzykiwanieZaleznosci.html'); setActiveSubButton(this);">Wstrzykiwanie zaleznosci</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('komponenty.html'); setActiveSubButton(this);">komponenty</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('wstrzykiwanieZaleznosci.html'); setActiveSubButton(this);">Wstrzykiwanie zależności</button>
 				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('mapowanieZadan.html'); setActiveSubButton(this);">Mapowanie żądań</button>
 				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('argumentyMetodyObslugujacejZadanieHttp.html'); setActiveSubButton(this);">Argumenty metody obsługującej żądanie http</button>
 				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('walidacjaFormularzy.html'); setActiveSubButton(this);">Walidacja formularzy</button>
 				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('jdbc.html'); setActiveSubButton(this);">JDBC</button>
 				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('springData.html'); setActiveSubButton(this);">Spring Data</button>
 				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('springSecurity.html'); setActiveSubButton(this);">Spring Security</button>
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('aspekty.html'); setActiveSubButton(this);">Aspekty</button>
 				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('dodatkoweZasoby.html'); setActiveSubButton(this);">Dodatkowe zasoby</button>
 				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('polskieZnaki.html'); setActiveSubButton(this);">Polskie znaki</button>
 				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('plikiProperties.html'); setActiveSubButton(this);">Pliki properties</button>				
