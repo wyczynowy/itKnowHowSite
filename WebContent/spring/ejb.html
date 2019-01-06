@@ -1,0 +1,393 @@
+<h1>EJB</h1>
+<div class="contentDiv">
+
+	<p>Aby pokazać jak skonfigurować encję EJB najpierw zamodelujmy bazę danych. Posłuży nam do tego baza MySQL. Poniżej
+		przedstawiono skrypt tworzący strukturę bazy danych:</p>
+		
+	<div class="codeDiv">
+		DROP DATABASE IF EXISTS SPRING_TEST_DATABASE;<br>
+		CREATE DATABASE IF NOT EXISTS SPRING_TEST_DATABASE DEFAULT CHARACTER SET UTF8 COL<br>
+		<span class='tabbed1'>LATE UTF8_UNICODE_CI;</span><br>
+		USE SPRING_TEST_DATABASE;<br>
+		<br>
+		DROP TABLE IF EXISTS SINGER;<br>
+		CREATE TABLE SINGER (<br>
+		<span class='tabbed1'>ID INT NOT NULL AUTO_INCREMENT,</span><br>
+		<span class='tabbed1'>FIRST_NAME VARCHAR(60) NOT NULL,</span><br>
+		<span class='tabbed1'>LAST_NAME VARCHAR(40) NOT NULL,</span><br>
+		<span class='tabbed1'>BIRTH_DATE DATE,</span><br>
+		<span class='tabbed1'>VERSION INT NOT NULL DEFAULT 0,</span><br>
+		<span class='tabbed1'>UNIQUE UQ_SINGER_1 (FIRST_NAME, LAST_NAME),</span><br>
+		<span class='tabbed1'>PRIMARY KEY (ID)</span><br>
+		);<br>
+		<br>
+		DROP TABLE IF EXISTS ALBUM;<br>
+		CREATE TABLE ALBUM (<br>
+		<span class='tabbed1'>ID INT NOT NULL AUTO_INCREMENT,</span><br>
+		<span class='tabbed1'>SINGER_ID INT NOT NULL,</span><br>
+		<span class='tabbed1'>TITLE VARCHAR(100) NOT NULL,</span><br>
+		<span class='tabbed1'>RELEASE_DATE DATE,</span><br>
+		<span class='tabbed1'>VERSION INT NOT NULL DEFAULT 0,</span><br>
+		<span class='tabbed1'>UNIQUE UQ_SINGER_ALBUM_1 (SINGER_ID, TITLE),</span><br>
+		<span class='tabbed1'>PRIMARY KEY (ID),</span><br>
+		<span class='tabbed1'>CONSTRAINT FK_ALBUM_SINGER FOREIGN KEY (SINGER_ID) REFERENCES SINGER (ID)</span><br>
+		);<br>
+		<br>
+		DROP TABLE IF EXISTS INSTRUMENT;<br>
+		CREATE TABLE INSTRUMENT (<br>
+		<span class='tabbed1'>INSTRUMENT_ID VARCHAR(20) NOT NULL,</span><br>
+		<span class='tabbed1'>PRIMARY KEY (INSTRUMENT_ID)</span><br>
+		);<br>
+		<br>
+		DROP TABLE IF EXISTS SINGER_INSTRUMENT;<br>
+		CREATE TABLE SINGER_INSTRUMENT (<br>
+		<span class='tabbed1'>SINGER_ID INT NOT NULL,</span><br>
+		<span class='tabbed1'>INSTRUMENT_ID VARCHAR(20) NOT NULL,</span><br>
+		<span class='tabbed1'>PRIMARY KEY (SINGER_ID, INSTRUMENT_ID),</span><br>
+		<span class='tabbed1'>CONSTRAINT FK_SINGER_INSTRUMENT_1 FOREIGN KEY (SINGER_ID) REFERENCES SINGER (ID)</span><br>
+		<span class='tabbed2'> ON DELETE CASCADE,</span><br>
+		<span class='tabbed1'>CONSTRAINT FK_SINGER_INSTRUMENT_2 FOREIGN KEY (INSTRUMENT_ID) REFERENCES INSTRUM</span><br>
+		<span class='tabbed2'>ENT (INSTRUMENT_ID)</span><br>
+		);<br>	
+	</div>
+	
+	<p>Przykładowe dane:</p>
+	
+	<div class="codeDiv">
+		insert into singer (first_name, last_name, birth_date) values ('John', 'Mayer', '<br>
+		<span class='tabbed1'>1977-10-16');</span><br>
+		insert into singer (first_name, last_name, birth_date) values ('Eric', 'Clapton',<br>
+		<span class='tabbed1'> '1945-03-30');</span><br>
+		insert into singer (first_name, last_name, birth_date) values ('John', 'Buttler',<br>
+		<span class='tabbed1'> '1975-04-01');</span><br>
+		<br>
+		insert into album (singer_id, title, release_date) values ((select id from singer<br>
+		<span class='tabbed1'> where first_name = 'John' and last_name = 'Mayer'), 'The Search For Everything', '2017-01-20');</span><br>
+		insert into album (singer_id, title, release_date) values ((select id from singer<br>
+		<span class='tabbed1'> where first_name = 'John' and last_name = 'Mayer'), 'Battle Studies', '2009-11-17');</span><br>
+		insert into album (singer_id, title, release_date) values ((select id from singer<br>
+		<span class='tabbed1'> where first_name = 'Eric' and last_name = 'Clapton'), 'From The Cradle', '1994-09-13');</span><br>
+		<br>
+		insert into instrument (instrument_id) values ('Guitar');<br>
+		insert into instrument (instrument_id) values ('Piano');<br>
+		insert into instrument (instrument_id) values ('Voice');<br>
+		insert into instrument (instrument_id) values ('Drums');<br>
+		insert into instrument (instrument_id) values ('Synthesizer');<br>
+		<br>
+		insert into singer_instrument (singer_id, instrument_id) values ((select id from <br>
+		<span class='tabbed1'>singer where first_name = 'John' and last_name = 'Mayer'), 'Guitar');</span><br>
+		insert into singer_instrument (singer_id, instrument_id) values ((select id from <br>
+		<span class='tabbed1'>singer where first_name = 'John' and last_name = 'Mayer'), 'Piano');</span><br>
+		insert into singer_instrument (singer_id, instrument_id) values ((select id from <br>
+		<span class='tabbed1'>singer where first_name = 'Eric' and last_name = 'Clapton'), 'Guitar');</span><br>	
+	</div>
+	
+	<p>W ten sposób zamodelowana baza będzie posiadała w następujący sposób skonfigurowane encje:</p>
+	
+	<p><span class="important">Singer.java</span></p>
+	
+	<div class="codeDiv">
+		import java.util.Date;<br>
+		import java.util.HashSet;<br>
+		import java.util.Set;<br>
+		<br>
+		import javax.persistence.CascadeType;<br>
+		import javax.persistence.Column;<br>
+		import javax.persistence.Entity;<br>
+		import javax.persistence.GeneratedValue;<br>
+		import javax.persistence.GenerationType;<br>
+		import javax.persistence.Id;<br>
+		import javax.persistence.JoinTable;<br>
+		import javax.persistence.ManyToMany;<br>
+		import javax.persistence.OneToMany;<br>
+		import javax.persistence.JoinColumn;<br>
+		import javax.persistence.Table;<br>
+		import javax.persistence.Temporal;<br>
+		import javax.persistence.TemporalType;<br>
+		import javax.persistence.Version;<br>
+		<br>
+		@Entity<br>
+		@Table(name = "singer")<br>
+		public class Singer {<br>
+		<br>
+		<span class='tabbed1'>@Id</span><br>
+		<span class='tabbed1'>@Column(name = "ID")</span><br>
+		<span class='tabbed1'>@GeneratedValue(strategy = GenerationType.IDENTITY)</span><br>
+		<span class='tabbed1'>private Long id;</span><br>
+		<br>
+		<span class='tabbed1'>@Column(name = "FIRST_NAME")</span><br>
+		<span class='tabbed1'>private String firstName;</span><br>
+		<br>
+		<span class='tabbed1'>@Column(name = "LAST_NAME")</span><br>
+		<span class='tabbed1'>private String lastName;</span><br>
+		<br>
+		<span class='tabbed1'>@Temporal(TemporalType.DATE)</span><br>
+		<span class='tabbed1'>@Column(name = "BIRTH_DATE")</span><br>
+		<span class='tabbed1'>private Date birthDate;</span><br>
+		<br>
+		<span class='tabbed1'>@Version</span><br>
+		<span class='tabbed1'>@Column(name = "VERSION")</span><br>
+		<span class='tabbed1'>private int version;</span><br>
+		<br>
+		<span class='tabbed1'>@OneToMany(mappedBy = "singer", cascade = CascadeType.ALL, orphanRemoval = true)</span><br>
+		<span class='tabbed1'>private Set&lt;Album&gt; albums = new HashSet&lt;&gt;();</span><br>
+		<br>
+		<span class='tabbed1'>@ManyToMany</span><br>
+		<span class='tabbed1'>@JoinTable(name = "singer_instrument", joinColumns = @JoinColumn(name = "SINGER_</span><br>
+		<span class='tabbed2'>ID"), inverseJoinColumns = @JoinColumn(name = "INSTRUMENT_ID"))</span><br>
+		<span class='tabbed1'>private Set&lt;Instrument&gt; instruments = new HashSet&lt;&gt;();</span><br>
+		<br>
+		<span class='tabbed1'>public Long getId() {</span><br>
+		<span class='tabbed2'>return id;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public void setId(Long id) {</span><br>
+		<span class='tabbed2'>this.id = id;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public String getFirstName() {</span><br>
+		<span class='tabbed2'>return firstName;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public void setFirstName(String firstName) {</span><br>
+		<span class='tabbed2'>this.firstName = firstName;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public String getLastName() {</span><br>
+		<span class='tabbed2'>return lastName;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public void setLastName(String lastName) {</span><br>
+		<span class='tabbed2'>this.lastName = lastName;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public Date getBirthDate() {</span><br>
+		<span class='tabbed2'>return birthDate;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public void setBirthDate(Date birthDate) {</span><br>
+		<span class='tabbed2'>this.birthDate = birthDate;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public int getVersion() {</span><br>
+		<span class='tabbed2'>return version;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public void setVersion(int version) {</span><br>
+		<span class='tabbed2'>this.version = version;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public Set&lt;Album&gt; getAlbums() {</span><br>
+		<span class='tabbed2'>return albums;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public void setAlbums(Set&lt;Album&gt; albums) {</span><br>
+		<span class='tabbed2'>this.albums = albums;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public boolean addAlbum(Album album) {</span><br>
+		<span class='tabbed2'>album.setSinger(this);</span><br>
+		<span class='tabbed2'>return getAlbums().add(album);</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public void removeAlbum(Album album) {</span><br>
+		<span class='tabbed2'>getAlbums().remove(album);</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public Set&lt;Instrument&gt; getInstruments() {</span><br>
+		<span class='tabbed2'>return instruments;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public void setInstruments(Set&lt;Instrument&gt; instruments) {</span><br>
+		<span class='tabbed2'>this.instruments = instruments;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>@Override</span><br>
+		<span class='tabbed1'>public String toString() {</span><br>
+		<span class='tabbed2'>return "Singer - Id: " + id + ", First name: " + firstName + ", Last name: " + </span><br>
+		<span class='tabbed3'>lastName + ", Birthday: " + birthDate;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		}<br>	
+	</div>
+	
+	<p><span class="important">Album.java</span></p>
+	
+	<div class="codeDiv">
+		import java.util.Date;<br>
+		<br>
+		import javax.persistence.Column;<br>
+		import javax.persistence.Entity;<br>
+		import javax.persistence.GeneratedValue;<br>
+		import javax.persistence.GenerationType;<br>
+		import javax.persistence.Id;<br>
+		import javax.persistence.JoinColumn;<br>
+		import javax.persistence.ManyToOne;<br>
+		import javax.persistence.Table;<br>
+		import javax.persistence.Temporal;<br>
+		import javax.persistence.TemporalType;<br>
+		import javax.persistence.Version;<br>
+		<br>
+		@Entity<br>
+		@Table(name = "album")<br>
+		public class Album {<br>
+		<br>
+		<span class='tabbed1'>@Id</span><br>
+		<span class='tabbed1'>@GeneratedValue(strategy = GenerationType.IDENTITY)</span><br>
+		<span class='tabbed1'>@Column(name = "ID")</span><br>
+		<span class='tabbed1'>private Long id;</span><br>
+		<br>
+		<span class='tabbed1'>@Column(name = "TITLE")</span><br>
+		<span class='tabbed1'>private String title;</span><br>
+		<br>
+		<span class='tabbed1'>@Temporal(TemporalType.DATE)</span><br>
+		<span class='tabbed1'>@Column(name = "RELEASE_DATE")</span><br>
+		<span class='tabbed1'>private Date releaseDate;</span><br>
+		<br>
+		<span class='tabbed1'>@Version</span><br>
+		<span class='tabbed1'>@Column(name = "VERSION")</span><br>
+		<span class='tabbed1'>private int version;</span><br>
+		<br>
+		<span class='tabbed1'>@ManyToOne</span><br>
+		<span class='tabbed1'>@JoinColumn(name = "SINGER_ID")</span><br>
+		<span class='tabbed1'>private Singer singer;</span><br>
+		<br>
+		<span class='tabbed1'>public Long getId() {</span><br>
+		<span class='tabbed2'>return id;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public void setId(Long id) {</span><br>
+		<span class='tabbed2'>this.id = id;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public String getTitle() {</span><br>
+		<span class='tabbed2'>return title;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public void setTitle(String title) {</span><br>
+		<span class='tabbed2'>this.title = title;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public Date getReleaseDate() {</span><br>
+		<span class='tabbed2'>return releaseDate;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public void setReleaseDate(Date releaseDate) {</span><br>
+		<span class='tabbed2'>this.releaseDate = releaseDate;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public int getVersion() {</span><br>
+		<span class='tabbed2'>return version;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public void setVersion(int version) {</span><br>
+		<span class='tabbed2'>this.version = version;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public Singer getSinger() {</span><br>
+		<span class='tabbed2'>return singer;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public void setSinger(Singer singer) {</span><br>
+		<span class='tabbed2'>this.singer = singer;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>@Override</span><br>
+		<span class='tabbed1'>public String toString() {</span><br>
+		<span class='tabbed2'>return "Album - Id: " + id + ", Title: " + title + ", Release Date: " + release</span><br>
+		<span class='tabbed3'>Date;</span><br>
+		<span class='tabbed1'>}</span><br>
+		}<br>	
+	</div>
+	
+	<p><span class="important">Instrument.java</span></p>
+	
+	<div class="codeDiv">
+		import java.util.HashSet;<br>
+		import java.util.Set;<br>
+		<br>
+		import javax.persistence.Column;<br>
+		import javax.persistence.Entity;<br>
+		import javax.persistence.Id;<br>
+		import javax.persistence.JoinTable;<br>
+		import javax.persistence.ManyToMany;<br>
+		import javax.persistence.Table;<br>
+		import javax.persistence.JoinColumn;<br>
+		<br>
+		@Entity<br>
+		@Table(name = "instrument")<br>
+		public class Instrument {<br>
+		<br>
+		<span class='tabbed1'>@Id</span><br>
+		<span class='tabbed1'>@Column(name = "INSTRUMENT_ID")</span><br>
+		<span class='tabbed1'>private String instrumentId;</span><br>
+		<br>
+		<span class='tabbed1'>@ManyToMany</span><br>
+		<span class='tabbed1'>@JoinTable(name = "singer_instrument", joinColumns = @JoinColumn(name = "INSTRUM</span><br>
+		<span class='tabbed2'>ENT_ID"), inverseJoinColumns = @JoinColumn(name = "SINGER_ID"))</span><br>
+		<span class='tabbed1'>private Set&lt;Singer&gt; singers = new HashSet&lt;&gt;();</span><br>
+		<br>
+		<span class='tabbed1'>public String getInstrumentId() {</span><br>
+		<span class='tabbed2'>return instrumentId;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public void setInstrumentId(String instrumentId) {</span><br>
+		<span class='tabbed2'>this.instrumentId = instrumentId;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public Set&lt;Singer&gt; getSingers() {</span><br>
+		<span class='tabbed2'>return singers;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>public void setSingers(Set&lt;Singer&gt; singers) {</span><br>
+		<span class='tabbed2'>this.singers = singers;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>@Override</span><br>
+		<span class='tabbed1'>public String toString() {</span><br>
+		<span class='tabbed2'>return "Instrument: " + getInstrumentId();</span><br>
+		<span class='tabbed1'>}</span><br>
+		}<br>	
+	</div>
+	
+	<p>Dzięki takiej konfiguracji encji w związku z korelacją tabel jaka występuje można w bardzo łatwy sposób przy użyciu
+		<span class="important">EntityManager'a</span> pozyskać zależne informacje, np:</p>
+		
+	<div class="codeDiv">
+		@Autowired<br>
+		EntityManager entityManager;<br>
+		<br>
+		public void prezentujDane() {<br>
+		<br>
+		<span class='tabbed1'>/********** Singer.class **********/</span><br>
+		<span class='tabbed1'>Singer wokalista = entityManager.find(Singer.class, 1L);</span><br>
+		<span class='tabbed1'>System.out.println(wokalista);	// Prezentuje informacje o wokaliście</span><br>
+		<span class='tabbed1'></span><br>
+		<span class='tabbed1'>Set&lt;Album&gt; zbiorAlbumow = wokalista.getAlbums();</span><br>
+		<span class='tabbed1'>zbiorAlbumow.forEach(x -&gt; System.out.println(x));	// Prezentuje informacje o </span><br>
+		<span class='tabbed2'>wszystkich albumach wokalisty</span><br>
+		<span class='tabbed1'></span><br>
+		<span class='tabbed1'>Set&lt;Instrument&gt; instrumenty = wokalista.getInstruments();</span><br>
+		<span class='tabbed1'>instrumenty.forEach(x -&gt; System.out.println(x));	// Prezentuje informacje o w</span><br>
+		<span class='tabbed2'>szystkich instrumentach wokalisty</span><br>
+		<span class='tabbed1'>/********** **********/</span><br>
+		<span class='tabbed1'></span><br>
+		<span class='tabbed1'>/********** Album.class **********/</span><br>
+		<span class='tabbed1'>Album album = entityManager.find(Album.class, 1L);</span><br>
+		<span class='tabbed1'>System.out.println(album);	// Prezentuje informacje o albumie</span><br>
+		<span class='tabbed1'>System.out.println(album.getSinger());	// Prezentuje informacje o wokaliście al</span><br>
+		<span class='tabbed2'>bumu</span><br>
+		<span class='tabbed1'>/********** **********/</span><br>
+		<span class='tabbed1'></span><br>
+		<span class='tabbed1'>/********** Album.class **********/</span><br>
+		<span class='tabbed1'>Instrument instrument = entityManager.find(Instrument.class, "Guitar");</span><br>
+		<span class='tabbed1'>System.out.println(instrument);	// Prezentuje informacje o instrumencie</span><br>
+		<span class='tabbed1'>Set&lt;Singer&gt; listaWokalistow = instrument.getSingers();</span><br>
+		<span class='tabbed1'>listaWokalistow.forEach(x-&gt;System.out.println(x));	// Prezentuje informacje o</span><br>
+		<span class='tabbed2'> wokalistach używających instrumentu</span><br>
+		<span class='tabbed1'>/********** **********/</span><br>
+		<span class='tabbed1'></span><br>
+		}<br>	
+	</div>
+
+</div>
