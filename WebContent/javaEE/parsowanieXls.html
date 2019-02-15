@@ -1,0 +1,111 @@
+<h1>Parsowanie XLS</h1>
+<div class="contentDiv">
+
+	<p>Przykładowy program przetwarzający dokument xls</p>
+	
+	<p><a href="DOWNLOAD/xlsParser.zip">pobierz</a></p>
+
+	<div class="codeDiv">
+		package app;<br>
+		<br>
+		import java.io.File;<br>
+		import java.io.FileInputStream;<br>
+		import java.io.FileOutputStream;<br>
+		import java.util.regex.Matcher;<br>
+		import java.util.regex.Pattern;<br>
+		<br>
+		import org.apache.poi.hssf.usermodel.HSSFCell;<br>
+		import org.apache.poi.hssf.usermodel.HSSFRow;<br>
+		import org.apache.poi.hssf.usermodel.HSSFSheet;<br>
+		import org.apache.poi.hssf.usermodel.HSSFWorkbook;<br>
+		import org.apache.poi.poifs.filesystem.POIFSFileSystem;<br>
+		<br>
+		public class Main {<br>
+		<span class='tabbed1'></span><br>
+		<span class='tabbed1'>private static String pathToFile = "C:\\Users\\dkozub\\Desktop\\Dokumenty\\xls\\</span><br>
+		<span class='tabbed2'>";</span><br>
+		<span class='tabbed1'>private static String fileName = "Dokument.xls";</span><br>
+		<span class='tabbed1'>private static String inputFileName = pathToFile + fileName;</span><br>
+		<span class='tabbed1'>private static String outputFileName = pathToFile + "PO_ZMIANACH\\" + fileName;</span><br>
+		<span class='tabbed1'>static // Odnajduje ciag znakow pasujacy do wzorca: ${K[1-4 cyfry]}</span><br>
+		<span class='tabbed1'>Pattern compiledPattern = Pattern.compile("\\$\\{K\\d{1,4}\\}");</span><br>
+		<br>
+		<span class='tabbed1'>public static void main(String[] args) {</span><br>
+		<br>
+		<span class='tabbed2'>try {</span><br>
+		<span class='tabbed3'>File file = new File(inputFileName);</span><br>
+		<span class='tabbed2'>    POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(file));</span><br>
+		<span class='tabbed3'>HSSFWorkbook wb = new HSSFWorkbook(fs);</span><br>
+		<span class='tabbed3'></span><br>
+		<span class='tabbed3'>for(int idx = 0; idx &lt; wb.getNumberOfSheets(); idx++) {</span><br>
+		<span class='tabbed4'>HSSFSheet sheet = wb.getSheetAt(idx);</span><br>
+		<span class='tabbed3'>    HSSFRow row;</span><br>
+		<span class='tabbed3'>    HSSFCell cell;</span><br>
+		<br>
+		<span class='tabbed3'>    int rows; // No of rows</span><br>
+		<span class='tabbed3'>    rows = sheet.getPhysicalNumberOfRows();</span><br>
+		<br>
+		<span class='tabbed3'>    int cols = 0; // No of columns</span><br>
+		<span class='tabbed3'>    int tmp = 0;</span><br>
+		<br>
+		<span class='tabbed3'>    // This trick ensures that we get the data properly even if it doesn't sta</span><br>
+		<span class='tabbed4'>rt from first few rows</span><br>
+		<span class='tabbed3'>    for(int i = 0; i &lt; 10 || i &lt; rows; i++) {</span><br>
+		<span class='tabbed3'>        row = sheet.getRow(i);</span><br>
+		<span class='tabbed3'>        if(row != null) {</span><br>
+		<span class='tabbed3'>            tmp = sheet.getRow(i).getPhysicalNumberOfCells();</span><br>
+		<span class='tabbed3'>            if(tmp &gt; cols) cols = tmp;</span><br>
+		<span class='tabbed3'>        }</span><br>
+		<span class='tabbed3'>    }</span><br>
+		<br>
+		<span class='tabbed3'>    for(int r = 0; r &lt; rows; r++) {</span><br>
+		<span class='tabbed3'>        row = sheet.getRow(r);</span><br>
+		<span class='tabbed3'>        if(row != null) {</span><br>
+		<span class='tabbed3'>            for(int c = 0; c &lt; cols; c++) {</span><br>
+		<span class='tabbed3'>                cell = row.getCell((short)c);</span><br>
+		<span class='tabbed3'>                if(cell != null) {</span><br>
+		<span class='tabbed3'>                	if(cell.getCellType().toString().equals("STRING")) {</span><br>
+		<span class='tabbed3'>                		Matcher matcher = compiledPattern.matcher(cell.getStringCell</span><br>
+		<span class='tabbed4'>Value());</span><br>
+		<span class='tabbed3'>                		if(matcher.find()) {</span><br>
+		<span class='tabbed3'>                			/********** TUTAJ DEFINIUJEMY ZMIANY DLA KOMOREK **********</span><br>
+		<span class='tabbed4'>/</span><br>
+		<span class='tabbed3'>                			String cellAddress = cell.getAddress().toString() + ": " + </span><br>
+		<span class='tabbed4'>cell.getStringCellValue();</span><br>
+		<span class='tabbed3'>                			int cellValue = Integer.parseInt(cell.getStringCellValue().</span><br>
+		<span class='tabbed4'>substring(3,cell.getStringCellValue().length()-1));</span><br>
+		<span class='tabbed3'>                			int sheetNumber = idx;</span><br>
+		<span class='tabbed3'>                			System.out.println( "SheetNumber:" + sheetNumber + " - " + </span><br>
+		<span class='tabbed4'>cellAddress + " - " + cellValue);</span><br>
+		<span class='tabbed4'>                		if(cellValue &gt;= 1211 && cellValue &lt;= 2418)</span><br>
+		<span class='tabbed4'>                			cell.setCellValue("$K{" + (cellValue - 2) + "}");</span><br>
+		<span class='tabbed4'>                		if(cellValue &gt;=2421 && cellValue &lt;= 2525)</span><br>
+		<span class='tabbed4'>                			cell.setCellValue("${K" + (cellValue - 4) + "}");</span><br>
+		<span class='tabbed4'>                		/********** TUTAJ DEFINIUJEMY ZMIANY DLA KOMOREK **********</span><br>
+		<span class='tabbed5'>/</span><br>
+		<span class='tabbed3'>                		}</span><br>
+		<span class='tabbed3'>                	}</span><br>
+		<span class='tabbed3'>                }</span><br>
+		<span class='tabbed3'>            }</span><br>
+		<span class='tabbed3'>        }</span><br>
+		<span class='tabbed3'>    }			</span><br>
+		<span class='tabbed3'>}</span><br>
+		<span class='tabbed3'></span><br>
+		<span class='tabbed2'>    File outputFile = new File(outputFileName);</span><br>
+		<span class='tabbed1'>        FileOutputStream out = new FileOutputStream(outputFile);</span><br>
+		<span class='tabbed1'>        wb.write(out);</span><br>
+		<span class='tabbed1'>        out.close();</span><br>
+		<span class='tabbed1'>        wb.close();	</span><br>
+		<span class='tabbed2'>    </span><br>
+		<span class='tabbed2'>} catch(Exception ioe) {</span><br>
+		<span class='tabbed2'>    ioe.printStackTrace();</span><br>
+		<span class='tabbed2'>    System.err.println("\nBŁĄD - COŚ POSZŁO NIE TAK !");</span><br>
+		<span class='tabbed2'>}</span><br>
+		<span class='tabbed2'></span><br>
+		<span class='tabbed2'>System.out.println("\nMODYFIKACJA PLIKU PRZEBIEGŁA POMYŚLNIE !");</span><br>
+		<span class='tabbed2'></span><br>
+		<span class='tabbed1'>}</span><br>
+		}<br>	
+	</div>
+
+</div>
