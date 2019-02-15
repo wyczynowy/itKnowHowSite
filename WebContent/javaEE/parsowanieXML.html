@@ -1,0 +1,282 @@
+<h1>Parsowanie XML</h1>
+<div class="contentDiv">
+
+	<h3>Przykładowy dokument XML</h3>
+
+	<div class="codeDiv">
+		&lt;notebook&gt;<br>
+		<span class='tabbed1'>&lt;note important_level='2'&gt;</span><br>
+		<span class='tabbed2'>&lt;to&gt;Tove&lt;/to&gt;</span><br>
+		<span class='tabbed2'>&lt;from&gt;Jani&lt;/from&gt;</span><br>
+		<span class='tabbed2'>&lt;heading&gt;Reminder&lt;/heading&gt;</span><br>
+		<span class='tabbed2'>&lt;body&gt;Don't forget me this weekend!&lt;/body&gt;</span><br>
+		<span class='tabbed1'>&lt;/note&gt;</span><br>
+		<span class='tabbed1'>&lt;note important_level='3'&gt;</span><br>
+		<span class='tabbed2'>&lt;to&gt;Alan&lt;/to&gt;</span><br>
+		<span class='tabbed2'>&lt;from&gt;Mona&lt;/from&gt;</span><br>
+		<span class='tabbed2'>&lt;heading&gt;Allert&lt;/heading&gt;</span><br>
+		<span class='tabbed2'>&lt;body&gt;Be carefoul!&lt;/body&gt;</span><br>
+		<span class='tabbed1'>&lt;/note&gt;</span><br>
+		<span class='tabbed1'>&lt;note important_level='2'&gt;</span><br>
+		<span class='tabbed2'>&lt;to&gt;Andy&lt;/to&gt;</span><br>
+		<span class='tabbed2'>&lt;from&gt;Joe&lt;/from&gt;</span><br>
+		<span class='tabbed2'>&lt;heading&gt;Important&lt;/heading&gt;</span><br>
+		<span class='tabbed2'>&lt;body&gt;Tomorrow morning, will be better!&lt;/body&gt;</span><br>
+		<span class='tabbed1'>&lt;/note&gt;</span><br>
+		&lt;/notebook&gt;<br>	
+	</div>
+
+	<h3>Przykładowy program parsujący dokument XML wykorzystujący biblioteki w3c:</h3>
+		
+	<p><a href="DOWNLOAD/xmlParser.zip">pobierz</a></p>
+
+	<div class="codeDiv">
+		package xmlParser;<br>
+		<br>
+		import javax.xml.parsers.DocumentBuilderFactory;<br>
+		import javax.xml.parsers.ParserConfigurationException;<br>
+		import javax.xml.parsers.DocumentBuilder;<br>
+		<br>
+		import org.w3c.dom.Attr;<br>
+		import org.w3c.dom.Document;<br>
+		import org.w3c.dom.NodeList;<br>
+		import org.w3c.dom.ls.DOMImplementationLS;<br>
+		import org.w3c.dom.ls.LSOutput;<br>
+		import org.w3c.dom.ls.LSSerializer;<br>
+		import org.xml.sax.SAXException;<br>
+		import org.w3c.dom.Node;<br>
+		import org.w3c.dom.Element;<br>
+		<br>
+		import java.io.File;<br>
+		import java.io.FileNotFoundException;<br>
+		import java.io.FileOutputStream;<br>
+		import java.io.IOException;<br>
+		<br>
+		public class Main {<br>
+		<br>
+		<span class='tabbed1'>static String inputFolderPath = "C:\\EXAMPLES\\";</span><br>
+		<span class='tabbed1'>static String outputFolderPath = "C:\\EXAMPLES\\OUTPUT\\";</span><br>
+		<br>
+		<span class='tabbed1'>public static void main(String argv[]) {</span><br>
+		<br>
+		<span class='tabbed2'>File folder = new File(inputFolderPath);</span><br>
+		<span class='tabbed2'>File[] listOfFiles = folder.listFiles();</span><br>
+		<br>
+		<span class='tabbed2'>for (File file : listOfFiles) {</span><br>
+		<span class='tabbed3'>if (file.isFile()) {</span><br>
+		<br>
+		<span class='tabbed4'>System.err.println("MODYFIKACJA PLIKU: \"" + file.getName() + "\"");</span><br>
+		<br>
+		<span class='tabbed4'>Document dokument = wczytajDokumentXML(inputFolderPath + file.getName());</span><br>
+		<span class='tabbed4'>modyfikujDokumentXML(dokument);</span><br>
+		<span class='tabbed4'>zapiszDokumentXML(dokument, outputFolderPath + file.getName());</span><br>
+		<br>
+		<span class='tabbed4'>System.err.println("KONIEC MODYFIKACJI I ZAPIS PLIKU: \"" + file.getName() + </span><br>
+		<span class='tabbed5'>"\" DO WSKAZANEJ LOKALIZACJI\r\n");</span><br>
+		<br>
+		<span class='tabbed3'>}</span><br>
+		<span class='tabbed2'>}</span><br>
+		<br>
+		<span class='tabbed2'>System.out.println("========== MODYFIKACJA PLIKÓW PRZEBIEGŁA POMYŚLNIE ! ======</span><br>
+		<span class='tabbed3'>====");</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>private static Document wczytajDokumentXML(String sciezkaDoDokumentuXML) {</span><br>
+		<span class='tabbed2'>File fXmlFile = new File(sciezkaDoDokumentuXML);</span><br>
+		<span class='tabbed2'>DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();</span><br>
+		<span class='tabbed2'>DocumentBuilder dBuilder;</span><br>
+		<span class='tabbed2'>Document dokumentXML = null;</span><br>
+		<span class='tabbed2'>try {</span><br>
+		<span class='tabbed3'>dBuilder = dbFactory.newDocumentBuilder();</span><br>
+		<span class='tabbed3'>dokumentXML = dBuilder.parse(fXmlFile);</span><br>
+		<span class='tabbed2'>} catch (ParserConfigurationException | SAXException | IOException e) {</span><br>
+		<span class='tabbed3'>e.printStackTrace();</span><br>
+		<span class='tabbed2'>}</span><br>
+		<span class='tabbed2'>return dokumentXML;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>private static void zapiszDokumentXML(Document dokument, String sciezkaDoDokumen</span><br>
+		<span class='tabbed2'>tuXML) {</span><br>
+		<span class='tabbed2'>final DOMImplementationLS dom = (DOMImplementationLS) dokument.getImplementatio</span><br>
+		<span class='tabbed3'>n();</span><br>
+		<span class='tabbed2'>final LSSerializer serializer = dom.createLSSerializer();</span><br>
+		<span class='tabbed2'>final LSOutput destination = dom.createLSOutput();</span><br>
+		<span class='tabbed2'>serializer.getNewLine();</span><br>
+		<span class='tabbed2'>destination.setEncoding("UTF-8");</span><br>
+		<span class='tabbed2'>FileOutputStream out;</span><br>
+		<span class='tabbed2'>try {</span><br>
+		<span class='tabbed3'>out = new FileOutputStream(sciezkaDoDokumentuXML);</span><br>
+		<span class='tabbed3'>destination.setByteStream(out);</span><br>
+		<span class='tabbed3'>serializer.write(dokument, destination);</span><br>
+		<span class='tabbed2'>} catch (FileNotFoundException e) {</span><br>
+		<span class='tabbed3'>e.printStackTrace();</span><br>
+		<span class='tabbed2'>}</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>private static void modyfikujDokumentXML(Document dokument) {</span><br>
+		<br>
+		<span class='tabbed2'>NodeList nList = dokument.getElementsByTagName("note");</span><br>
+		<br>
+		<span class='tabbed2'>for (int temp = 0; temp &lt; nList.getLength(); temp++) {</span><br>
+		<br>
+		<span class='tabbed3'>Node nNode = nList.item(temp);</span><br>
+		<br>
+		<span class='tabbed3'>if (nNode.getNodeType() == Node.ELEMENT_NODE) {</span><br>
+		<br>
+		<span class='tabbed4'>Element eElement = (Element) nNode;</span><br>
+		<span class='tabbed4'>Attr attrWartoscPola = eElement.getAttributeNode("important_level");</span><br>
+		<span class='tabbed4'>String wartoscPola = "";</span><br>
+		<span class='tabbed4'>int wartoscLiczbowaPola = 0;</span><br>
+		<span class='tabbed4'>if (attrWartoscPola != null) {</span><br>
+		<span class='tabbed5'>wartoscPola = attrWartoscPola.getValue();</span><br>
+		<span class='tabbed5'>try {</span><br>
+		<span class='tabbed6'>wartoscLiczbowaPola = Integer.valueOf(wartoscPola);</span><br>
+		<span class='tabbed5'>} catch (NumberFormatException nfe) {</span><br>
+		<br>
+		<span class='tabbed5'>}</span><br>
+		<br>
+		<span class='tabbed5'>if (wartoscLiczbowaPola &gt; 0) {</span><br>
+		<br>
+		<span class='tabbed6'>/* ZMIENIAMY WARTOŚĆ ATRYBUTU */</span><br>
+		<span class='tabbed6'>if ((wartoscLiczbowaPola &gt;= 2) &amp;&amp; (wartoscLiczbowaPola &lt;= 3)) {</span><br>
+		<span class='tabbed7'>attrWartoscPola.setValue((wartoscLiczbowaPola - 1) + "");</span><br>
+		<span class='tabbed7'>System.out.println("Pomniejszam wartość pola: " + wartoscLiczbowaPola + " </span><br>
+		<span class='tabbed8'>o 1");</span><br>
+		<span class='tabbed6'>} else if ((wartoscLiczbowaPola &gt;= 4) &amp;&amp; (wartoscLiczbowaPola &lt;= 5)) </span><br>
+		<span class='tabbed7'>{</span><br>
+		<span class='tabbed7'>attrWartoscPola.setValue((wartoscLiczbowaPola - 2) + "");</span><br>
+		<span class='tabbed7'>System.out.println("Pomniejszam wartość pola: " + wartoscLiczbowaPola + " </span><br>
+		<span class='tabbed8'>o 2");</span><br>
+		<span class='tabbed6'>} else {</span><br>
+		<span class='tabbed7'>System.out.println("Wartość pola: " + wartoscLiczbowaPola + " pozostaje be</span><br>
+		<span class='tabbed8'>z zmian");</span><br>
+		<span class='tabbed6'>}</span><br>
+		<span class='tabbed6'>/* KONIEC ZMIAN WARTOŚCI ATRYBUTU */</span><br>
+		<span class='tabbed5'>} else {</span><br>
+		<span class='tabbed6'>System.out.println("Wartość pola: \"" + attrWartoscPola.getValue() + "\" po</span><br>
+		<span class='tabbed7'>zostaje bez zmian");</span><br>
+		<span class='tabbed5'>}</span><br>
+		<span class='tabbed4'>}</span><br>
+		<span class='tabbed3'>}</span><br>
+		<span class='tabbed2'>}</span><br>
+		<span class='tabbed1'>}</span><br>
+		}<br>	
+	</div>
+	
+	<h3>Inny przykładowy program parsujący dokument XML z wykorzystaniem bibliotek jDom:</h3>
+	
+	<p><a href="DOWNLOAD/parserXMLJDom.zip">pobierz</a></p>
+	
+	<div class="codeDiv">
+		package app;<br>
+		<br>
+		import java.io.File;<br>
+		import java.io.FileOutputStream;<br>
+		import java.io.IOException;<br>
+		import java.io.OutputStreamWriter;<br>
+		import java.util.List;<br>
+		<br>
+		import org.jdom.Attribute;<br>
+		import org.jdom.Document;<br>
+		import org.jdom.Element;<br>
+		import org.jdom.input.SAXBuilder;<br>
+		import org.jdom.output.Format;<br>
+		import org.jdom.output.XMLOutputter;<br>
+		<br>
+		public class Main {<br>
+		<br>
+		<span class='tabbed1'>public static void main(String[] args) {</span><br>
+		<span class='tabbed2'>Document dokument = wczytajDokumentXML("C:/EXAMPLES/example.xml");</span><br>
+		<span class='tabbed2'>Element root = dokument.getRootElement();</span><br>
+		<span class='tabbed2'>wyswietlInfoOElemencie(root, 1);</span><br>
+		<span class='tabbed2'>zapiszDokumentWPliku(dokument, "C:/EXAMPLES/example_out.xml", true);</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>/**</span><br>
+		<span class='tabbed1'> * Wczytuje dokument xml ze wskazanej lokalizacji</span><br>
+		<span class='tabbed1'> * </span><br>
+		<span class='tabbed1'> * @param sciezkaDoPlikuXML</span><br>
+		<span class='tabbed1'> * @return</span><br>
+		<span class='tabbed1'> */</span><br>
+		<span class='tabbed1'>public static Document wczytajDokumentXML(String sciezkaDoPlikuXML) {</span><br>
+		<span class='tabbed2'>try {</span><br>
+		<span class='tabbed3'>// Nie sprawdzamy poprawności przy budowaniu dokumentu</span><br>
+		<span class='tabbed3'>SAXBuilder builder = new SAXBuilder(false);</span><br>
+		<span class='tabbed3'>Document dokument = builder.build(new File(sciezkaDoPlikuXML));</span><br>
+		<br>
+		<span class='tabbed3'>return dokument;</span><br>
+		<br>
+		<span class='tabbed2'>} catch (Exception e) {</span><br>
+		<span class='tabbed3'>e.printStackTrace();</span><br>
+		<span class='tabbed2'>}</span><br>
+		<span class='tabbed2'>return null;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>/**</span><br>
+		<span class='tabbed1'> * Zapisuje dokument do wskazanej lokalizacji</span><br>
+		<span class='tabbed1'> * </span><br>
+		<span class='tabbed1'> * @param dokument</span><br>
+		<span class='tabbed1'> * @param sciezkaDoPliku</span><br>
+		<span class='tabbed1'> * @param czyZamknacElement</span><br>
+		<span class='tabbed1'> * @return</span><br>
+		<span class='tabbed1'> */</span><br>
+		<span class='tabbed1'>public static boolean zapiszDokumentWPliku(Document dokument, String sciezkaDoPl</span><br>
+		<span class='tabbed2'>iku, boolean czyZamknacElement) {</span><br>
+		<span class='tabbed2'>boolean status = true;</span><br>
+		<span class='tabbed2'>OutputStreamWriter outputStreamWriter = null;</span><br>
+		<span class='tabbed2'>try {</span><br>
+		<span class='tabbed3'>outputStreamWriter = new OutputStreamWriter(new FileOutputStream(sciezkaDoPlik</span><br>
+		<span class='tabbed4'>u), "UTF-8");</span><br>
+		<span class='tabbed3'>Format format = Format.getRawFormat();</span><br>
+		<span class='tabbed3'>format.setExpandEmptyElements(czyZamknacElement);</span><br>
+		<span class='tabbed3'>XMLOutputter outp = new XMLOutputter(format);</span><br>
+		<span class='tabbed3'>outp.output(dokument, outputStreamWriter);</span><br>
+		<span class='tabbed2'>} catch (IOException ioe) {</span><br>
+		<span class='tabbed3'>status = false;</span><br>
+		<span class='tabbed2'>} finally {</span><br>
+		<span class='tabbed3'>try {</span><br>
+		<span class='tabbed4'>if (outputStreamWriter != null)</span><br>
+		<span class='tabbed5'>outputStreamWriter.close();</span><br>
+		<span class='tabbed3'>} catch (Exception e) {</span><br>
+		<span class='tabbed4'>e.printStackTrace();</span><br>
+		<span class='tabbed3'>}</span><br>
+		<span class='tabbed2'>}</span><br>
+		<span class='tabbed2'>return status;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>private static void wyswietlInfoOElemencie(Element element, int poziom) {</span><br>
+		<span class='tabbed2'>System.out.print(wyswietlPoziom(poziom) + "&lt;" + element.getName());</span><br>
+		<span class='tabbed2'>@SuppressWarnings({ "unchecked" })</span><br>
+		<span class='tabbed2'>List&lt;Attribute&gt; atrybutyElementu = element.getAttributes();</span><br>
+		<span class='tabbed2'>for (int i = 0; i &lt; atrybutyElementu.size(); i++) {</span><br>
+		<span class='tabbed3'>System.out.print(" " + atrybutyElementu.get(i).getName() + "='" + atrybutyElem</span><br>
+		<span class='tabbed4'>entu.get(i).getValue() + "'");</span><br>
+		<span class='tabbed2'>}</span><br>
+		<br>
+		<span class='tabbed2'>System.out.println("&gt;");</span><br>
+		<span class='tabbed2'>if (element.getText().trim().length() &gt; 0)</span><br>
+		<span class='tabbed3'>System.out.println(wyswietlPoziom(poziom + 1) + element.getText().trim());</span><br>
+		<br>
+		<span class='tabbed2'>if (element.getChildren().size() &gt; 0) {</span><br>
+		<span class='tabbed3'>@SuppressWarnings("unchecked")</span><br>
+		<span class='tabbed3'>List&lt;Element&gt; dzieciElementu = element.getChildren();</span><br>
+		<span class='tabbed3'>for (Element dziecko : dzieciElementu) {</span><br>
+		<span class='tabbed4'>wyswietlInfoOElemencie(dziecko, poziom + 2);</span><br>
+		<span class='tabbed3'>}</span><br>
+		<span class='tabbed2'>}</span><br>
+		<br>
+		<span class='tabbed2'>System.out.println(wyswietlPoziom(poziom) + "&lt;/" + element.getName() + "&gt;</span><br>
+		<span class='tabbed3'>");</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		<span class='tabbed1'>private static String wyswietlPoziom(int poziom) {</span><br>
+		<span class='tabbed2'>String odstep = "";</span><br>
+		<span class='tabbed2'>for (int i = 0; i &lt; poziom; i++) {</span><br>
+		<span class='tabbed3'>odstep += " ";</span><br>
+		<span class='tabbed2'>}</span><br>
+		<span class='tabbed2'>return odstep;</span><br>
+		<span class='tabbed1'>}</span><br>
+		<br>
+		}<br>	
+	</div>
+</div>

@@ -1,0 +1,49 @@
+<h1>Data i czas</h1>
+<div class="contentDiv">
+
+	<h3>Czas i jego formatowanie:</h3>
+	
+	<div class="codeDiv">
+		// 10<br>
+		System.out.println(LocalTime.now().format(DateTimeFormatter.ofPattern("hh")));<br>
+		// 10:37<br>
+		System.out.println(LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm")));<br>
+		// 10-37-25<br>
+		System.out.println(LocalTime.now().format(DateTimeFormatter.ofPattern("hh-mm-ss")<br>
+		<span class='tabbed1'>));</span><br>
+		// 10/37/25/69<br>
+		System.out.println(LocalTime.now().format(DateTimeFormatter.ofPattern("hh/mm/ss/m<br>
+		<span class='tabbed1'>m")));</span><br>			
+	</div>
+	
+	<h3>Data i jej formatowanie:</h3>
+	
+	<div class="codeDiv">
+		// 2019-02-08<br>
+		System.out.println(LocalDate.now());<br>
+		// 2019-02-08<br>
+		System.out.println(LocalDate.now().format(DateTimeFormatter.ISO_DATE));<br>
+		// 20190208<br>
+		System.out.println(LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE));<br>
+		// 2019-02-08<br>
+		System.out.println(LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE));<br>
+		// 2019/02/08<br>
+		System.out.println(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd<br>
+		<span class='tabbed1'>")));</span><br>	
+	</div>
+	
+	<h3>Data razem z czasem:</h3>
+	
+	<div class="codeDiv">
+		// 2019-02-08T23:00:38.209<br>
+		System.out.println(LocalDateTime.now());<br>
+		// 2019-02-08<br>
+		System.out.println(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE));<br>
+		// 23:00:38.239<br>
+		System.out.println(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME));<br>
+		// 2019-02-08 11:00:38<br>
+		System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-M<br>
+		<span class='tabbed1'>M-dd hh:mm:ss")));</span><br>	
+	</div>
+
+</div>
