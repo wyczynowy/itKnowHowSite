@@ -77,9 +77,9 @@
 		<span class='tabbed3'>                			int sheetNumber = idx;</span><br>
 		<span class='tabbed3'>                			System.out.println( "SheetNumber:" + sheetNumber + " - " + </span><br>
 		<span class='tabbed4'>cellAddress + " - " + cellValue);</span><br>
-		<span class='tabbed4'>                		if(cellValue &gt;= 1211 && cellValue &lt;= 2418)</span><br>
+		<span class='tabbed4'>                		if(cellValue &gt;= 1211 &amp;&amp; cellValue &lt;= 2418)</span><br>
 		<span class='tabbed4'>                			cell.setCellValue("$K{" + (cellValue - 2) + "}");</span><br>
-		<span class='tabbed4'>                		if(cellValue &gt;=2421 && cellValue &lt;= 2525)</span><br>
+		<span class='tabbed4'>                		if(cellValue &gt;=2421 &amp;&amp; cellValue &lt;= 2525)</span><br>
 		<span class='tabbed4'>                			cell.setCellValue("${K" + (cellValue - 4) + "}");</span><br>
 		<span class='tabbed4'>                		/********** TUTAJ DEFINIUJEMY ZMIANY DLA KOMOREK **********</span><br>
 		<span class='tabbed5'>/</span><br>
