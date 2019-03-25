@@ -1,0 +1,1 @@
+function przedstawSie(){console.log('Przedstawiam się');}

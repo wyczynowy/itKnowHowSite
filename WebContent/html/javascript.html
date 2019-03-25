@@ -33,4 +33,21 @@
 		&lt;/html&gt;
 	</div>
 
+	<p>Kolejny sposób na dołączenie skryptu do strony html to dynamiczne załadowanie pliku ze skryptami. Można to zrobić w poniższy sposób:</p>
+	
+	<div class="codeDiv">
+		(function() {<br>
+		<br>
+		    var scriptElementToLoad = document.createElement('script');<br>
+		        scriptElementToLoad.type = 'text/javascript';<br>
+		        scriptElementToLoad.async = true;<br>
+		        scriptElementToLoad.src = 'http://localhost/skrypty.js';<br>
+		<br>
+		    var scriptElement = document.getElementsByTagName('script')[0];<br>
+		        scriptElement.parentNode.insertBefore(scriptElementToLoad, scriptElement);<br>
+		<span class='tabbed1'></span><br>
+		<span class='tabbed1'>return "Wczytano plik javascript: " + scriptElementToLoad.src;</span><br>
+		})();<br>	
+	</div>
+
 </div>
