@@ -7,11 +7,13 @@
 	<!-- OBRAZEK Z OKNEM WYBORU PROJEKTU W ECLIPSE -->
 	<img src="obrazki/oknoSelectAWizard.jpg" style="max-width: 525px;" onclick="powiekszZdjecie(this)">
 	
-	<p>Wybieramy <span class="clickDiv">Maven -> Maven Project</span> i przechodzimy do okna ustawień nowego projektu. W tym oknie zaznaczamy opcję <span class="important">Create a simple project (skip archetype selection)</span>. 
+	<p>Wybieramy <span class="clickDiv">Maven -> Maven Project</span> i przechodzimy do okna ustawień nowego projektu. 
 		Klikamy <span class="clickDiv">Next</span> i przechodzimy do kolejnego okna konfiguracyjnego nowego projektu:</p>
 	
 	<!-- OBRAZEK Z OKNEM USTAWIEŃ NOWEGO PROJEKTU MAVEN -->
-	<img src="obrazki/oknoNewMavenProject.jpg" style="max-width: 529px;" onclick="powiekszZdjecie(this)">
+	<img src="obrazki/oknoNewMavenProject.jpg" style="max-width: 530px;" onclick="powiekszZdjecie(this)">
+	
+	<p>W następnym oknie należy zaznaczyć <span class="clickDiv">maven-archetype-quickstart</span>. Klikamy Next i przechodzimy do kolejnego okna konfiguracji.</p>
 		
 	<p>W tym oknie ustawiamy Group Id oraz Artifact Id i następnie klikamy przycisk <span class="clickDiv">Finish</span>. Projekt zostaje utworzony.</p>
 	
@@ -27,18 +29,20 @@
 	<code>&lt;outputDirectory&gt;</code> (folder w którym zostanie utworzony plik jar) oraz <code>&lt;mainClass&gt;</code> (ścieżkę do pliku z klasą zawierającą metodę main)</p>
 	
 	<div class="codeDiv">
-		&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"<br>
-		<span class='tabbed1'>rg/2001/XMLSchema-instance"</span><br>
-		<span class='tabbed1'>xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/x</span><br>
-		<span class='tabbed2'>sd/maven-4.0.0.xsd"&gt;</span><br>
+		&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3<br>
+		<span class='tabbed1'>.org/2001/XMLSchema-instance"</span><br>
+		<span class='tabbed1'>xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs</span><br>
+		<span class='tabbed2'>d/maven-4.0.0.xsd"&gt;</span><br>
 		<span class='tabbed1'>&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br>
 		<span class='tabbed1'>&lt;groupId&gt;pl.softService&lt;/groupId&gt;</span><br>
-		<span class='tabbed1'>&lt;artifactId&gt;spring&lt;/artifactId&gt;</span><br>
+		<span class='tabbed1'>&lt;artifactId&gt;testowaAplikacjaMaven&lt;/artifactId&gt;</span><br>
 		<span class='tabbed1'>&lt;version&gt;0.0.1&lt;/version&gt;</span><br>
 		<br>
 		<span class='tabbed1'>&lt;properties&gt;</span><br>
 		<span class='tabbed2'>&lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;</span><br>
 		<span class='tabbed2'>&lt;spring.version&gt;5.0.8.RELEASE&lt;/spring.version&gt;</span><br>
+		<span class='tabbed2'>&lt;maven.compiler.target&gt;1.8&lt;/maven.compiler.target&gt;</span><br>
+		<span class='tabbed2'>&lt;maven.compiler.source&gt;1.8&lt;/maven.compiler.source&gt;</span><br>
 		<span class='tabbed1'>&lt;/properties&gt;</span><br>
 		<br>
 		<span class='tabbed1'>&lt;dependencies&gt;</span><br>
@@ -59,7 +63,8 @@
 		<span class='tabbed5'>&lt;outputDirectory&gt;Output&lt;/outputDirectory&gt;</span><br>
 		<span class='tabbed5'>&lt;archive&gt;</span><br>
 		<span class='tabbed6'>&lt;manifest&gt;</span><br>
-		<span class='tabbed7'>&lt;mainClass&gt;pl.softService.spring.app.Main&lt;/mainClass&gt;</span><br>
+		<span class='tabbed7'>&lt;mainClass&gt;pl.softService.testowaAplikacjaMaven.app.Main&lt;/mainCla</span><br>
+		<span class='tabbed8'>ss&gt;</span><br>
 		<span class='tabbed6'>&lt;/manifest&gt;</span><br>
 		<span class='tabbed5'>&lt;/archive&gt;</span><br>
 		<span class='tabbed4'>&lt;/configuration&gt;</span><br>
