@@ -1,16 +1,33 @@
 <h1>Polecenia z konsoli</h1>
 <div class="contentDiv">
 
-<p>
-<code>&gt; md nowyKatalog</code> - tworzy nowy katalog w bieżącej lokalizacji<br>
-<code>&gt; move nazwaPliku nowaNazwaPliku</code> - zmienia nazwę pliku lub katalogu<br>
-<code>&gt; move nazwaPliku c:\katalog\innyKatalog</code> -  przenosi plik lub katalog w inne miejsce<br>
-<code>&gt; rd nazwaKatalogu</code> - usuwa katalog. Parametr <code>/S</code> umożliwia usunięcie katalogu, który nie jest pusty.
-Parametr <code>/Q</code> umożliwia usunięcie pliku bez konieczności potwierdzania operacji<br>
-<code>&gt; del nazwaPliku</code> - usuwa plik<br>
-<code>&gt; netstat -o -n -a | findstr 0.0.8080</code> - wyswietla pid procesu zajmującego port o wskazanym numerze<br>
-<code>&gt; taskkill /f /pid 1234</code> - zabijanie procesu o wskazanym pid<br>
-</p>
+<h3>Ogólne</h3>
+<div class="codeParagraphDiv">
+	<p class="codeParagraph"><code>&gt;&nbsp;md nowyKatalog</code> - tworzy nowy katalog w bieżącej lokalizacji</p>
+	<p class="codeParagraph"><code>&gt;&nbsp;move nazwaPliku nowaNazwaPliku</code> - zmienia nazwę pliku lub katalogu</p>
+	<p class="codeParagraph"><code>&gt;&nbsp;move nazwaPliku c:\katalog\innyKatalog</code> - przenosi plik lub katalog w inne miejsce</p>
+	<p class="codeParagraph"><code>&gt;&nbsp;rd nazwaKatalogu</code> - usuwa katalog. Parametr <code>/S</code> umożliwia usunięcie katalogu, który nie jest pusty.
+	Parametr <code>/Q</code> umożliwia usunięcie pliku bez konieczności potwierdzania operacji</p>
+	<p class="codeParagraph"><code>&gt;&nbsp;del nazwaPliku</code> - usuwa plik</p>
+	<p class="codeParagraph"><code>&gt;&nbsp;netstat -o -n -a | findstr 0.0.8080</code> - wyswietla pid procesu zajmującego port o wskazanym numerze</p>
+	<p class="codeParagraph"><code>&gt;&nbsp;taskkill /f /pid 1234</code> - zabijanie procesu o wskazanym pid</p>
+	<p class="codeParagraph"><code>&gt;&nbsp;chcp</code> - Wyświetla aktualne kodowanie znaków ustawione w konsoli</p>
+</div>
+
+<h3>Sieć</h3>
+<div class="codeParagraphDiv">
+	<p class="codeParagraph"><code>&gt;&nbsp;netsh wlan show profile</code> - Wyświetla profile (konfigurację) zapisanych sieci wi-fi</p>
+	<p class="codeParagraph"><code>&gt;&nbsp;netsh wlan connect hell</code> - Podłącza się do sieci wi-fi</p>
+	<p class="codeParagraph"><code>&gt;&nbsp;netsh wlan disconnect</code> - Rozłącza się z siecią wi-fi</p>
+	<p class="codeParagraph"><code>&gt;&nbsp;netsh wlan add profile filename = "C:\OUTPUT\Połączenie sieci bezprzewodowej-hell.xml"</code> - Dodaje profil (konfigurację sieci wi-fi)</p>
+	<p class="codeParagraph"><code>&gt;&nbsp;netsh wlan export profile name="hell" folder="C:\OUTPUT\" key=clear</code> - Eksportuje profil (konfigurację sieci wi-fi)</p>
+	<p class="codeParagraph"><code>&gt;&nbsp;netsh wlan delete profile "hell"</code></p>
+	<p class="codeParagraph"><code>&gt;&nbsp;netsh interface show interface "Połączenie sieci bezprzewodowej"</code> - Wyświetla stan połączenia "Połączenie sieci bezprzewodowej"
+		Restart wi-fi</p>
+	<p class="codeParagraph"><code>&gt;&nbsp;netsh interface set interface name="Połączenie sieci bezprzewodowej" admin=disabled</code></p>
+	<p class="codeParagraph"><code>&gt;&nbsp;netsh interface set interface name="Połączenie sieci bezprzewodowej" admin=enabled</code></p>
+	<p class="codeParagraph"><code>&gt;&nbsp;netsh wlan show networks</code> - Wyświetla dostępne sieci wi-fi</p>
+</div>
 
 
 

@@ -164,6 +164,15 @@ code {
 	display: inline-block;
 }
 
+.codeParagraphDiv {
+	padding-left: 20px;
+}
+
+.codeParagraph {
+	text-indent: -20px;
+	margin: 0;
+}
+
 p {
 	font-size: 17px; 
 	margin: 20px 0px;

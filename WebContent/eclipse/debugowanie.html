@@ -31,4 +31,13 @@
 	<p>W przypadku, kiedy serwer się uruchamia niepoprawnie, tzn. nie wczytuje Springowego Dispatcher Servletu, to należy zatrzymać serwer. Usunąć pliki war aplikacji, które znajdują się w katalogu
 	uruchomieniowym serwera <span class="important">KatalogInstalacjiSerwera\standalone\deployments</span>. Zbudować ponownie aplikację przy użyciu narzędzia maven i uruchomić serwer ponownie.</p>
 
+	<h2>Tomcat</h2>
+	
+	<p>Aby debugować aplikację z Eclipse uruchomioną na serwerze Tomcat poza środowiskiem Eclipse, należy uruchomić serwer Tomcat w trybie debugera.
+		Robimy to uruchamiając skrypt <span class="important">catalina.bat jpda start</span> z katalogu <span class="clickDiv">bin</span> serwera Tomcat.
+		Następnie w Eclipse w ustawieniach <span class="important">Debugera (Debug Configurations)</span> należy dodać nową konfigurację debugera.
+		Należy kliknąć ppm na <span class="clickDiv">Remote Java Application -> New</span>. Dodając konfigurację debugowania będąc w Eclipse w
+		projekcie, który chcemy debugować, konfiguracja zostanie dodana z domyślnymi ustawieniami. Takie w zupełności wystarczają na podłączenie
+		się do serwera Tomcat. Klikamy Debug i Eclipse powinien podłączyć się do serwera. </p>
+
 </div>
