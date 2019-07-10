@@ -213,7 +213,7 @@ function loadHtmlIntoIframe(id, location) {
         			iloscAktualnieWyswietlanychPrzyciskowMenu++;
         		}
         	}
-        	// Tutaj mnożenie razy 105 a nie 102 dlatebo, bo przy zoomie w oknie przeglądarki wymiary się nieco rozjeżdżają
+        	// Tutaj mnożenie razy 105 a nie 102 dlatego, bo przy zoomie w oknie przeglądarki wymiary się nieco rozjeżdżają
         	menuDivInsideMenuDiv.style.width = iloscMozliwychDoWyswietleniaPrzyciskowMenu > menuButtonDiv.length ? (menuButtonDiv.length * 105) + 'px' : (iloscMozliwychDoWyswietleniaPrzyciskowMenu * 105) + 'px';
         	menuDivInsideMenuDiv.style.margin = '0 auto;'
 
@@ -238,20 +238,7 @@ function loadHtmlIntoIframe(id, location) {
         		przyciskDodatkowyMenu.style.display = 'inline-block';
         	} else {
         		przyciskDodatkowyMenu.style.display = 'none';
-        	}
-        	
-        	// Usuniecie poprzednio skopiowanych elementow do kontenera o id = 'extendedMenuDiv'
-        	var lvExtendedMenuDiv = document.getElementById('extendedMenuDiv');
-        	while(lvExtendedMenuDiv.children.length > 1) {
-        		lvExtendedMenuDiv.children[lvExtendedMenuDiv.children.length - 1].remove();
-        	}
-        	
-        	ukrytePrzyciskiMenuArray.forEach(function(element,pos){
-        		if(!element){
-        			document.getElementById('extendedMenuDiv').appendChild(menuButtonDiv[pos].cloneNode(true));
-        		}
-        		});
-         		
+        	}     		
     	}   	
     }
     
