@@ -82,11 +82,11 @@
   transform: translateY(4px);
 }
 
-.content-center {
+.content {
 	background-color: #ffffff;
-	width: 1300px;
-	height: 100%;
-	float: left;
+	min-width: 800px;
+	height: 500px;
+	z-index: 0;
 }
 
 .content-left {
@@ -101,14 +101,19 @@
 	background-color: #ffffff;
 	width: 150px;
 	height: 100%;
-	float: left;
+	float: right;
 	z-index: 0;
 }
 
-.content {
-	height: 500px;
-	position: absolute;
-	z-index: 0;
+.content-center {
+	background-color: #ffffff;
+	height: 100%;
+	display: flex;
+	flex-flow: column;
+}
+
+.contentDiv {
+	margin: 0px 20px;
 }
 
 .zasoby {
@@ -146,10 +151,12 @@ code {
 	padding-right: 80px;
 	color: #0066cc;
 	background-color: #e6f7ff;
-	font-family: monospace;
 	font-size: 15px;
-	display: block;
 	margin: 20px 0;
+	overflow: scroll;
+	display: block;
+  	font-family: monospace;
+  	white-space: pre;
 }
 
 .codeConsole {
@@ -191,10 +198,6 @@ h2 {
 
 h3 {
 	color: #990000;
-}
-
-.contentDiv {
-	margin: 20px;
 }
 
 .menuDiv {
