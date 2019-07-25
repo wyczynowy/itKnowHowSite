@@ -4,34 +4,39 @@
 	<p>Timery w Javie to nic innego jak działające wątki, wykonujące określone zadania w ramach tych wątków. Przykład poniżej:</p>
 	
 	<div class="codeDiv">
-		// Klasa rozszerzająca TimerTask to klasa "zadanie". Zadanie to będzie wykonywane w ramach wątku timera<br>
-		class TimerExample extends TimerTask {<br>
-		<br>
-		<span class='tabbed1'>private String name;</span><br>
-		<br>
-		<span class='tabbed1'>public TimerExample(String name) {</span><br>
-		<span class='tabbed2'>super();</span><br>
-		<span class='tabbed2'>this.name = name;</span><br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		<span class='tabbed1'>@Override</span><br>
-		<span class='tabbed1'>public void run() {</span><br>
-		<span class='tabbed2'>System.out.println("Licznik: " + Thread.currentThread().getName() + ", " + name</span><br>
-		<span class='tabbed3'> + " wykonano z sukcesem - " + new Date());</span><br>
-		<span class='tabbed1'>}</span><br>
-		}<br>
-		<br>
-		<br>
-		public class Main {<br>
-		<br>
-		<span class='tabbed1'>public static void main(String[] args) {</span><br>
-		<br>
-		<span class='tabbed2'>// Tworzymy timer i kolejno dodajemy zadania jakie ma wykonywać</span><br>
-		<span class='tabbed2'>Timer timer = new Timer("Licznik1");</span><br>
-		<span class='tabbed2'>timer.scheduleAtFixedRate(new TimerExample("Zadanie1"), 0, 5 * 1000);</span><br>
-		<span class='tabbed2'>timer.scheduleAtFixedRate(new TimerExample("Zadanie2"), 0, 1 * 1000);</span><br>
-		<span class='tabbed1'>}</span><br>
-		}<br>			
+package app;
+
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
+// Klasa rozszerzająca TimerTask to klasa "zadanie". Zadanie to będzie wykonywane w ramach wątku timera
+class TimerExample extends TimerTask {
+
+	private String name;
+
+	public TimerExample(String name) {
+		super();
+		this.name = name;
+	}
+
+	@Override
+	public void run() {
+		System.out.println("Licznik: " + Thread.currentThread().getName() + ", " + name
+				+ " wykonano z sukcesem - " + new Date());
+	}
+}
+
+public class Main {
+
+	public static void main(String[] args) {
+
+		// Tworzymy timer i kolejno dodajemy zadania jakie ma wykonywać
+		Timer timer = new Timer("Licznik1");
+		timer.scheduleAtFixedRate(new TimerExample("Zadanie1"), 0, 5 * 1000);
+		timer.scheduleAtFixedRate(new TimerExample("Zadanie2"), 0, 1 * 1000);
+	}
+}
 	</div>
 
 </div>

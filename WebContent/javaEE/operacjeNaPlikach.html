@@ -4,80 +4,94 @@
 	<h3>Dostęp do plików w folderze w którym znajduje się program:</h3>
 	
 	<div class="codeDiv">
-		public class Main {<br>
-		<br>
-		<span class='tabbed1'>public static void main(String[] args) {</span><br>
-		<br>
-		<span class='tabbed2'>File folder = new File("./");</span><br>
-		<span class='tabbed2'>File[] listOfFiles = folder.listFiles();</span><br>
-		<br>
-		<span class='tabbed2'>for (File file : listOfFiles) {</span><br>
-		<span class='tabbed3'>System.out.println("Nazwa pliku: " + file.getName());</span><br>
-		<span class='tabbed3'>System.out.println("Ścieżka absolutna: " + file.getAbsolutePath());</span><br>
-		<span class='tabbed2'>}</span><br>
-		<span class='tabbed1'>}</span><br>
-		}<br>
+package app;
+
+import java.io.File;
+
+public class Main {
+
+	public static void main(String[] args) {
+
+		File folder = new File("./");
+		File[] listOfFiles = folder.listFiles();
+
+		for (File file : listOfFiles) {
+			System.out.println("Nazwa pliku: " + file.getName());
+			System.out.println("Ścieżka absolutna: " + file.getAbsolutePath());
+		}
+	}
+}
 	</div>
 	
 	<h3>Odczyt danych z pliku:</h3>
 	
 	<div class="codeDiv">
-		public class Main {<br>
-		<br>
-		<span class='tabbed1'>public static void main(String[] args) {</span><br>
-		<br>
-		<span class='tabbed2'>BufferedReader bufferedReader = null;</span><br>
-		<span class='tabbed2'></span><br>
-		<span class='tabbed2'>try {</span><br>
-		<span class='tabbed3'>bufferedReader = new BufferedReader(new FileReader("C:\\exampleFolder\\exampl</span><br>
-		<span class='tabbed4'>eFile.txt"));</span><br>
-		<span class='tabbed3'>String readedLine = "";</span><br>
-		<span class='tabbed3'>while((readedLine = bufferedReader.readLine()) != null) {</span><br>
-		<span class='tabbed4'>System.out.println(readedLine);</span><br>
-		<span class='tabbed3'>}</span><br>
-		<span class='tabbed2'>} catch (Exception e) {</span><br>
-		<span class='tabbed3'>e.printStackTrace();</span><br>
-		<span class='tabbed2'>} finally {</span><br>
-		<span class='tabbed3'>if (bufferedReader != null) {</span><br>
-		<span class='tabbed4'>try {</span><br>
-		<span class='tabbed5'>bufferedReader.close();</span><br>
-		<span class='tabbed4'>} catch (IOException e) {</span><br>
-		<span class='tabbed5'>e.printStackTrace();</span><br>
-		<span class='tabbed4'>}</span><br>
-		<span class='tabbed3'>}</span><br>
-		<span class='tabbed2'>}</span><br>
-		<span class='tabbed1'>}</span><br>
-		}<br>	
+package app;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class Main {
+
+	public static void main(String[] args) {
+
+		BufferedReader bufferedReader = null;
+
+		try {
+			bufferedReader = new BufferedReader(new FileReader("C:\\exampleFolder\\exampleFile.txt"));
+			String readedLine = "";
+			while ((readedLine = bufferedReader.readLine()) != null) {
+				System.out.println(readedLine);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (bufferedReader != null) {
+				try {
+					bufferedReader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+}
 	</div>
 	
 	<h3>Zapis danych do pliku:</h3>
 	
 	<div class="codeDiv">
-		public class Main {<br>
-		<br>
-		<span class='tabbed1'>public static void main(String[] args) {</span><br>
-		<br>
-		<span class='tabbed2'>BufferedWriter bufferedWriter = null;</span><br>
-		<span class='tabbed2'></span><br>
-		<span class='tabbed2'>try {</span><br>
-		<span class='tabbed3'>bufferedWriter = new BufferedWriter(new FileWriter("C:\\exampleFolder\\exampl</span><br>
-		<span class='tabbed4'>eFile.txt"));</span><br>
-		<span class='tabbed3'>bufferedWriter.write("Linia pierwsza \r\n");</span><br>
-		<span class='tabbed3'>bufferedWriter.write("Linia druga \r\n");</span><br>
-		<span class='tabbed3'>bufferedWriter.write("Linia trzecia \r\n");</span><br>
-		<span class='tabbed2'>} catch (Exception e) {</span><br>
-		<span class='tabbed3'>e.printStackTrace();</span><br>
-		<span class='tabbed2'>} finally {</span><br>
-		<span class='tabbed3'>if (bufferedWriter != null) {</span><br>
-		<span class='tabbed4'>try {</span><br>
-		<span class='tabbed5'>bufferedWriter.close();</span><br>
-		<span class='tabbed4'>} catch (IOException e) {</span><br>
-		<span class='tabbed5'>e.printStackTrace();</span><br>
-		<span class='tabbed4'>}</span><br>
-		<span class='tabbed3'>}</span><br>
-		<span class='tabbed2'>}</span><br>
-		<span class='tabbed1'>}</span><br>
-		}<br>	
+package app;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Main {
+
+	public static void main(String[] args) {
+
+		BufferedWriter bufferedWriter = null;
+
+		try {
+			bufferedWriter = new BufferedWriter(new FileWriter("C:\\exampleFolder\\exampleFile.txt"));
+			bufferedWriter.write("Linia pierwsza \r\n");
+			bufferedWriter.write("Linia druga \r\n");
+			bufferedWriter.write("Linia trzecia \r\n");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (bufferedWriter != null) {
+				try {
+					bufferedWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+}
 	</div>
 
 </div>

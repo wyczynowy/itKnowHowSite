@@ -9,76 +9,78 @@
 	<h2>Listy</h2>
 	
 	<div class="codeDiv">
-		List&lt;String&gt; stringList = new ArrayList&lt;&gt;();<br>
-		stringList.add("ddd2");<br>
-		stringList.add("aaa2");<br>
-		stringList.add("bbb1");<br>
-		stringList.add("aaa1");<br>
-		stringList.add("bbb3");<br>
-		stringList.add("ccc");<br>
-		stringList.add("bbb2");<br>
-		stringList.add("ddd1");<br>
-		<br>
-		List&lt;String&gt; stringList2 = stringList<br>
-	    .stream()// Tworzymy strumien<br>
-	    .sorted()// Sortujemy wyniki w kolejnosci alfabetycznej<br>
-	    .filter((s) -&gt; s.startsWith("a"))// Filtrujemy<br>
-	    .collect(Collectors.toList());// Zapisujemy strumien do nowo utworzonej listy stringList2<br>
-		<br>
-		stringList2.forEach(System.out::println);
-		<br>
-		<div class="codeConsole">
-			aaa1<br>
-			aaa2<br>
-		</div>
+List&lt;String&gt; stringList = new ArrayList&lt;&gt;();
+stringList.add("ddd2");
+stringList.add("aaa2");
+stringList.add("bbb1");
+stringList.add("aaa1");
+stringList.add("bbb3");
+stringList.add("ccc");
+stringList.add("bbb2");
+stringList.add("ddd1");
+
+List&lt;String&gt; stringList2 = stringList
+		.stream()// Tworzymy strumien
+		.sorted()// Sortujemy wyniki w kolejnosci alfabetycznej
+		.filter((s) -> s.startsWith("a"))// Filtrujemy
+		.collect(Collectors.toList());// Zapisujemy strumien do nowo utworzonej listy stringList2
+
+stringList2.forEach(System.out::println);
+
+<div class="codeConsole">
+aaa1
+aaa2
+</div>
 	</div>
 	
 	<h2>Zbiory</h2>
 	
 		<div class="codeDiv">
-		Set&lt;String&gt; stringSet = new HashSet&lt;&gt;();<br>
-		stringSet.add("ddd2");<br>
-		stringSet.add("aaa2");<br>
-		stringSet.add("bbb1");<br>
-		stringSet.add("aaa1");<br>
-		stringSet.add("bbb3");<br>
-		stringSet.add("ccc");<br>
-		stringSet.add("bbb2");<br>
-		stringSet.add("ddd1");<br>
-		<br>
-		Set&lt;String&gt; stringSet2 = stringSet<br>
-	    .stream()// Tworzymy strumien<br>
-	    .sorted()// Sortujemy wyniki w kolejnosci alfabetycznej<br>
-	    .filter((s) -&gt; s.startsWith("a"))// Filtrujemy<br>
-	    .collect(Collectors.toSet());// Zapisujemy strumien do nowo utworzonego zbioru stringSet2<br>
-		<br>
-		stringSet2.forEach(System.out::println);
-		<br>
-		<div class="codeConsole">
-			aaa1<br>
-			aaa2<br>
-		</div>
+Set&lt;String&gt; stringSet = new HashSet&lt;&gt;();
+stringSet.add("ddd2");
+stringSet.add("aaa2");
+stringSet.add("bbb1");
+stringSet.add("aaa1");
+stringSet.add("bbb3");
+stringSet.add("ccc");
+stringSet.add("bbb2");
+stringSet.add("ddd1");
+
+Set&lt;String&gt; stringSet2 = stringSet
+		.stream()// Tworzymy strumien
+		.sorted()// Sortujemy wyniki w kolejnosci alfabetycznej
+		.filter((s) -> s.startsWith("a"))// Filtrujemy
+		.collect(Collectors.toSet());// Zapisujemy strumien do nowo utworzonego zbioru stringSet2
+
+stringSet2.forEach(System.out::println);
+
+<div class="codeConsole">
+aaa1
+aaa2
+</div>
 	</div>
 
 	<h2>Mapy</h2>
 
 	<div class="codeDiv">
-		Map&lt;String,String&gt; stringMap = new HashMap&lt;&gt;();<br>
-		stringMap.put("Małgorzata", "Psotnik");<br>
-		stringMap.put("Daria", "Anielska");<br>
-		stringMap.put("Beata", "Nieposłuszna");<br>
-		stringMap.put("Jola", "Nielojalna");<br>
-		<br>
-		HashMap&lt;String, String&gt; stringMap2 =  (HashMap&lt;String, String&gt;) stringMap.entrySet().stream()// tworzymy entrySet()<br>
-		.filter(entry -&gt; entry.getKey().startsWith("B") || entry.getKey().startsWith("D"))// Filtrujemy<br>
-		.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));// Zapisujemy strumien do nowo utworzonej mapy<br>
-		<br>
-		stringMap2.forEach((x,y) -&gt; System.out.println(x + " " + y));
-		<br>
-		<div class="codeConsole">
-			Daria Anielska<br>
-			Beata Nieposłuszna
-		</div>
+Map&lt;String, String&gt; stringMap = new HashMap&lt;&gt;();
+stringMap.put("Małgorzata", "Psotnik");
+stringMap.put("Daria", "Anielska");
+stringMap.put("Beata", "Nieposłuszna");
+stringMap.put("Jola", "Nielojalna");
+
+HashMap&lt;String, String&gt; stringMap2 = (HashMap&lt;String, String&gt;) stringMap.entrySet().stream()// tworzymy
+																							// entrySet()
+		.filter(entry -> entry.getKey().startsWith("B") || entry.getKey().startsWith("D"))// Filtrujemy
+		.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));// Zapisujemy strumien do nowo
+																			// utworzonej mapy
+
+stringMap2.forEach((x, y) -> System.out.println(x + " " + y));
+
+<div class="codeConsole">
+Daria Anielska
+Beata Nieposłuszna
+</div>
 	</div>
 	
 	<h2>Klasa Collectors i zapis strumienia</h2>
@@ -86,185 +88,172 @@
 	<h3>Zapis strumienia listy elementów do mapy</h3>
 	
 	<div class="codeDiv">
-		package program;<br>
-		<br>
-		import java.util.ArrayList;<br>
-		import java.util.List;<br>
-		import java.util.Map;<br>
-		import java.util.stream.Collectors;<br>
-		<br>
-		class Osoba {<br>
-		<span class='tabbed1'>String imie;</span><br>
-		<span class='tabbed1'>int wiek;</span><br>
-		<br>
-		<span class='tabbed1'>public Osoba(String imie, int wiek) {</span><br>
-		<span class='tabbed2'>this.imie = imie;</span><br>
-		<span class='tabbed2'>this.wiek = wiek;</span><br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		<span class='tabbed1'>@Override</span><br>
-		<span class='tabbed1'>public String toString() {</span><br>
-		<span class='tabbed2'>return imie;</span><br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		}<br>
-		<br>
-		public class Main {<br>
-		<br>
-		<span class='tabbed1'>public static void main(String... args) {</span><br>
-		<span class='tabbed2'>List&lt;Osoba&gt; listaLudzi = new ArrayList&lt;&gt;();</span><br>
-		<span class='tabbed2'>listaLudzi.add(new Osoba("Monika", 25));</span><br>
-		<span class='tabbed2'>listaLudzi.add(new Osoba("Renata", 33));</span><br>
-		<span class='tabbed2'>listaLudzi.add(new Osoba("Milena", 27));</span><br>
-		<span class='tabbed2'>listaLudzi.add(new Osoba("Marta", 27));</span><br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		}	
+package program;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+class Osoba {
+	String imie;
+	int wiek;
+
+	public Osoba(String imie, int wiek) {
+		this.imie = imie;
+		this.wiek = wiek;
+	}
+
+	@Override
+	public String toString() {
+		return imie;
+	}
+
+}
+
+public class Main {
+
+	public static void main(String... args) {
+		List&lt;Osoba&gt; listaLudzi = new ArrayList&lt;&gt;();
+		listaLudzi.add(new Osoba("Monika", 25));
+		listaLudzi.add(new Osoba("Renata", 33));
+		listaLudzi.add(new Osoba("Milena", 27));
+		listaLudzi.add(new Osoba("Marta", 27));
+	}
+
+}
 	</div>
 	
 	<p>- grupowanie elementów listy:</p>
 	
 	<div class="codeDiv">
-		Map&lt;Integer, List&lt;Osoba&gt;&gt; mapaLudzi = listaLudzi.stream().collect(C<br>
-		<span class='tabbed2'>ollectors.groupingBy(p -&gt; p.wiek));</span><br>
-		mapaLudzi.forEach((w, o) -&gt; System.out.format("wiek %s: %s\r\n", w, o));<br>	
+Map&lt;Integer, List&lt;Osoba&gt;&gt; mapaLudzi = listaLudzi.stream().collect(Collectors.groupingBy(p -> p.wiek));
+mapaLudzi.forEach((w, o) -> System.out.format("wiek %s: %s\r\n", w, o));
 	</div>
 	
 	<p>Wynik:</p>
 	
-	<div class="codeConsole">
-		wiek 33: [Renata]<br>
-		wiek 25: [Monika]<br>
-		wiek 27: [Milena, Marta]	
-	</div>
+<div class="codeConsole">
+wiek 33: [Renata]
+wiek 25: [Monika]
+wiek 27: [Milena, Marta]
+</div>
 	
 	<p>- tworzenie nowych kluczy i wartości mapy:</p>
 	
 	<div class="codeDiv">
-		Map&lt;Integer, String&gt; mapaLudziWiekImie = listaLudzi.stream().collect(<br>
-		<span class='tabbed2'>Collectors.toMap(osoba -&gt; osoba.wiek, osoba -&gt; osoba.imie, (imie1, imie</span><br>
-		<span class='tabbed3'>2) -&gt; imie1 + ";" + imie2));</span><br>
-		<span class='tabbed1'></span><br>
-		System.out.println(mapaLudziWiekImie);	
+Map&lt;Integer, String&gt; mapaLudziWiekImie = listaLudzi.stream().collect(
+		Collectors.toMap(osoba -> osoba.wiek, osoba -> osoba.imie, (imie1, imie2) -> imie1 + ";" + imie2));
+
+System.out.println(mapaLudziWiekImie);
 	</div>
 
 	<p>Wynik:</p>
 	
-	<div class="codeConsole">
-		{33=Renata, 25=Monika, 27=Milena;Marta}
-	</div>
+<div class="codeConsole">
+{33=Renata, 25=Monika, 27=Milena;Marta}
+</div>
 	
 	<h3>Wyliczenie średniej ze strumienia elementów:</h3>
 	
 	<div class="codeDiv">
-		Double sredniaWieku = listaLudzi.stream().collect(Collectors.averagingInt(o-<br>
-		<span class='tabbed1'>&gt;o.wiek));</span><br>
-		<span class='tabbed2'></span><br>
-		System.out.format("Średnia wieku: %s\r\n", sredniaWieku)<br>	
+Double sredniaWieku = listaLudzi.stream().collect(Collectors.averagingInt(o -> o.wiek));
+
+System.out.format("Średnia wieku: %s\r\n", sredniaWieku);
 	</div>
 
 	<p>Wynik:</p>
 	
-	<div class="codeConsole">
-		Średnia wieku: 28.0
-	</div>
+<div class="codeConsole">
+Średnia wieku: 28.0
+</div>
 	
 	<h3>Wyliczenie statystyk z obiektów strumienia:</h3>
 	
 	<div class="codeDiv">
-		IntSummaryStatistics podsumowanieWieku = listaLudzi.stream().collect(Collect<br>
-		<span class='tabbed1'>ors.summarizingInt(o-&gt;o.wiek));</span><br>
-		<span class='tabbed2'></span><br>
-		System.out.println(podsumowanieWieku);<br>	
+IntSummaryStatistics podsumowanieWieku = listaLudzi.stream().collect(Collectors.summarizingInt(o -> o.wiek));
+
+System.out.println(podsumowanieWieku);
 	</div>
 
 	<p>Wynik:</p>
 	
-	<div class="codeConsole">
-		IntSummaryStatistics{count=4, sum=112, min=25, average=28,000000, max=33}	
-	</div>
+<div class="codeConsole">
+IntSummaryStatistics{count=4, sum=112, min=25, average=28,000000, max=33}
+</div>
 		
 	<h3>Złączenie Stringów:</h3>
 	
 	<div class="codeDiv">
-		String fraza = listaLudzi.stream().filter(x-&gt;x.wiek&gt;17).map(x-&gt;x.im<br>
-		<span class='tabbed1'>ie).collect(Collectors.joining(" i ", "W Polsce ", " są osobami pełnoletnimi"));</span><br>
-		<span class='tabbed2'></span><br>
-		System.out.println(fraza);	
+String fraza = listaLudzi.stream().filter(x -> x.wiek > 17).map(x -> x.imie)
+		.collect(Collectors.joining(" i ", "W Polsce ", " są osobami pełnoletnimi"));
+
+System.out.println(fraza);	
 	</div>	
 
 	<p>Wynik:</p>
 	
-	<div class="codeConsole">
-		W Polsce Monika i Renata i Milena i Marta są osobami pełnoletnimi	
-	</div>
+<div class="codeConsole">
+W Polsce Monika i Renata i Milena i Marta są osobami pełnoletnimi
+</div>
 	
 	<h3>Tworzenie własnych kolektorów:</h3>
 	
 	<div class="codeDiv">
-		Collector&lt;Osoba, StringJoiner, String&gt; imionaLudziCollector = Collecto<br>
-		<span class='tabbed1'>r.of(</span><br>
-		<span class='tabbed4'>// supplier</span><br>
-		<span class='tabbed4'>() -&gt; new StringJoiner(" | "),</span><br>
-		<span class='tabbed4'>// accumulator</span><br>
-		<span class='tabbed4'>(j, p) -&gt; j.add(p.imie.toUpperCase()),</span><br>
-		<span class='tabbed4'>// combiner</span><br>
-		<span class='tabbed4'>(j1, j2) -&gt; j1.merge(j2),</span><br>
-		<span class='tabbed4'>// finisher</span><br>
-		<span class='tabbed4'>StringJoiner::toString);</span><br>
-		<br>
-		<span class='tabbed2'>String imiona = listaLudzi.stream().collect(imionaLudziCollector);</span><br>
-		<br>
-		<span class='tabbed2'>System.out.println(imiona);</span><br>
+Collector&lt;Osoba, StringJoiner, String&gt; imionaLudziCollector = Collector.of(
+		// supplier
+		() -&gt; new StringJoiner(" | "),
+		// accumulator
+		(j, p) -&gt; j.add(p.imie.toUpperCase()),
+		// combiner
+		(j1, j2) -&gt; j1.merge(j2),
+		// finisher
+		StringJoiner::toString);
+
+String imiona = listaLudzi.stream().collect(imionaLudziCollector);
+
+System.out.println(imiona);
 	</div>
 
 	<p>Wynik:</p>
 	
-	<div class="codeConsole">
-		MONIKA | RENATA | MILENA | MARTA
-	</div>
+<div class="codeConsole">
+MONIKA | RENATA | MILENA | MARTA
+</div>
 	
 	<h3>Reduce - operacja kończąca, która dokonuje redukcji</h3>
 	
 	<div class="codeDiv">
-		Optional&lt;String&gt; imionaPoRedukcji = listaLudzi.stream().map(x -&gt; x.<br>
-		<span class='tabbed1'>imie)</span><br>
-		<span class='tabbed4'>.reduce((imie1, imie2) -&gt; imie1.toUpperCase() + " | " + imie2.toUpperCase(</span><br>
-		<span class='tabbed5'>));</span><br>
-		<br>
-		<span class='tabbed2'>imionaPoRedukcji.ifPresent(System.out::println);</span><br>	
+Optional&lt;String&gt; imionaPoRedukcji = listaLudzi.stream().map(x -&gt; x.imie)
+		.reduce((imie1, imie2) -&gt; imie1.toUpperCase() + " | " + imie2.toUpperCase());
+
+imionaPoRedukcji.ifPresent(System.out::println);
 	</div>
 
 	<p>Wynik:</p>
 	
-	<div class="codeConsole">
-		MONIKA | RENATA | MILENA | MARTA
-	</div>
+<div class="codeConsole">
+MONIKA | RENATA | MILENA | MARTA
+</div>
 	
 	<h3>Match - operacje dopasowania:</h3>
 	
 	<div class="codeDiv">
-		boolean jakiekolwiekImieOdM = listaLudzi.stream().anyMatch(x -&gt; x.imie.st<br>
-		<span class='tabbed1'>artsWith("M"));</span><br>
-		<span class='tabbed2'>boolean wszystkieImionaOdM = listaLudzi.stream().allMatch(x -&gt; x.imie.starts</span><br>
-		<span class='tabbed3'>With("M"));</span><br>
-		<span class='tabbed2'>boolean zadneImieOdR = listaLudzi.stream().noneMatch(x -&gt; x.imie.startsWith(</span><br>
-		<span class='tabbed3'>"R"));</span><br>
-		<br>
-		<span class='tabbed2'>System.out.println("Jest jakieś imie zaczynające się od M ? - " + (jakiekolw</span><br>
-		<span class='tabbed3'>iekImieOdM ? "tak" : "nie"));</span><br>
-		<span class='tabbed2'>System.out.println("Czy wszystkie imiona zaczynają się od M ? - " + (wszystki</span><br>
-		<span class='tabbed3'>eImionaOdM ? "tak" : "nie"));</span><br>
-		<span class='tabbed2'>System.out.println("Czy żadne imie nie zaczyna się od R ? - " + (zadneImieOdR</span><br>
-		<span class='tabbed3'> ? "tak" : "nie"));</span><br>	
+boolean jakiekolwiekImieOdM = listaLudzi.stream().anyMatch(x -> x.imie.startsWith("M"));
+boolean wszystkieImionaOdM = listaLudzi.stream().allMatch(x -> x.imie.startsWith("M"));
+boolean zadneImieOdR = listaLudzi.stream().noneMatch(x -> x.imie.startsWith("R"));
+
+System.out.println("Jest jakieś imie zaczynające się od M ? - " + (jakiekolwiekImieOdM ? "tak" : "nie"));
+System.out.println("Czy wszystkie imiona zaczynają się od M ? - " + (wszystkieImionaOdM ? "tak" : "nie"));
+System.out.println("Czy żadne imie nie zaczyna się od R ? - " + (zadneImieOdR ? "tak" : "nie"));
 	</div>
 
 	<p>Wynik:</p>
 	
-	<div class="codeConsole">
-		Jest jakieś imie zaczynające się od M ? - tak<br>
-		Czy wszystkie imiona zaczynają się od M ? - nie<br>
-		Czy żadne imie nie zaczyna się od R ? - nie	<br>
-	</div>
+<div class="codeConsole">
+Jest jakieś imie zaczynające się od M ? - tak
+Czy wszystkie imiona zaczynają się od M ? - nie
+Czy żadne imie nie zaczyna się od R ? - nie
+</div>
 	
 </div>

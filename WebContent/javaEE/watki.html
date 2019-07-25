@@ -4,35 +4,37 @@
 	<p>W Javie mamy możliwośc uruchamiać zadania w kilku wątkach. Poniżej podstawowy przykład uruchomienia zadań w kilku wątkach:</p>
 	
 	<div class="codeDiv">
-		class Zadanie implements Runnable {<br>
-		<br>
-		&nbsp;private int id;<br>
-		<br>
-		&nbsp;public Zadanie(int id) {<br>
-			&nbsp;&nbsp;this.id = id;<br>
-		&nbsp;}<br>
-		<br>
-		&nbsp;@Override<br>
-		&nbsp;public void run() {<br>
-			&nbsp;&nbsp;System.out.println("Uruchomienie zadania: " + id);<br>
-			&nbsp;&nbsp;while(true) {<br>
-				&nbsp;&nbsp;&nbsp;System.out.println("Zadanie: " + id);<br>
-				&nbsp;&nbsp;&nbsp;try {<br>
-					&nbsp;&nbsp;&nbsp;&nbsp;Thread.sleep(1000);<br>
-				&nbsp;&nbsp;&nbsp;} catch (InterruptedException e) {<br>
-					&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
-				&nbsp;&nbsp;&nbsp;}<br>
-			&nbsp;&nbsp;}<br>
-		&nbsp;}<br>
-	}<br>
-	<br>
-	public class Main {<br>
-		&nbsp;public static void main(final String... args) throws InterruptedException {<br>
-			&nbsp;&nbsp;for(int i = 0; i &lt; 5; i++) {<br>
-				&nbsp;&nbsp;&nbsp;new Thread(new Zadanie(i)).start();<br>
-			&nbsp;&nbsp;}<br>
-		&nbsp;}<br>
+package app;
+
+class Zadanie implements Runnable {
+
+	private int id;
+
+	public Zadanie(int id) {
+		this.id = id;
 	}
+
+	@Override
+	public void run() {
+		System.out.println("Uruchomienie zadania: " + id);
+		while (true) {
+			System.out.println("Zadanie: " + id);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+}
+
+public class Main {
+	public static void main(final String... args) throws InterruptedException {
+		for (int i = 0; i &lt; 5; i++) {
+			new Thread(new Zadanie(i)).start();
+		}
+	}
+}
 	</div>
 
 	<h2>Wykonawcy</h2>
@@ -52,14 +54,14 @@
 	</p>
 	
 	<div class="codeDiv">
-		public static void main(final String... args) throws InterruptedException {<br>
-		<br>
-		&nbsp;ExecutorService exec = Executors.newFixedThreadPool(5);<br>	
-		&nbsp;for(int i = 0; i &lt; 5; i++) {<br>
-			&nbsp;&nbsp;Thread watek = new Thread(new Zadanie(i));<br>
-			&nbsp;&nbsp;exec.execute(watek);<br>
-		&nbsp;}<br>
+public static void main(final String... args) throws InterruptedException {
+
+	ExecutorService exec = Executors.newFixedThreadPool(5);
+	for (int i = 0; i &lt; 5; i++) {
+		Thread watek = new Thread(new Zadanie(i));
+		exec.execute(watek);
 	}
+}
 	</div>
 
 	<h2>Zwracanie wyniku</h2>
@@ -71,49 +73,59 @@
 	
 	<div class="codeDiv">
 	
-		class ZadanieZWynikiem implements Callable&lt;String&gt; {<br>
-			&nbsp;private int id;<br>
-			<br>
-			&nbsp;public ZadanieZWynikiem(int idZadania) {<br>
-				&nbsp;&nbsp;this.id = idZadania;<br>
-			&nbsp;}<br>
-			<br>
-			&nbsp;@Override<br>
-			&nbsp;public String call() throws Exception {<br>
-				&nbsp;&nbsp;for(int i = 0; i &lt; 5; i++) {<br>
-					&nbsp;&nbsp;&nbsp;System.out.println("Wykonuję zadanie nr: " + id + ", " + i + " raz.");<br>
-					&nbsp;&nbsp;&nbsp;TimeUnit.MILLISECONDS.sleep(100);<br>
-				&nbsp;&nbsp;}<br>
-				&nbsp;&nbsp;return "Zadanie nr: " + id + " Wykonane";<br>
-			&nbsp;}<br>
-		}<br>
-		<br>
-		public class CallableExample {<br>
-		<br>
-			&nbsp;public static void main(String[] args) {<br>
-				&nbsp;&nbsp;ExecutorService exec = Executors.newCachedThreadPool();<br>
-				&nbsp;&nbsp;ArrayList&lt;Future&lt;String&gt;&gt; results = new ArrayList&lt;&lt;&gt;();<br>
-				<br>
-				&nbsp;&nbsp;for(int i = 0; i &lt; 5; i++) {<br>
-					&nbsp;&nbsp;&nbsp;results.add(exec.submit(new ZadanieZWynikiem(i)));<br>
-				&nbsp;&nbsp;}<br>
-				<br>
-				&nbsp;&nbsp;for(Future&lt;String&gt; fs : results) {<br>
-					&nbsp;&nbsp;&nbsp;try {<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;// Wywolanie get() blokuje wywolujacego<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(fs.get());<br>
-					&nbsp;&nbsp;&nbsp;} catch(InterruptedException e) {<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(e);<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
-					&nbsp;&nbsp;&nbsp;} catch(ExecutionException e) {<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(e);<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
-					&nbsp;&nbsp;&nbsp;} finally {<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;exec.shutdown();<br>
-					&nbsp;&nbsp;&nbsp;}<br>
-				&nbsp;&nbsp;}<br>
-			&nbsp;}<br>
+package app;
+
+import java.util.ArrayList;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+
+class ZadanieZWynikiem implements Callable&lt;String&gt; {
+	private int id;
+
+	public ZadanieZWynikiem(int idZadania) {
+		this.id = idZadania;
+	}
+
+	@Override
+	public String call() throws Exception {
+		for (int i = 0; i &lt; 5; i++) {
+			System.out.println("Wykonuję zadanie nr: " + id + ", " + i + " raz.");
+			TimeUnit.MILLISECONDS.sleep(100);
 		}
+		return "Zadanie nr: " + id + " Wykonane";
+	}
+}
+
+public class CallableExample {
+
+	public static void main(String[] args) {
+		ExecutorService exec = Executors.newCachedThreadPool();
+		ArrayList&lt;Future&lt;String&gt;&gt; results = new ArrayList&lt;&gt;();
+
+		for (int i = 0; i &lt; 5; i++) {
+			results.add(exec.submit(new ZadanieZWynikiem(i)));
+		}
+
+		for (Future&lt;String&gt; fs : results) {
+			try {
+				// Wywolanie get() blokuje wywolujacego
+				System.out.println(fs.get());
+			} catch (InterruptedException e) {
+				System.out.println(e);
+				return;
+			} catch (ExecutionException e) {
+				System.out.println(e);
+				return;
+			} finally {
+				exec.shutdown();
+			}
+		}
+	}
+}
 	</div>
 
 </div>

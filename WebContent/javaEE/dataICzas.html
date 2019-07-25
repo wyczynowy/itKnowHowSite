@@ -2,18 +2,21 @@
 <div class="contentDiv">
 	<h3>Czas i jego formatowanie:</h3>
 		
-	<div class="codeDiv">// 10
+	<div class="codeDiv">
+// 10
 System.out.println(LocalTime.now().format(DateTimeFormatter.ofPattern("hh")));
 // 10:37
 System.out.println(LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm")));
 // 10-37-25
 System.out.println(LocalTime.now().format(DateTimeFormatter.ofPattern("hh-mm-ss")));
 // 10/37/25/69
-System.out.println(LocalTime.now().format(DateTimeFormatter.ofPattern("hh/mm/ss/mm")));</div>
+System.out.println(LocalTime.now().format(DateTimeFormatter.ofPattern("hh/mm/ss/mm")));
+	</div>
 
 	<h3>Data i jej formatowanie:</h3>
 	
-	<div class="codeDiv">// 2019-02-08
+	<div class="codeDiv">
+// 2019-02-08
 System.out.println(LocalDate.now());
 // 2019-02-08
 System.out.println(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
@@ -22,17 +25,20 @@ System.out.println(LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE));
 // 2019-02-08
 System.out.println(LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE));
 // 2019/02/08
-System.out.println(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));</div>
+System.out.println(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+	</div>
 	
 	<h3>Data razem z czasem:</h3>
 	
-	<div class="codeDiv">// 2019-02-08T23:00:38.209
+	<div class="codeDiv">
+// 2019-02-08T23:00:38.209
 System.out.println(LocalDateTime.now());
 // 2019-02-08
 System.out.println(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE));
 // 23:00:38.239
 System.out.println(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME));
 // 2019-02-08 11:00:38
-System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));</div>
+System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
+	</div>
 
 </div>
