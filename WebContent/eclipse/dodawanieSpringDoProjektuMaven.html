@@ -5,27 +5,27 @@
 	<span class="clickDiv">pom.xml</span>. Zatem dodajemy:</p>
 	
 	<div class="codeDiv">
-		&lt;dependency&gt;<br>
-			&nbsp;&lt;groupId&gt;org.springframework&lt;/groupId&gt;<br>
-			&nbsp;&lt;artifactId&gt;spring-context&lt;/artifactId&gt;<br>
-			&nbsp;&lt;version&gt;5.0.8.RELEASE&lt;/version&gt;<br>
-		&lt;/dependency&gt;		
+&lt;dependency&gt;
+	&lt;groupId&gt;org.springframework&lt;/groupId&gt;
+	&lt;artifactId&gt;spring-context&lt;/artifactId&gt;
+	&lt;version&gt;5.0.8.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;		
 	</div>
 	
 		<p>Poniższa konfiguracja będzie oparta na adnotacjach. Nie będziemy tutaj używać plików xml do konfiguracji Springa. Zatem należy utworzyć klasę
 	konfigurującą <code>SpringConfiguration</code>. Dla przykładu umieszczamy ją w pakiecie <code>pl.softService.spring.app.configuration</code>:</p>
 
 	<div class="codeDiv">
-		package pl.softService.spring.app.configuration;<br>
-		<br>
-		import org.springframework.context.annotation.ComponentScan;<br>
-		import org.springframework.context.annotation.Configuration;<br>
-		<br>
-		@Configuration<br>
-		@ComponentScan("pl.softService.spring.beans")<br>
-		public class SpringConfiguration {<br>
-		<br>
-		}<br>	
+package pl.softService.spring.app.configuration;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan("pl.softService.spring.beans")
+public class SpringConfiguration {
+
+}
 	</div>
 	
 	<p>Jeżeli będziemy konfigurować komponenty przy użyciu adnotacji to wystarczy utworzenie pustej klasy opatrzonej adnotacją 
@@ -40,130 +40,124 @@
 	<p>INTERFEJSY:</p>
 		
 	<div class="codeDiv">
-		package pl.softService.spring.interfaces;<br>
-		<br>
-		public interface MessageProvider {<br>
-		<span class='tabbed1'>String getMessage();</span><br>
-		}<br>	
+package pl.softService.spring.interfaces;
+
+public interface MessageProvider {
+	String getMessage();
+}
 	</div>
 	
 	<div class="codeDiv">
-		package pl.softService.spring.interfaces;<br>
-		<br>
-		public interface MessageRenderer {<br>
-		<span class='tabbed1'>void render();</span><br>
-		<span class='tabbed1'>void setMessageProvider(MessageProvider provider);</span><br>
-		<span class='tabbed1'>MessageProvider getMessageProvider();</span><br>
-		}<br>	
+package pl.softService.spring.interfaces;
+
+public interface MessageRenderer {
+	void render();
+	void setMessageProvider(MessageProvider provider);
+	MessageProvider getMessageProvider();
+}	
 	</div>
 	
 	<p>KOMPONENTY:</p>
 	
 	<div class="codeDiv">
-		package pl.softService.spring.beans;<br>
-		<br>
-		import org.springframework.stereotype.Component;<br>
-		<br>
-		import pl.softService.spring.interfaces.MessageProvider;<br>
-		<br>
-		@Component<br>
-		public class HelloWorldMessageProvider implements MessageProvider {<br>
-		<br>
-		<span class='tabbed1'>public String getMessage() {</span><br>
-		<span class='tabbed2'>return "Hello World!";</span><br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		}<br>	
+package pl.softService.spring.beans;
+
+import org.springframework.stereotype.Component;
+
+import pl.softService.spring.interfaces.MessageProvider;
+
+@Component
+public class HelloWorldMessageProvider implements MessageProvider {
+
+	public String getMessage() {
+		return "Hello World!";
+	}
+
+}
 	</div>
 	
 	<div class="codeDiv">
-		package pl.softService.spring.beans;<br>
-		<br>
-		import org.springframework.beans.factory.annotation.Autowired;<br>
-		import org.springframework.stereotype.Service;<br>
-		<br>
-		import pl.softService.spring.interfaces.MessageProvider;<br>
-		import pl.softService.spring.interfaces.MessageRenderer;<br>
-		<br>
-		@Service("messageRenderer")<br>
-		public class StandardOutMessageRenderer implements MessageRenderer {<br>
-		<br>
-		<span class='tabbed1'>@Autowired</span><br>
-		<span class='tabbed1'>private MessageProvider messageProvider;</span><br>
-		<br>
-		<span class='tabbed1'>public void render() {</span><br>
-		<span class='tabbed2'>if (messageProvider == null) {</span><br>
-		<span class='tabbed3'>throw new RuntimeException("You must set the property messageProvder of class</span><br>
-		<span class='tabbed4'>:" +</span><br>
-		<span class='tabbed5'>StandardOutMessageRenderer.class.getName());</span><br>
-		<span class='tabbed2'>}</span><br>
-		<span class='tabbed2'>System.out.println(messageProvider.getMessage());</span><br>
-		<br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		<span class='tabbed1'>public void setMessageProvider(MessageProvider provider) {</span><br>
-		<span class='tabbed2'>this.messageProvider = provider;</span><br>
-		<br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		<span class='tabbed1'>public MessageProvider getMessageProvider() {</span><br>
-		<span class='tabbed2'>return this.messageProvider;</span><br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		}<br>	
+package pl.softService.spring.beans;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import pl.softService.spring.interfaces.MessageProvider;
+import pl.softService.spring.interfaces.MessageRenderer;
+
+@Service("messageRenderer")
+public class StandardOutMessageRenderer implements MessageRenderer {
+
+	@Autowired
+	private MessageProvider messageProvider;
+
+	public void render() {
+		if (messageProvider == null) {
+			throw new RuntimeException("You must set the property messageProvder of class:" +
+					StandardOutMessageRenderer.class.getName());
+		}
+		System.out.println(messageProvider.getMessage());
+	}
+
+	public void setMessageProvider(MessageProvider provider) {
+		this.messageProvider = provider;
+	}
+
+	public MessageProvider getMessageProvider() {
+		return this.messageProvider;
+	}
+
+}
 	</div>
 	
 	<p>Klasa programu, która wczytuje konfigurację Springa, czyli go uruchamia wygląda następująco:</p>
 	
 	<div class="codeDiv">
-		package pl.softService.spring.app;<br>
-		<br>
-		import org.springframework.context.ApplicationContext;<br>
-		import org.springframework.context.annotation.AnnotationConfigApplicationContext;<br>
-		import org.springframework.context.support.AbstractApplicationContext;<br>
-		<br>
-		import pl.softService.spring.app.configuration.SpringConfiguration;<br>
-		import pl.softService.spring.interfaces.MessageRenderer;<br>
-		<br>
-		public class Main {<br>
-		<br>
-		<span class='tabbed1'>public static void main(String[] args) {</span><br>
-		<br>
-		<span class='tabbed2'>ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringConfigur</span><br>
-		<span class='tabbed3'>ation.class);</span><br>
-		<span class='tabbed2'>MessageRenderer mr = ctx.getBean("messageRenderer", MessageRenderer.class);</span><br>
-		<span class='tabbed2'>mr.render();</span><br>
-		<span class='tabbed2'>((AbstractApplicationContext) ctx).close();</span><br>
-		<br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		}<br>	
+package pl.softService.spring.app;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+
+import pl.softService.spring.app.configuration.SpringConfiguration;
+import pl.softService.spring.interfaces.MessageRenderer;
+
+public class Main {
+
+	public static void main(String[] args) {
+
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringConfiguration.class);
+		MessageRenderer mr = ctx.getBean("messageRenderer", MessageRenderer.class);
+		mr.render();
+		((AbstractApplicationContext) ctx).close();
+
+	}
+
+}
 	</div>
 	
 	<p>lub:</p>
 	
 	<div class="codeDiv">
-		package pl.softService.spring.app;<br>
-		<br>
-		import org.springframework.context.annotation.AnnotationConfigApplicationContextX<br>
-		import org.springframework.context.support.GenericApplicationContext;<br>
-		<br>
-		import pl.softService.spring.app.configuration.SpringConfiguration;<br>
-		import pl.softService.spring.interfaces.MessageRenderer;<br>
-		<br>
-		public class Main {<br>
-		<br>
-		<span class='tabbed1'>public static void main(String[] args) {</span><br>
-		<br>
-		<span class='tabbed2'>GenericApplicationContext ctx = new AnnotationConfigApplicationContext(SpringC</span><br>
-		<span class='tabbed3'>nfiguration.class);</span><br>
-		<span class='tabbed2'>MessageRenderer mr = ctx.getBean("messageRenderer", MessageRenderer.class);</span><br>
-		<span class='tabbed2'>mr.render();</span><br>
-		<span class='tabbed2'>ctx.close();</span><br>
-		<br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		}<br>	
+package pl.softService.spring.app;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContextX
+import org.springframework.context.support.GenericApplicationContext;
+
+import pl.softService.spring.app.configuration.SpringConfiguration;
+import pl.softService.spring.interfaces.MessageRenderer;
+
+public class Main {
+
+	public static void main(String[] args) {
+
+		GenericApplicationContext ctx = new AnnotationConfigApplicationContext(SpringCnfiguration.class);
+		MessageRenderer mr = ctx.getBean("messageRenderer", MessageRenderer.class);
+		mr.render();
+		ctx.close();
+	}
+
+}
 	</div>
 	
 	<p>Tak przygotowaną aplikację można skompilować przy użyciu polecenia <code>mvn clean package</code></p>

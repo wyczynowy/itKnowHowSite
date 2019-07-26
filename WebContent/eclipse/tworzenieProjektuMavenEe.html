@@ -33,25 +33,26 @@
 	<p>Aby nasz projekt po skompilowaniu był kopiowany do lokalizacji serwera to należy skorzystać z następującego pluginu:</p>
 	
 	<div class="codeDiv">
-		&lt;!-- wpisz w konsole mvn install aby zainstalowac aplikacje we wskazanej lo<br>
-		<span class='tabbed1'>kalizacji--&gt;</span><br>
-		&lt;build&gt;<br>
-		<span class='tabbed1'>&lt;plugins&gt;</span><br>
-		<span class='tabbed2'>&lt;plugin&gt;</span><br>
-		<span class='tabbed3'>&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br>
-		<span class='tabbed3'>&lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;</span><br>
-		<span class='tabbed3'>&lt;version&gt;3.2.2&lt;/version&gt;</span><br>
-		<span class='tabbed3'>&lt;configuration&gt;</span><br>
-		<span class='tabbed4'>&lt;!-- Ustawia lokalizacje exportu gotowej aplikacji (np. do katalogu glowne</span><br>
-		<span class='tabbed5'>go serwera) --&gt;</span><br>
-		<span class='tabbed4'>&lt;webappDirectory&gt;C:/xampp/tomcat/webapps/kalkulatorWycenMebliKuchennych</span><br>
-		<span class='tabbed5'>&lt;/webappDirectory&gt;</span><br>
-		<span class='tabbed4'>&lt;!-- Ustawia nazwe pliku war --&gt;</span><br>
-		<span class='tabbed4'>&lt;warName&gt;${project.artifactId}&lt;/warName&gt;</span><br>
-		<span class='tabbed3'>&lt;/configuration&gt;</span><br>
-		<span class='tabbed2'>&lt;/plugin&gt;</span><br>
-		<span class='tabbed1'>&lt;/plugins&gt;</span><br>
-		&lt;/build&gt;<br>	
+
+&lt;!-- wpisz w konsole mvn install aby zainstalowac aplikacje we wskazanej 
+	lo kalizacji --&gt;
+&lt;build&gt;
+	&lt;plugins&gt;
+		&lt;plugin&gt;
+			&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+			&lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;
+			&lt;version&gt;3.2.2&lt;/version&gt;
+			&lt;configuration&gt;
+				&lt;!-- Ustawia lokalizacje exportu gotowej aplikacji (np. do katalogu glowne 
+					go serwera) --&gt;
+				&lt;webappDirectory&gt;C:/xampp/tomcat/webapps/kalkulatorWycenMebliKuchennych
+				&lt;/webappDirectory&gt;
+				&lt;!-- Ustawia nazwe pliku war --&gt;
+				&lt;warName&gt;${project.artifactId}&lt;/warName&gt;
+			&lt;/configuration&gt;
+		&lt;/plugin&gt;
+	&lt;/plugins&gt;
+&lt;/build&gt;	
 	</div>
 	
 	<p>Po wprowadzeniu jakichkolwiek zmian w pliku pom.xml należy kliknąć ppm na nazwę projektu

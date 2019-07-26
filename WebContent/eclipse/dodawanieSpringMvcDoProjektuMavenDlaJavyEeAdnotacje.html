@@ -5,43 +5,43 @@
 	<span class="clickDiv">pom.xml</span>. Zatem dodajemy:</p>
 	
 	<div class="codeDiv">
-		&lt;dependency&gt;<br>
-			&nbsp;&lt;groupId&gt;org.springframework&lt;/groupId&gt;<br>
-			&nbsp;&lt;artifactId&gt;spring-webmvc&lt;/artifactId&gt;<br>
-			&nbsp;&lt;version&gt;5.0.8.RELEASE&lt;/version&gt;<br>
-		&lt;/dependency&gt;<br>
-		&lt;dependency&gt;<br>
-			&nbsp;&lt;groupId&gt;org.springframework&lt;/groupId&gt;<br>
-			&nbsp;&lt;artifactId&gt;spring-core&lt;/artifactId&gt;<br>
-			&nbsp;&lt;version&gt;5.0.8.RELEASE&lt;/version&gt;<br>
-		&lt;/dependency&gt;<br>
-		&lt;dependency&gt;<br>
-			&nbsp;&lt;groupId&gt;org.springframework&lt;/groupId&gt;<br>
-			&nbsp;&lt;artifactId&gt;spring-context&lt;/artifactId&gt;<br>
-			&nbsp;&lt;version&gt;5.0.8.RELEASE&lt;/version&gt;<br>
-		&lt;/dependency&gt;		
+&lt;dependency&gt;
+	&lt;groupId&gt;org.springframework&lt;/groupId&gt;
+	&lt;artifactId&gt;spring-webmvc&lt;/artifactId&gt;
+	&lt;version&gt;5.0.8.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+	&lt;groupId&gt;org.springframework&lt;/groupId&gt;
+	&lt;artifactId&gt;spring-core&lt;/artifactId&gt;
+	&lt;version&gt;5.0.8.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+	&lt;groupId&gt;org.springframework&lt;/groupId&gt;
+	&lt;artifactId&gt;spring-context&lt;/artifactId&gt;
+	&lt;version&gt;5.0.8.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;		
 	</div>
 	
 	<p>Upewniamy się, żę zależność dodająca servlet api ma ustawioną wersję 4.0.0:</p>
 	
 	<div class="codeDiv">
-		&lt;dependency&gt;<br>
-			&nbsp;&lt;groupId&gt;javax.servlet&lt;/groupId&gt;<br>
-			&nbsp;&lt;artifactId&gt;javax.servlet-api&lt;/artifactId&gt;<br>
-			&nbsp;&lt;version&gt;4.0.0&lt;/version&gt;<br>
-			&nbsp;&lt;scope&gt;provided&lt;/scope&gt;<br>
-		&lt;/dependency&gt;	
+&lt;dependency&gt;
+	&lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+	&lt;artifactId&gt;javax.servlet-api&lt;/artifactId&gt;
+	&lt;version&gt;4.0.0&lt;/version&gt;
+	&lt;scope&gt;provided&lt;/scope&gt;
+&lt;/dependency&gt;	
 	</div>
 	
 	<p>Należy zadbać o poprawne ustawienia mavena:</p>
 	
 	<div class="codeDiv">
-		&lt;properties&gt;<br>
-			&nbsp;&lt;failOnMissingWebXml&gt;false&lt;/failOnMissingWebXml&gt;<br>
-			&nbsp;&lt;maven.compiler.source&gt;1.8&lt;/maven.compiler.source&gt;<br>
-			&nbsp;&lt;maven.compiler.target&gt;1.8&lt;/maven.compiler.target&gt;<br>
-			&nbsp;&lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;<br>
-		&lt;/properties&gt;	
+&lt;properties&gt;
+	&lt;failOnMissingWebXml&gt;false&lt;/failOnMissingWebXml&gt;
+	&lt;maven.compiler.source&gt;1.8&lt;/maven.compiler.source&gt;
+	&lt;maven.compiler.target&gt;1.8&lt;/maven.compiler.target&gt;
+	&lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+&lt;/properties&gt;	
 	</div>
 	
 	<p>Poniższa konfiguracja będzie oparta na adnotacjach. Nie będziemy tutaj używać plików xml do konfiguracji Springa ani serwera. Zatem
@@ -49,24 +49,24 @@
 	konfigurującą <code>Dispatcher Servlet</code>. Dla przykładu umieszczamy ją w pakiecie <code>pl.softService.springMVC.configuration</code>:</p>
 	
 	<div class="codeDiv">
-		public class MyDispatcherServlet extends AbstractAnnotationConfigDispatcherServletInitializer {<br>
-		<br>
-			&nbsp;@Override<br>
-			&nbsp;protected Class&lt;?&gt;[] getRootConfigClasses() {<br>
-				&nbsp;&nbsp;return null;<br>
-			&nbsp;}<br>
-		<br>
-			&nbsp;@Override<br>
-			&nbsp;protected Class&lt;?&gt;[] getServletConfigClasses() {<br>				
-				&nbsp;&nbsp;return new Class[] { WebConfig.class };<br>
-			&nbsp;}<br>
-		<br>
-			&nbsp;@Override<br>
-			&nbsp;protected String[] getServletMappings() {<br>		
-				&nbsp;&nbsp;return new String[] {"/"};<br>
-			&nbsp;}<br>
-		<br>
-		}	
+public class MyDispatcherServlet extends AbstractAnnotationConfigDispatcherServletInitializer {
+
+	@Override
+			protected Class&lt;?&gt;[] getRootConfigClasses() {
+				return null;
+			}
+
+	@Override
+			protected Class&lt;?&gt;[] getServletConfigClasses() {				
+				return new Class[] { WebConfig.class };
+			}
+
+	@Override
+	protected String[] getServletMappings() {
+		return new String[] { "/" };
+	}
+
+}
 	</div>
 	
 	<p>
@@ -78,16 +78,16 @@
 	Klasę tą również umieszczamy w pakiecie <code>pl.softService.springMVC.configuration</code>:</p>
 	
 	<div class="codeDiv">
-		@Configuration<br>
-		@EnableWebMvc<br>
-		@ComponentScan("pl.softService.springMVC")<br>
-		public class WebConfig implements WebMvcConfigurer {<br>
-		<br>
-			&nbsp;@Override<br>
-			&nbsp;public void configureViewResolvers(ViewResolverRegistry registry) {<br>
-				&nbsp;&nbsp;registry.jsp().prefix("/WEB-INF/views/").suffix(".jsp");<br>
-			&nbsp;}<br>
-		}	
+@Configuration
+@EnableWebMvc
+@ComponentScan("pl.softService.springMVC")
+public class WebConfig implements WebMvcConfigurer {
+
+	@Override
+	public void configureViewResolvers(ViewResolverRegistry registry) {
+		registry.jsp().prefix("/WEB-INF/views/").suffix(".jsp");
+	}
+}	
 	</div>
 	
 	<p>
@@ -101,15 +101,15 @@
 	w pakiecie <code>pl.softService.springMVC.controllers</code>:</p>
 	
 	<div class="codeDiv">
-		@Controller<br>
-		public class HomeController {<br>
-		<br>
-			&nbsp;@RequestMapping(value ="/")<br>
-			&nbsp;public String home(Model model) {<br>
-				&nbsp;&nbsp;model.addAttribute("atribute", "Spring");<br>
-				&nbsp;&nbsp;return "home";<br>
-			&nbsp;}<br>
-		}	
+@Controller
+public class HomeController {
+
+	@RequestMapping(value ="/")
+	public String home(Model model) {
+		model.addAttribute("atribute", "Spring");
+		return "home";
+	}
+}
 	</div>
 	
 	<p>
@@ -120,16 +120,16 @@
 	<p>Plik z widokiem umieszczamy w lokalizacji <code>webapp/WEB-INF/views/</code>:</p>
 	
 	<div class="codeDiv">
-		&lt;!DOCTYPE html&gt;<br>
-		&lt;html&gt;<br>
-		&lt;head&gt;<br>
-		&lt;meta charset="UTF-8"&gt;<br>
-		&lt;title&gt;Hello !&lt;/title&gt;<br>
-		&lt;/head&gt;<br>
-		&lt;body&gt;
-			&nbsp;&lt;h3&gt;Hello ${atribute}&lt;/h3&gt;<br>
-		&lt;/body&gt;<br>
-		&lt;/html&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;meta charset="UTF-8"&gt;
+		&lt;title&gt;Hello !&lt;/title&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;h3&gt;Hello ${atribute}&lt;/h3&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
 	</div>
 	
 	<p>Tak przygotowaną aplikację można skompilować przy użyciu polecenia <code>mvn clean package</code></p>
