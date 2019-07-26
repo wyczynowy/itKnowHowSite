@@ -6,34 +6,31 @@
 	<p>1. Utworzenie pliku konfiguracyjnego dla wirtualnego hosta:</p>
 	
 	<div class="codeConsole">
-		sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/kozby.pl.conf
-	</div>
+sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/kozby.pl.conf</div>
 	
 	<div class="codeDiv">
-		&lt;VirtualHost *:80&gt;<br>
-		<br>
-		<span class='tabbed1'>ServerName kozby.pl</span><br>
-		<span class='tabbed1'>ServerAlias www.kozby.pl</span><br>
-		<br>
-		<span class='tabbed1'>ServerAdmin webmaster@localhost</span><br>
-		<span class='tabbed1'>DocumentRoot /var/www/html/kozby.pl/</span><br>
-		<br>
-		<span class='tabbed1'>ErrorLog ${APACHE_LOG_DIR}/kozby.pl-error.log</span><br>
-		<span class='tabbed1'>CustomLog ${APACHE_LOG_DIR}/kozby.pl-access.log combined</span><br>
-		<br>
-		&lt;/VirtualHost&gt;<br>	
+&lt;VirtualHost *:80&gt;
+
+	ServerName kozby.pl
+	ServerAlias www.kozby.pl
+
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/html/kozby.pl/
+
+	ErrorLog ${APACHE_LOG_DIR}/kozby.pl-error.log
+	CustomLog ${APACHE_LOG_DIR}/kozby.pl-access.log combined
+
+&lt;/VirtualHost&gt;
 	</div>
 	
 	<p>2. Uruchomienie wirtualnego hosta:</p>
 	
 	<div class="codeConsole">
-		sudo a2ensite kosby.pl.conf
-	</div>
+sudo a2ensite kosby.pl.conf</div>
 	
 	<p>3. Restart serwera apache:</p>
 	
 	<div class="codeConsole">
-		sudo service apache2 restart
-	</div>
+sudo service apache2 restart</div>
 
 </div>

@@ -2,24 +2,23 @@
 <div class="contentDiv">
 
 	<h3>Dodawanie nowego użytkownika - Ubuntu 16.04, mySQL 5.7</h3>
-	<p>Dodawanie nowego użytkownika mySQL:<br>
+	<p>Dodawanie nowego użytkownika mySQL:
 		<a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql">
 		https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql</a>
 
 	<h3>Reset hasła - Ubuntu 16.04, mySQL 5.7</h3>
 	<div class="codeConsole">
-		&gt; sudo service mysql stop<br>
-		&gt; sudo mkdir /var/run/mysqld<br>
-		&gt; sudo chown mysql: /var/run/mysqld<br>
-		&gt; sudo mysqld_safe --skip-grant-tables --skip-networking &nbsp;<br>
-		&gt; mysql -uroot mysql<br>
-		&gt; update user set authentication_string=PASSWORD("New_Passwore_Here") where User='root';<br>
-		<span class='tabbed1'>ser='root';</span><br>
-		&gt; flush privileges;<br>
-		&gt; exit;<br>
-		&gt; sudo /etc/init.d/mysql stop<br>
-		&gt; sudo /etc/init.d/mysql start<br>
-		&gt; sudo mysql -u root -p<br>	
+&gt; sudo service mysql stop
+&gt; sudo mkdir /var/run/mysqld
+&gt; sudo chown mysql: /var/run/mysqld
+&gt; sudo mysqld_safe --skip-grant-tables --skip-networking &nbsp;
+&gt; mysql -uroot mysql
+&gt; update user set authentication_string=PASSWORD("New_Passwore_Here") where User='root';
+&gt; flush privileges;
+&gt; exit;
+&gt; sudo /etc/init.d/mysql stop
+&gt; sudo /etc/init.d/mysql start
+&gt; sudo mysql -u root -p	
 	</div>
 
 </div>
