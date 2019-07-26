@@ -6,48 +6,47 @@
 	dokumentu. Poniżej przykład:</p>
 	
 	<div class="codeDiv">
-		&lt;html&gt;<br>
-		&nbsp;&lt;head&gt;<br>
-		&nbsp;&nbsp;&lt;script&gt;<br>
-		&nbsp;&nbsp;&nbsp;function wyswietlKomunikat(komunikat) {<br>
-		&nbsp;&nbsp;&nbsp;&nbsp;window.alert(komunikat);<br>
-		&nbsp;&nbsp;&nbsp;}<br>
-		&nbsp;&nbsp;&lt;/script&gt;<br>
-		&nbsp;&lt;/head&gt;<br>
-		&nbsp;&lt;body&gt;<br>
-		&nbsp;&lt;/body&gt;<br>
-		&lt;/html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;script&gt;
+			function wyswietlKomunikat(komunikat) {
+				window.alert(komunikat);
+			}
+	&lt;/script&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
 	</div>
 	
 	<p>Pliki ze skryptami można dołączać do dokumentów HTML przy użyciu znacznika <code>&lt;script&gt;</code> oraz atrybutu
 	<code>src</code> tego znacznika, co umożliwia utrzymanie porządku w dokumencie HTML i oddzielenie treści strony od skryptów. Poniżej przykład:</p>
 
 	<div class="codeDiv">
-		&lt;html&gt;<br>
-		&nbsp;&lt;head&gt;<br>
-		&nbsp;&nbsp;&lt;script src="sciezkaDoPlikuZeSkryptami"&gt;<br>
-		&nbsp;&nbsp;&lt;/script&gt;<br>
-		&nbsp;&lt;/head&gt;<br>
-		&nbsp;&lt;body&gt;<br>
-		&nbsp;&lt;/body&gt;<br>
-		&lt;/html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;script src="sciezkaDoPlikuZeSkryptami"&gt;
+		&lt;/script&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
 	</div>
 
 	<p>Kolejny sposób na dołączenie skryptu do strony html to dynamiczne załadowanie pliku ze skryptami. Można to zrobić w poniższy sposób:</p>
 	
 	<div class="codeDiv">
-		(function() {<br>
-		<br>
-		    var scriptElementToLoad = document.createElement('script');<br>
-		        scriptElementToLoad.type = 'text/javascript';<br>
-		        scriptElementToLoad.async = true;<br>
-		        scriptElementToLoad.src = 'http://localhost/skrypty.js';<br>
-		<br>
-		    var scriptElement = document.getElementsByTagName('script')[0];<br>
-		        scriptElement.parentNode.insertBefore(scriptElementToLoad, scriptElement);<br>
-		<span class='tabbed1'></span><br>
-		<span class='tabbed1'>return "Wczytano plik javascript: " + scriptElementToLoad.src;</span><br>
-		})();<br>	
+(function() {
+	var scriptElementToLoad = document.createElement('script');
+	
+	scriptElementToLoad.type = 'text/javascript';
+	scriptElementToLoad.async = true;
+	scriptElementToLoad.src = 'http://localhost/skrypty.js';
+
+	var scriptElement = document.getElementsByTagName('script')[0];
+	scriptElement.parentNode.insertBefore(scriptElementToLoad, scriptElement);
+	return "Wczytano plik javascript: " + scriptElementToLoad.src;
+})();
 	</div>
 
 </div>

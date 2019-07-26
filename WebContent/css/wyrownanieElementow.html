@@ -4,41 +4,41 @@
 	<p>Sposób z tabelą (wyrównanie w pionie i w poziomie):</p>
 	
 	<div class="codeDiv">
-		div {<br>
-		  &nbsp;display: table;<br>
-		  &nbsp;height: 100px;<br>
-		  &nbsp;width: 100%;<br>
-		  &nbsp;text-align: center;<br>
-		  &nbsp;border: 2px dashed #f69c55;<br>
-		}<br>
-		span {<br>
-		  &nbsp;display: table-cell;<br>
-		  &nbsp;vertical-align: middle;<br>
-		}
-		<br>
-		<br>
-		&lt;div&gt;<br>
-		  &nbsp;&lt;span&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/span&gt;<br>
-		&lt;/div&gt;	
+div {
+	display: table;
+	height: 100px;
+	width: 100%;
+	text-align: center;
+	border: 2px dashed #f69c55;
+}
+
+span {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+&lt;div&gt;
+	&lt;span&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/span&gt;
+&lt;/div&gt;	
 	</div>
 	
 	<p>Wyrównanie elementu &lt;div&gt; w pionie (ten sam sposób można wykorzystać do wyrównania elementu w poziomie):</p>
 	
 	<div class="codeDiv">
-		&lt;div&gt;<br>
-		&nbsp;&lt;div style="position: relative ; top: 50%; transform: translateY(-50%); width: 100%;"&gt;<br>
-		&nbsp;&nbsp;zawartość<br>
-		&nbsp;&lt;/div&gt;<br>
-		&lt;/div&gt;
+&lt;div&gt;
+	&lt;div style="position: relative; top: 50%; transform: translateY(-50%); width: 100%;"&gt;
+		zawartość
+	&lt;/div&gt;
+&lt;/div&gt;
 	</div>
 	
 	<p>Sposób z wykorzystaniem bootstrapa 4:</p>
 	
 	<div class="codeDiv">
-		// Wyrównanie w poziomie:<br>
-		&lt;div class="row h-100 justify-content-center align-items-center"&gt;<br>
-			&nbsp;zawartość<br>
-		&lt;/div&gt;<br>
+// Wyrównanie w poziomie:
+&lt;div class="row h-100 justify-content-center align-items-center"&gt;
+	zawartość
+&lt;/div&gt;
 	</div>
 
 </div>
