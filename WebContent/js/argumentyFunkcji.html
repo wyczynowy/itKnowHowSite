@@ -5,44 +5,44 @@
 	ilość zadeklarowanych wcześniej argumentów:</p>
 	
 	<div class="codeDiv">
-		function zwrocArgumentyFunkcji(arg0, arg1, arg2) {<br>
-		&nbsp;return arg0 + " " + arg1 + " " + arg2;<br>
-		};<br>
-		<br>
-		<div class="codeConsole">
-		zwrocArgumentyFunkcji(1, "Kot", 1.17)<br>
-		>> "1 Kot 1.17"<br>
-		</div>
+function zwrocArgumentyFunkcji(arg0, arg1, arg2) {
+	return arg0 + " " + arg1 + " " + arg2;
+};
+
+<div class="codeConsole">
+zwrocArgumentyFunkcji(1, "Kot", 1.17)
+>> "1 Kot 1.17"
+</div>
 	</div>
 	
 	<p>Innym sposobem przekazywania i dostępu do argumentów funkcji w języku javascript jest przekazywanie dowolnej ilości argumentów i
 	odwoływanie się wewnątrz funkcji do nich poprzez obiekt arguments:</p>
 	
 	<div class="codeDiv">
-		function zwrocArgumentyFunkcji() {<br>
-		&nbsp;return arguments;<br>
-		}<br>
-		<br>
-		function zwrocIloscArgumentowFunkcji() {<br>
-		&nbsp;return arguments.length;<br>
-		}<br>
-		<br>
-		function wypiszArgumentyFunkcji() {<br>
-		&nbsp;for(var i = 0; i &lt; arguments.length; i++) {<br>
-		&nbsp;&nbsp;console.log(arguments[i]);<br>
-		&nbsp;}<br>
-		}<br>
-		<br>
-		<div class="codeConsole">
-		zwrocArgumentyFunkcji(1, "Kot", 1.17)<br>
-		>> 	Arguments { 0: 1, 1: "Kot", 2: 1.17, … }<br>
-		zwrocIloscArgumentowFunkcji(1, "Kot", 1.17)<br>
-		>> 3<br>
-		wypiszArgumentyFunkcji(1, "Kot", 1.17)<br>
-		>> 1<br>
-		>> Kot<br>
-		>> 1.17<br>
-		</div>
+function zwrocArgumentyFunkcji() {
+	return arguments;
+}
+
+function zwrocIloscArgumentowFunkcji() {
+	return arguments.length;
+}
+
+function wypiszArgumentyFunkcji() {
+	for(var i = 0; i &lt; arguments.length; i++) {
+		console.log(arguments[i]);
+	}
+}
+
+<div class="codeConsole">
+zwrocArgumentyFunkcji(1, "Kot", 1.17)
+>> 	Arguments { 0: 1, 1: "Kot", 2: 1.17, … }
+zwrocIloscArgumentowFunkcji(1, "Kot", 1.17)
+>> 3
+wypiszArgumentyFunkcji(1, "Kot", 1.17)
+>> 1
+>> Kot
+>> 1.17
+</div>
 	</div>
 	
 </div>

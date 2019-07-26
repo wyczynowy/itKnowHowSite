@@ -5,28 +5,28 @@
 	odpowiedź i zrobić z nią cokolwiek. Poniżej przykład:</p>
 	
 	<div class="codeDiv">
-		&lt;head&gt;<br>
-		&nbsp;&lt;title&gt;My page&lt;/title&gt;<br>
-		&nbsp;&lt;script&gt;<br>
-		&nbsp;&nbsp;function myCallback(xhr) {<br>
-		&nbsp;&nbsp;&nbsp;if(xhr.readyState &lt; 4) { console.log('xhr.readyState &lt; 4'); return; } // Jeszcze niegotowe<br>
-		&nbsp;&nbsp;&nbsp;if(xhr.status !== 200) { alert('Blad !')}; // Kod statusu zadania HTTP jest inny niż OK<br>
-		&nbsp;&nbsp;&nbsp;console.log('xhr.responseText');<br>
-		&nbsp;&nbsp;&nbsp;alert(xhr.responseText); // Wszystko w porzadku<br>  
-		&nbsp;&nbsp;}<br>
-		<br>													
-		&nbsp;&nbsp;function sendToServer() {<br>
-		&nbsp;&nbsp;&nbsp;var xhr = new XMLHttpRequest();<br>
-		&nbsp;&nbsp;&nbsp;xhr.onreadystatechange = myCallback(xhr);<br>
-		&nbsp;&nbsp;&nbsp;xhr.open('POST', 'plik.txt', true);<br>
-		&nbsp;&nbsp;&nbsp;xhr.send('');<br>
-		&nbsp;&nbsp;}<br>
-		&nbsp;&lt;/script&gt;<br>
-		&lt;/head&gt;<br>
-		<br>
-		&lt;body&gt;<br>
-		&nbsp;&lt;input onclick="sendToServer();" type="submit" value="zapytaj serwer"/&gt;<br>
-		&lt;/body&gt;<br>	
+&lt;head&gt;
+	&lt;title&gt;My page&lt;/title&gt;
+	&lt;script&gt;
+		function myCallback(xhr) {
+			if(xhr.readyState &lt; 4) { console.log('xhr.readyState &lt; 4'); return; } // Jeszcze niegotowe
+			if(xhr.status !== 200) { alert('Blad !')}; // Kod statusu zadania HTTP jest inny niż OK
+			console.log('xhr.responseText');
+			alert(xhr.responseText); // Wszystko w porzadku
+		}
+				
+		function sendToServer() {
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = myCallback(xhr);
+			xhr.open('POST', 'plik.txt', true);
+			xhr.send('');
+		}
+	&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+	&lt;input onclick="sendToServer();" type="submit" value="zapytaj serwer"/&gt;
+&lt;/body&gt;
 	</div>
 	
 	<p>Alternatywnie zamiast metody <code>responseText</code> można użyć <code>responseXML</code>, zwróci ona obiekt XML DOM,

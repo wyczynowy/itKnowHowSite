@@ -4,33 +4,31 @@
 	<p>Zmienne typu String w języku javascript tworzymy przy użyciu następującej składni:</p>
 
 	<div class="codeDiv">
-		var string = "Imię"<br>
-		<br>
-		<div class="codeConsole">
-			string<br>
-			>> "Imię"<br>
-			string[0]<br>
-			>> "I"<br>
-			string[3]<br>
-			>> "ę"<br>
-			<br>
-		</div>
+var string = "Imię"
+
+<div class="codeConsole">
+string
+>> "Imię"
+string[0]
+>> "I"
+string[3]
+>> "ę"
+</div>
 	</div>
 	
 	<p>Innym sposobem tworzenia zmiennych typu String jest użycie konstruktora obiektu String:</p>
 	
 	<div class="codeDiv">
-		var string = new String("Imię")<br>
-		<br>
-		<div class="codeConsole">
-			string<br>
-			>> "Imię"<br>
-			string[0]<br>
-			>> "I"<br>
-			string[3]<br>
-			>> "ę"<br>
-			<br>
-		</div>
+var string = new String("Imię")
+
+<div class="codeConsole">
+string
+>> "Imię"
+string[0]
+>> "I"
+string[3]
+>> "ę"
+</div>
 	</div>
 	
 	<p>Nieważne w jaki sposób tworzymy zmienną typu String jest ona zawsze obiektem. W związku z tym, że jest to obiekt istnieją
@@ -53,31 +51,31 @@
 		<code>text.match(regexp)</code> - zwraca tablicę dopasowań. <code>regexp</code> jest wyrażeniem regularnym:<br>
 		</p>
 		<div class="codeDiv">
-			var text = "Każdy kot ma jakieś imię"<br>
-			<div class="codeConsole">
-			text.match(/a/)<br>
-			>> Array [ "a" ]<br>
-			text.match(/a/g)<br>
-			>> Array(3) [ "a", "a", "a" ]<br>
-			</div>
+var text = "Każdy kot ma jakieś imię"
+<div class="codeConsole">
+text.match(/a/)
+>> Array [ "a" ]
+text.match(/a/g)
+>> Array(3) [ "a", "a", "a" ]
+</div>
 		</div>
 		<p><code>text.repleace(regexp, arg)</code> - zamienia część ciągu znaków na arg zgodnie z wyrażeniem regularnym</p>
 		<div class="codeDiv">
-			var text = "Każdy kot ma jakieś imię"<br>
-			<div class="codeConsole">
-				text.replace(/[A-Z]/, '')<br>
-				>> "każdy kot ma jakieś imię"<br>
-				text.replace(/[A-Z]/g, "_$&amp;")<br>
-				>> "_Każdy_kot_ma_jakieś_imię"<br>		
-			</div>
+var text = "Każdy kot ma jakieś imię"
+<div class="codeConsole">
+text.replace(/[A-Z]/, '')
+>> "każdy kot ma jakieś imię"
+text.replace(/[A-Z]/g, "_$&amp;")
+>> "_Każdy_kot_ma_jakieś_imię"		
+</div>
 		</div>
 		<p><code>text.replace(/[A-Z]/g, "_&amp;")</code> - Poprzedza dopasowany tekst podkreślnikiem dzięki sekwencji $&amp;</p>		
 		<div class="codeDiv">
-			var csv = 'raz, dwa, trzy ,cztery';
-			<div class="codeConsole">
-				csv.split(/\s*,\s*/)<br>
-				>> ["jeden","dwa","trzy","cztery"]<br>
-			</div>
+var csv = 'raz, dwa, trzy ,cztery';
+<div class="codeConsole">
+csv.split(/\s*,\s*/)
+>> ["jeden","dwa","trzy","cztery"]
+</div>
 		</div>
 		<p><code>csv.split(/\s*,\s*/)</code> - usunięcie wszystkich spacji. Wyrażenie \s* oznacza zero lub więcej spacji</p>
 </div>

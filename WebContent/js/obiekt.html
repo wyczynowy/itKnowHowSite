@@ -4,52 +4,52 @@
 	<p>Obiekty w języku javascript tworzymy przy użyciu następującej składni:</p>
 	
 	<div class="codeDiv">
-	var obiekt = {};
+var obiekt = {};
 	</div>
 	
 	<p>Powyżej został utworzony pusty obiekt o nazwie obiekt. Można również utworzyć obiekt przy użyciu operatora new:</p>
 
 	<div class="codeDiv">
-	var obiekt = new Object();
+var obiekt = new Object();
 	</div>
 	
 	<p>lub tworząc nowy obiekt zadeklarowac jego pola i przypisać im określone wartości:</p>
 
 	<div class="codeDiv">
-	var samochod = {<br>
-	&nbsp;rodzaj: 'Osobowy',<br>
-	&nbsp;kolor: 'Czarny',<br>
-	&nbsp;prezentujSie: function() {<br>
-	&nbsp;return 'Samochod z kategorii ' + samochod.rodzaj + ', koloru '+ samochod.kolor;<br>
-	}
+var samochod = {
+	rodzaj: 'Osobowy',
+	kolor: 'Czarny',
+	prezentujSie: function() {
+	return 'Samochod z kategorii ' + samochod.rodzaj + ', koloru '+ samochod.kolor;
+}
 	</div>
 	
 	<p>Można również tworzyć obiekty przy użyciu konstruktora:</p>
 	
 	<div class="codeDiv">
-	function Samochod(rodzaj, kolor) {<br>
-	&nbsp;this.rodzaj = rodzaj;<br>
-	&nbsp;this.kolor = kolor;<br>
-	&nbsp;this.prezentujSie = function() {<br>
-	&nbsp;&nbsp;return 'Samochod z kategorii ' + this.rodzaj + ', koloru ' + this.kolor;<br>
-	&nbsp;&nbsp;}<br>
-	}<br>
-	<br>
-	var samochod = new Samochod('Osobowy', 'Czarny')
+function Samochod(rodzaj, kolor) {
+	this.rodzaj = rodzaj;
+	this.kolor = kolor;
+	this.prezentujSie = function() {
+		return 'Samochod z kategorii ' + this.rodzaj + ', koloru ' + this.kolor;
+	}
+}
+
+var samochod = new Samochod('Osobowy', 'Czarny')
 	</div>
 
 	<p>Kolejnym sposobem na tworzenie obiektów w języku javascript jest przygotowanie funkcji, która zwraca nam obiekt:</p>
 	
 	<div class="codeDiv">
-	function factory(rodzaj, kolor) {<br>
-	&nbsp;return {<br>
-	&nbsp;&nbsp;rodzaj: rodzaj,<br>
-	&nbsp;&nbsp;kolor: kolor,<br>
-	&nbsp;&nbsp;przedstawSie: function() {<br>
-	&nbsp;&nbsp;&nbsp;return 'Samochod z kategorii ' + this.rodzaj + ', koloru ' + this.kolor;<br>
-	&nbsp;&nbsp;}<br>
-	&nbsp;};<br>
-	}
+function factory(rodzaj, kolor) {
+	return {
+		rodzaj: rodzaj,
+		kolor: kolor,
+		przedstawSie: function() {
+			return 'Samochod z kategorii ' + this.rodzaj + ', koloru ' + this.kolor;
+		}
+	};
+}
 	</div>
 
 </div>

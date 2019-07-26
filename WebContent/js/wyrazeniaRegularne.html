@@ -22,21 +22,21 @@
 	takowego ciągu znaków nie uda się odnaleźć. Poniżej przykład użycia:</p>
 	
 	<div class="codeDiv">
-		var re = new RegExp("j.*t")<br>
-		<div class="codeConsole">
-			re.test('javaScript')<br>
-			>> true<br>
-		</div>
+var re = new RegExp("j.*t")
+<div class="codeConsole">
+re.test('javaScript')
+>> true
+</div>
 	</div>
 	
 	<p>Metoda zwracająca odnaleziony ciąg znaków to <code>exec(ciągZnakówDoPrzeszukania)</code>, której należy użyć w następujący sposób:</p>
 	
 	<div class="codeDiv">
-		var re = new RegExp("j.*t")<br>
-		<div class="codeConsole">
-			re.exec('javaScriptToJęzykSkryptowy')<br>
-			>> "javaScript"<br>
-		</div>
+var re = new RegExp("j.*t")
+<div class="codeConsole">
+re.exec('javaScriptToJęzykSkryptowy')
+>> "javaScript"
+</div>
 	</div>
 	
 	<p>Każde wyrażenie regularne składa się z tak zwanych metaznaków, które opisują jak mają wyglądać fragmenty wyszukiwanego tekstu. Powyższy
