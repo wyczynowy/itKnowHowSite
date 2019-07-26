@@ -30,6 +30,10 @@
 	padding-left: 16em;
 }
 
+body {
+	min-width: 800px;
+}
+
 
 .menuButton {
 	background-color: #990000;
@@ -87,6 +91,8 @@
 	min-width: 800px;
 	height: 500px;
 	z-index: 0;
+	position: relative;
+	top: 90px;
 }
 
 .content-left {
@@ -222,7 +228,9 @@ h3 {
 }
 
 #menu {
-	position: relative; 
+	position: absolute;
+	width: 100%;
+	min-width: 800px;
 	z-index: 1;
 }
 

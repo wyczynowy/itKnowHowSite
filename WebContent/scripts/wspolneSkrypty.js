@@ -210,8 +210,9 @@ function loadHtmlIntoIframe(id, location) {
         	var menuButtonDiv = document.getElementsByClassName('menuButtonDiv');
         	var menuButton = document.getElementsByClassName('menuButton');
         	
+        	var szerokoscOkna = window.innerWidth > 800 ? window.innerWidth : 800;
         	var contentElement = document.getElementsByClassName('content')[0];
-        	var iloscMozliwychDoWyswietleniaPrzyciskowMenu = parseInt((window.innerWidth - 50) /102);
+        	var iloscMozliwychDoWyswietleniaPrzyciskowMenu = parseInt((szerokoscOkna - 50) /102);
         	var iloscAktualnieWyswietlanychPrzyciskowMenu = 0;
         	
         	for(var i = 0; i < menuDivInsideMenuDiv.children.length; i++) {
