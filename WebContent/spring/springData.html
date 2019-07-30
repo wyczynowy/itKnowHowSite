@@ -5,25 +5,25 @@
 	operacje na bazie danych. Aby móc skorzystać z Spring Data to najpiejw należy dodać odpowiednią zależność do projektu:</p>
 	
 	<div class="codeDiv">
-		&lt;dependency&gt;<br>
-			&nbsp;&lt;groupId&gt;org.springframework.data&lt;/groupId&gt;<br>
-			&nbsp;&lt;artifactId&gt;spring-data-jpa&lt;/artifactId&gt;<br>
-			&nbsp;&lt;version&gt;2.0.9.RELEASE&lt;/version&gt;<br>
-		&lt;/dependency&gt;
+&lt;dependency&gt;
+	&lt;groupId&gt;org.springframework.data&lt;/groupId&gt;
+	&lt;artifactId&gt;spring-data-jpa&lt;/artifactId&gt;
+	&lt;version&gt;2.0.9.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
 	</div>
 	
 	<p>Oraz oczywiście należy odpowiednio skonfigurować Springa, poprzez dodanie odpowiedniego elementu w pliku konfiguracyjnym Springa
 	<code>applicationContext.xml</code>:</p>
 	
 	<div class="codeDiv">
-		&lt;jpa:repositories base-package="pl.nazwaDomeny.nazwaAplikacji"/&gt;	
+&lt;jpa:repositories base-package="pl.nazwaDomeny.nazwaAplikacji"/&gt;	
 	</div>
 	
 	<p>lub jeżeli korzystamy z klasy konfiguracyjnej springa to w klasie <span class="clickDiv">WebConfig.java</span>
 	umieszczamy adnotację konfigurującą nad nazwą klasy:</p>
 	
 	<div class="codeDiv">
-		@EnableJpaRepositories(basePackages = "pl.nazwaDomeny.nazwaAplikacji")	
+@EnableJpaRepositories(basePackages = "pl.nazwaDomeny.nazwaAplikacji")	
 	</div>
 
 	<p>To już wszystko jeżeli chodzi o konfiguracje Springa. Teraz należy utworzyć interfejs, który rozszerza interfejs
@@ -31,10 +31,10 @@
 	to zostało pokazane na poniższym listingu:</p>
 	
 	<div class="codeDiv">
-		public interface InterfejsLudzi extends org.springframework.data.repository.Repository&lt;Ludzie, Integer&gt; {<br>
-			&nbsp;public Ludzie findById(Integer id);<br>
-			&nbsp;public List&lt;Ludzie&gt; findByImie(String imie);<br>
-		}
+public interface InterfejsLudzi extends org.springframework.data.repository.Repository&lt;Ludzie, Integer&gt; {
+	public Ludzie findById(Integer id);
+	public List&lt;Ludzie&gt; findByImie(String imie);
+}
 	</div>
 	
 	<p>Tutaj jako sparametryzowane typy należy podać jako pierwszy typ klasy jakiej interfejs tworzymy oraz obiekt reprezentujący odpowiedni
@@ -54,11 +54,11 @@
 	<p>Tak przygotowana konfiguracja i interfejs umożliwiają skorzystanie z dostępu do bazy danych w poniższy sposób:</p>
 	
 	<div class="codeDiv">
-		@Autowired<br>
-		private InterfejsLudzi interfejsLudzi;<br>
-		<br>
-		Ludzie czlowiek = interfejsLudzi.findById(1);<br>
-		List&lt;Ludzie&gt; listaLudzi = interfejsLudzi.findByImie("Wiktoria");<br>
+@Autowired
+private InterfejsLudzi interfejsLudzi;
+
+Ludzie czlowiek = interfejsLudzi.findById(1);
+List&lt;Ludzie&gt; listaLudzi = interfejsLudzi.findByImie("Wiktoria");
 	</div>
 
 </div>

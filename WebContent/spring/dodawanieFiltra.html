@@ -4,33 +4,33 @@
 	<p>Aby dodać filtr przez który będą przechodzić wszystkie żądania należy nadpisać metodę w klasie <span class="important">MyDispatcherServlet</span>:</p>
 	
 	<div class="codeDiv">
-		@Override<br>
-		protected Filter[] getServletFilters() {<br>
-		<span class='tabbed1'>return new Filter[] { new myFilter() };</span><br>
-		}<br>
+@Override
+protected Filter[] getServletFilters() {
+	return new Filter[] { new myFilter() };
+}
 	</div>
 	
 	<p>Następnie tworzymy klasę filtra i wykonujemy w nim potrzebną nam obsługę:</p>
 	
 	<div class="codeDiv">
-		public class myFilter implements Filter {<br>
-		<br>
-		<span class='tabbed1'>@Override</span><br>
-		<span class='tabbed1'>public void init(FilterConfig config) throws ServletException {</span><br>
-		<span class='tabbed2'>// Inicjalizacja naszego filtra</span><br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		<span class='tabbed1'>@Override</span><br>
-		<span class='tabbed1'>public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filt</span><br>
-		<span class='tabbed2'>erChain) throws IOException, ServletException {</span><br>
-		<span class='tabbed2'>HttpServletResponse httpResp = (HttpServletResponse) resp;</span><br>
-		<span class='tabbed2'>HttpServletRequest httpReq = (HttpServletRequest) req;</span><br>
-		<br>
-		<span class='tabbed2'>// Tutaj wykonujemy implementację obsługi naszego filtra</span><br>
-		<br>
-		<span class='tabbed2'>filterChain.doFilter(req, resp);</span><br>
-		<span class='tabbed1'>}</span><br>
-		}<br>	
+public class myFilter implements Filter {
+
+	@Override
+	public void init(FilterConfig config) throws ServletException {
+		// Inicjalizacja naszego filtra
+	}
+
+	@Override
+	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain)
+			throws IOException, ServletException {
+		HttpServletResponse httpResp = (HttpServletResponse) resp;
+		HttpServletRequest httpReq = (HttpServletRequest) req;
+
+		// Tutaj wykonujemy implementację obsługi naszego filtra
+
+		filterChain.doFilter(req, resp);
+	}
+}
 	</div>
 
 </div>

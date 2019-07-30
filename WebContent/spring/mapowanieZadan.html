@@ -6,34 +6,34 @@
 	adnotacją Springową <code>@Controller</code>:</p>
 	
 	<div class="codeDiv">
-	@Controller<br> 
-	@RequestMapping("/kontroler")<br>
-	public class AlbumController { <br>
-	<br>
-	&nbsp;@Autowired<br>
-	&nbsp;private AlbumDao albumDao;<br> 
-	<br>
-	&nbsp;@RequestMapping("/metoda")<br>
-	&nbsp;public String metoda() {<br>
-	&nbsp;&nbsp;return "glowny";<br>
-	&nbsp;}<br>
+@Controller
+@RequestMapping("/kontroler")
+public class AlbumController {
+
+	@Autowired
+	private AlbumDao albumDao;
+
+	@RequestMapping("/metoda")
+	public String metoda() {
+		return "glowny";
 	}
+}
 	</div>
 	
 	<p>W powyższym wypadku metoda ta będzie uruchomiona po wejściu na adres http://example.com:8080/aplikacja/kontroler/metoda</p>
 	
 	<div class="codeDiv">
-		@Controller<br>
-		public class  AlbumController {<br>
-		<br>
-		&nbsp;@Autowired<br>
-		&nbsp;private AlbumDao albumDao;<br>
-		<br>
-		&nbsp;@RequestMapping("/metoda")<br> 
-		&nbsp;public String metoda() {<br>
-		&nbsp;&nbsp;return "glowny";<br>
-		&nbsp;}<br>
-		}	
+@Controller
+public class AlbumController {
+
+	@Autowired
+	private AlbumDao albumDao;
+
+	@RequestMapping("/metoda")
+	public String metoda() {
+		return "glowny";
+	}
+}
 	</div>
 	
 	<p>W tym wypadku metoda ta będzie uruchomiona po wejściu na adres http://example.com:8080/aplikacja/metoda</p>

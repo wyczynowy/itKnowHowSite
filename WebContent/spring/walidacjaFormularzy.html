@@ -5,32 +5,32 @@
 		(Data transfer Object) należy dodać do pliku pom następujący artefakt:</p>
 
 	<div class="codeDiv">
-		&lt;dependency&gt;<br> 
-			&nbsp;&lt;groupId&gt;org.hibernate&lt;/groupId&gt;<br> 
-			&nbsp;&lt;artifactId&gt;hibernate-validator&lt;/artifactId&gt;<br>
-			&nbsp;&lt;version>5.2.2.Final&lt;/version&gt;<br> 
-		&lt;/dependency&gt;
+&lt;dependency&gt;
+	&lt;groupId&gt;org.hibernate&lt;/groupId&gt;
+	&lt;artifactId&gt;hibernate-validator&lt;/artifactId&gt;
+	&lt;version>5.2.2.Final&lt;/version&gt; 
+&lt;/dependency&gt;
 	</div>
 	
 	<p>Dodanie powyższego artefaktu umożliwia zkorzystanie z adnotacji służących walidacji formularzy. Aby formularz mógł zostać poddany walidacji należy utworzyć klasę będącą DTO dla formularza,
 	który będziemy walidować. Poniżej przykład klasy służącej do walidacji prostego formularza:</p>
 	
 	<div class="codeDiv">
-		public class FormularzDto {<br>
-		<br>
-			&nbsp;@NotEmpty<br>
-			&nbsp;@Size(min = 3)<br>
-			&nbsp;private String imie;<br>
-			<br>
-			&nbsp;@NotEmpty<br>
-			&nbsp;@Email<br>
-			&nbsp;private String email;<br>
-			<br>
-			&nbsp;@Min(18)<br>
-			&nbsp;private Integer wiek;<br>
-			<br>
-			&nbsp;// gettery i settery<br>
-		}
+public class FormularzDto {
+
+	@NotEmpty
+	@Size(min = 3)
+	private String imie;
+
+	@NotEmpty
+	@Email
+	private String email;
+
+	@Min(18)
+	private Integer wiek;
+
+	// gettery i settery
+}
 	</div>
 	
 	<p>
@@ -47,24 +47,24 @@
 	Poniżej przykład prostego kontrolera służącego do obsługi niezbędnych żądań protokołu HTTP:</p>
 
 	<div class="codeDiv">
-		@Controller<br>
-		public class KontrolerFormularza {<br>
-		<br>
-			&nbsp;@RequestMapping(value = "/formularz", method = RequestMethod.GET)<br>
-			&nbsp;public String formularz(Model model) {<br>
-				&nbsp;&nbsp;model.addAttribute("form", new FormularzDto()); // dodajemy do modelu obiekt DTO formularza<br>
-				&nbsp;&nbsp;return "formularz";<br>
-			&nbsp;}<br> 
-			<br>
-			&nbsp;@RequestMapping(value = "/formularz", method = RequestMethod.POST)<br>
-			&nbsp;public String obsluzFormularz(@ModelAttribute("form") @Valid FormularzDto form, BindingResult result) {<br>
-				&nbsp;&nbsp;if (result.hasErrors()) { // formularz nie jest uzupełniony prawidłowo<br>
-					&nbsp;&nbsp;&nbsp;return "formularz";<br>
-				&nbsp;&nbsp;} else { // formularz wypełniony prawidłowo<br>
-					&nbsp;&nbsp;&nbsp;return "redirect:/";<br>
-				&nbsp;&nbsp;}<br>
-			&nbsp;}<br>
-		}	
+@Controller
+public class KontrolerFormularza {
+
+	@RequestMapping(value = "/formularz", method = RequestMethod.GET)
+	public String formularz(Model model) {
+		model.addAttribute("form", new FormularzDto()); // dodajemy do modelu obiekt DTO formularza
+		return "formularz";
+	}
+
+	@RequestMapping(value = "/formularz", method = RequestMethod.POST)
+	public String obsluzFormularz(@ModelAttribute("form") @Valid FormularzDto form, BindingResult result) {
+		if (result.hasErrors()) { // formularz nie jest uzupełniony prawidłowo
+			return "formularz";
+		} else { // formularz wypełniony prawidłowo
+			return "redirect:/";
+		}
+	}
+}
 	</div>
 	
 	<p>Adnotacja <code>@ModelAttribute("form")</code> służy do poinformowania Springa, że obiekt DTO będzie miał nazwę "form" w modelu, a adnotacja <code>@Valid</code> umieszczona przed
@@ -75,56 +75,57 @@
 	zostało przygotować widok, wyświetlający formularz. Poniżej plik JSP z formularzem:</p>
 
 	<div class="codeDiv">
-		&lt;%@ page language="java" pageEncoding="UTF-8"%&gt;<br>
-		&lt;%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%&gt;<br>
-		&lt;%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%&gt;<br> 
-		&lt;!DOCTYPE html&gt;<br>
-		&lt;html&gt;<br>
-		&lt;head&gt;<br>
-		&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;<br>
-		&nbsp;&lt;title&gt;Formularz&lt;/title&gt;<br>
-		&lt;/head&gt;<br>
-		&lt;body&gt;<br>
-			&nbsp;&lt;form:form action="/nazwaWebAplikacji/formularz" modelAttribute="form" method="post"&gt;<br> 
-			&nbsp;&nbsp;Imie:<br> 
-			&nbsp;&nbsp;&lt;form:input path="imie" id="imie"&gt;&lt;/form:input&gt;<br>
-			&nbsp;&nbsp;&lt;c:if test="${pageContext.request.method=='POST'}"&gt;<br>
-			&nbsp;&nbsp;&nbsp;&lt;form:errors path="imie" /&gt;<br>
-			&nbsp;&nbsp;&lt;/c:if&gt;<br>
-			&nbsp;&nbsp;&lt;br /&gt;<br> 
-			&nbsp;&nbsp;Adres email:<br> 
-			&nbsp;&nbsp;&lt;form:input path="email" id="email"&gt;&lt;/form:input&gt;<br>
-			&nbsp;&nbsp;&lt;c:if test="${pageContext.request.method=='POST'}"&gt;<br>
-			&nbsp;&nbsp;&nbsp;&lt;form:errors path="email" /&gt;<br>
-			&nbsp;&nbsp;&lt;/c:if&gt;<br>
-			&nbsp;&nbsp;&lt;br /&gt;<br> 
-			&nbsp;&nbsp;Wiek:<br> 
-			&nbsp;&nbsp;&lt;form:input path="wiek" id="wiek"&gt;&lt;/form:input&gt;<br>
-			&nbsp;&nbsp;&lt;c:if test="${pageContext.request.method=='POST'}"&gt;<br>
-			&nbsp;&nbsp;&nbsp;&lt;form:errors path="wiek" /&gt;<br>
-			&nbsp;&nbsp;&lt;/c:if&gt;<br>
-			&nbsp;&nbsp;&lt;br /&gt;<br>
-			&nbsp;&nbsp;&lt;input type="submit" value="Wyślij formularz" /&gt;<br>
-			&nbsp;&lt;/form:form&gt;<br>
-		&lt;/body&gt;<br>
-		&lt;/html&gt;		
+ &lt;%@ page language="java" pageEncoding="UTF-8"%&gt; &lt;%@ taglib
+prefix="form" uri="http://www.springframework.org/tags/form"%&gt; &lt;%@
+taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;
+&lt;title&gt;Formularz&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;form:form action="/nazwaWebAplikacji/formularz" modelAttribute="form"
+		method="post"&gt; 
+			Imie: 
+			&lt;form:input path="imie" id="imie"&gt;&lt;/form:input&gt;
+		&lt;c:if test="${pageContext.request.method=='POST'}"&gt;
+			&lt;form:errors path="imie" /&gt;
+		&lt;/c:if&gt;
+		&lt;br /&gt; 
+			Adres email: 
+			&lt;form:input path="email" id="email"&gt;&lt;/form:input&gt;
+		&lt;c:if test="${pageContext.request.method=='POST'}"&gt;
+			&lt;form:errors path="email" /&gt;
+		&lt;/c:if&gt;
+		&lt;br /&gt; 
+			Wiek: 
+			&lt;form:input path="wiek" id="wiek"&gt;&lt;/form:input&gt;
+		&lt;c:if test="${pageContext.request.method=='POST'}"&gt;
+			&lt;form:errors path="wiek" /&gt;
+		&lt;/c:if&gt;
+		&lt;br /&gt;
+		&lt;input type="submit" value="Wyślij formularz" /&gt;
+	&lt;/form:form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 	</div>
 	
 	<p>Aby można użyć obiektów dostarczających informacji o błędach walidacji formularzy i samych formularzy, które można zwalidować za pomocą wcześniej utworzonych obiektów DTO należy użyć
 	biblioteki tagów TagLib jstl. Aby można skorzystać z tej biblioteki należy ją dodać do pliku jsp za pomocą tagu:</p>
 
 	<div class="codeDiv">
-		&lt;%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%&gt;<br>
+&lt;%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%&gt;
 	</div>
 	
 	<p>Powyższą bibliotekę należy również dodać jako artefakt do zasobów. Robimy to oczywiście w pliku pom:</p>
 	
 	<div class="codeDiv">
-		&lt;dependency&gt;<br>
-			&nbsp;&lt;groupId&gt;javax.servlet&lt;/groupId&gt;<br>
-			&nbsp;&lt;artifactId&gt;jstl&lt;/artifactId&gt;<br>
-			&nbsp;&lt;version&gt;1.2&lt;/version&gt;<br>
-		&lt;/dependency&gt;	
+&lt;dependency&gt;
+	&lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+	&nbsp;&lt;artifactId&gt;jstl&lt;/artifactId&gt;
+	&lt;version&gt;1.2&lt;/version&gt;
+&lt;/dependency&gt;	
 	</div>
 	
 	<p>Tak przygotowaną aplikację należy skompilować, spakować do pliku war i uruchomić na serwerze. Wpisując w pasek adresu przeglądarki internetowej:

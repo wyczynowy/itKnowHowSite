@@ -60,29 +60,28 @@
 		np. implementując interfejs <code>InitalizingBean, DisposableBean</code>. Wtedy nasz komponent może wyglądać tak:</p>
 		
 	<div class="codeDiv">
-		@Component<br>
-		public class TestBeanImplementation implements TestBeanInterface, InitializingBean, DisposableBean {<br>
-		<span class='tabbed1'>an, DisposableBean {</span><br>
-		<br>
-		<span class='tabbed1'>public void getInfo() {</span><br>
-		<span class='tabbed2'>System.out.println("getInfo() from TestBeanImplementation.class");</span><br>
-		<span class='tabbed2'></span><br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		<span class='tabbed1'>public void afterPropertiesSet() throws Exception {</span><br>
-		<span class='tabbed2'>System.out.println("afterPropertiesSet() from TestBeanImplementation.class");</span><br>
-		<span class='tabbed2'>// Tutaj możemy wykonać na przykład sprawdzenie wszystkich zależności i z</span><br>
-		<span class='tabbed3'>adziałać odpowiednie w przypadku jak coś poszło źle</span><br>
-		<span class='tabbed2'></span><br>
-		<span class='tabbed1'>}</span><br>
-		<span class='tabbed1'></span><br>
-		<span class='tabbed1'>public void destroy() {</span><br>
-		<span class='tabbed2'>System.out.println("destroy() from TestBeanImplementation.class");</span><br>
-		<span class='tabbed2'>// Tutaj możemy wykonać na przykład czynności związane z zamknięciem poł</span><br>
-		<span class='tabbed3'>ączenia do bazy danych itp...</span><br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		}<br>	
+@Component
+public class TestBeanImplementation implements TestBeanInterface, InitializingBean, DisposableBean {
+
+	public void getInfo() {
+		System.out.println("getInfo() from TestBeanImplementation.class");
+
+	}
+
+	public void afterPropertiesSet() throws Exception {
+		System.out.println("afterPropertiesSet() from TestBeanImplementation.class");
+		// Tutaj możemy wykonać na przykład sprawdzenie wszystkich zależności i
+		// zadziałać odpowiednio w przypadku jak coś poszło źle
+
+	}
+
+	public void destroy() {
+		System.out.println("destroy() from TestBeanImplementation.class");
+		// Tutaj możemy wykonać na przykład czynności związane z zamknięciem połączenia
+		// do bazy danych itp...
+	}
+
+}
 	</div>
 	
 	<p>Lub w przypadku kiedy korzystamy z Java 8 JSR-250, to wystarczy dowolną metodę komponentu oznaczyć adnotacją 
@@ -96,21 +95,18 @@
 		w sposób następujący:</p>
 		
 	<div class="codeDiv">
-		public class Main {<br>
-		<br>
-		<span class='tabbed1'>public static void main(String[] args) {</span><br>
-		<br>
-		<span class='tabbed2'>GenericApplicationContext ctx = new AnnotationConfigApplicationContext(SpringC</span><br>
-		<span class='tabbed3'>onfiguration.class);</span><br>
-		<span class='tabbed2'>MessageRenderer mr = ctx.getBean("messageRenderer", MessageRenderer.class);</span><br>
-		<span class='tabbed2'>ctx.registerShutdownHook(); // Wywołanie tej metody spowoduje, że kiedy apli</span><br>
-		<span class='tabbed3'>kacja zostanie zakończona to zostaną wywołane metody niszczące naszych komponentów</span><br>
-		<span class='tabbed2'>// ctx.close();</span><br>
-		<span class='tabbed2'>...</span><br>
-		<br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		}<br>	
+public class Main {
+
+	public static void main(String[] args) {
+
+		GenericApplicationContext ctx = new AnnotationConfigApplicationContext(SpringConfiguration.class);
+		MessageRenderer mr = ctx.getBean("messageRenderer", MessageRenderer.class);
+		ctx.registerShutdownHook(); // Wywołanie tej metody spowoduje, że kiedy aplikacja zostanie zakończona to
+									// zostaną wywołane metody niszczące naszych komponentów
+		// ctx.close();
+	}
+
+}
 	</div>
 	
 	<h2>Dostęp do kontekstu aplikacji</h2>
@@ -123,23 +119,22 @@
 		komponentów. Przykład:</p>
 		
 	<div class="codeDiv">
-		@Component<br>
-		public class ShutdownHookBean implements ApplicationContextAware {<br>
-		<span class='tabbed1'></span><br>
-		<span class='tabbed1'>private ApplicationContext ctx;</span><br>
-		<br>
-		<span class='tabbed1'>@Override</span><br>
-		<span class='tabbed1'>public void setApplicationContext(ApplicationContext ctx) throws BeansException</span><br>
-		<span class='tabbed2'> {</span><br>
-		<span class='tabbed2'>this.ctx = ctx;</span><br>
-		<span class='tabbed2'></span><br>
-		<span class='tabbed2'>if(ctx instanceof GenericApplicationContext) {</span><br>
-		<span class='tabbed3'>((GenericApplicationContext) ctx).registerShutdownHook();</span><br>
-		<span class='tabbed2'>}</span><br>
-		<span class='tabbed2'></span><br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		}<br>	
+@Component
+public class ShutdownHookBean implements ApplicationContextAware {
+
+	private ApplicationContext ctx;
+
+	@Override
+	public void setApplicationContext(ApplicationContext ctx) throws BeansException {
+		this.ctx = ctx;
+
+		if (ctx instanceof GenericApplicationContext) {
+			((GenericApplicationContext) ctx).registerShutdownHook();
+		}
+
+	}
+
+}
 	</div>
 
 </div>

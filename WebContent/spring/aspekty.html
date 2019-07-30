@@ -5,35 +5,35 @@
 		pom.xml dodajemy:</p>
 		
 	<div class="codeDiv">
-		<span class='tabbed2'>&lt;!-- Spring AOP + AspectJ --&gt;</span><br>
-		<span class='tabbed2'>&lt;dependency&gt;</span><br>
-		<span class='tabbed3'>&lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br>
-		<span class='tabbed3'>&lt;artifactId&gt;spring-aop&lt;/artifactId&gt;</span><br>
-		<span class='tabbed3'>&lt;version&gt;${spring.version}&lt;/version&gt;</span><br>
-		<span class='tabbed2'>&lt;/dependency&gt;</span><br>
-		<br>
-		<span class='tabbed2'>&lt;dependency&gt;</span><br>
-		<span class='tabbed3'>&lt;groupId&gt;org.aspectj&lt;/groupId&gt;</span><br>
-		<span class='tabbed3'>&lt;artifactId&gt;aspectjrt&lt;/artifactId&gt;</span><br>
-		<span class='tabbed3'>&lt;version&gt;1.9.2&lt;/version&gt;</span><br>
-		<span class='tabbed2'>&lt;/dependency&gt;</span><br>
-		<br>
-		<span class='tabbed2'>&lt;dependency&gt;</span><br>
-		<span class='tabbed3'>&lt;groupId&gt;org.aspectj&lt;/groupId&gt;</span><br>
-		<span class='tabbed3'>&lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;</span><br>
-		<span class='tabbed3'>&lt;version&gt;1.9.2&lt;/version&gt;</span><br>
-		<span class='tabbed2'>&lt;/dependency&gt;</span><br>	
+&lt;!-- Spring AOP + AspectJ --&gt;
+&lt;dependency&gt;
+&lt;groupId&gt;org.springframework&lt;/groupId&gt;
+&lt;artifactId&gt;spring-aop&lt;/artifactId&gt;
+&lt;version&gt;${spring.version}&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+&lt;groupId&gt;org.aspectj&lt;/groupId&gt;
+&lt;artifactId&gt;aspectjrt&lt;/artifactId&gt;
+&lt;version&gt;1.9.2&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+&lt;groupId&gt;org.aspectj&lt;/groupId&gt;
+&lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;
+&lt;version&gt;1.9.2&lt;/version&gt;
+&lt;/dependency&gt;	
 	</div>
 	
 	<p>Następnie należy do pliku konfiguracyjnego Springa dodać adnotację włączającą działanie aspektów:</p>
 	
 	<div class="codeDiv">
-		@Configuration<br>
-		@ComponentScan("pl.softService.spring")<br>
-		@EnableAspectJAutoProxy(proxyTargetClass = true)<br>
-		public class SpringConfiguration {<br>
-		<br>
-		}<br>	
+@Configuration
+@ComponentScan("pl.softService.spring")
+@EnableAspectJAutoProxy(proxyTargetClass = true)
+public class SpringConfiguration {
+
+}
 	</div>
 	
 	<p>Należy pamiętać, że aspekt jest komponentem zarządzanym przez Springa i lokalizacja podana w adnotacji
@@ -43,49 +43,43 @@
 		wystarczającym opisem działania poszczególnych metod:</p>
 	
 	<div class="codeDiv">
-		@Component<br>
-		@Aspect<br>
-		public class TestBeanAdvice {<br>
-		<br>
-		<span class='tabbed1'>@Before("execution(* pl.softService.spring.interfaces.TestBeanInterface.getInfo(</span><br>
-		<span class='tabbed2'>..))")</span><br>
-		<span class='tabbed1'>public void beforeAdvice(JoinPoint joinPoint) {</span><br>
-		<span class='tabbed2'>System.out.println("TestBeanAdvice.beforeAdvice()");</span><br>
-		<br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		<span class='tabbed1'>@After("execution(* pl.softService.spring.interfaces.TestBeanInterface.getInfo(.</span><br>
-		<span class='tabbed2'>.))")</span><br>
-		<span class='tabbed1'>public void afterAdvice(JoinPoint joinPoint) {</span><br>
-		<span class='tabbed2'>System.out.println("TestBeanAdvice.afterAdvice()");</span><br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		<span class='tabbed1'>@Around("execution(* pl.softService.spring.interfaces.TestBeanInterface.getInfo(</span><br>
-		<span class='tabbed2'>..))")</span><br>
-		<span class='tabbed1'>public Object aroundAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throw</span><br>
-		<span class='tabbed2'>able {</span><br>
-		<span class='tabbed2'>System.out.println("TestBeanAdvice.aroundAdvice()");</span><br>
-		<span class='tabbed2'>Object retVal = proceedingJoinPoint.proceed();</span><br>
-		<span class='tabbed2'>System.out.println(retVal.toString());</span><br>
-		<span class='tabbed2'>System.out.println("TestBeanAdvice.aroundAdvice()");</span><br>
-		<span class='tabbed2'>return retVal;</span><br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		<span class='tabbed1'>@AfterReturning(pointcut = "execution(* pl.softService.spring.interfaces.TestBea</span><br>
-		<span class='tabbed2'>nInterface.getInfo(..))", returning = "result")</span><br>
-		<span class='tabbed1'>public void afterReturningAdvice(JoinPoint joinPoint, Object result) {</span><br>
-		<span class='tabbed2'>System.out.println("TestBeanAdvice.afterReturningAdvice()");</span><br>
-		<span class='tabbed2'>System.out.println("Method returned value is: " + result.toString());</span><br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		<span class='tabbed1'>@AfterThrowing(pointcut = "execution(* pl.softService.spring.interfaces.TestBean</span><br>
-		<span class='tabbed2'>Interface.getInfo(..))", throwing = "error")</span><br>
-		<span class='tabbed1'>public void afterThrowingAdvice(JoinPoint joinPoint, Throwable error) {</span><br>
-		<span class='tabbed2'>System.out.println("TestBeanAdvice.afterThrowingAdvice()");</span><br>
-		<span class='tabbed2'>System.out.println("Exception: " + error);</span><br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		}<br>	
+@Component
+@Aspect
+public class TestBeanAdvice {
+
+	@Before("execution(* pl.softService.spring.interfaces.TestBeanInterface.getInfo(..))")
+	public void beforeAdvice(JoinPoint joinPoint) {
+		System.out.println("TestBeanAdvice.beforeAdvice()");
+
+	}
+
+	@After("execution(* pl.softService.spring.interfaces.TestBeanInterface.getInfo(..))")
+	public void afterAdvice(JoinPoint joinPoint) {
+		System.out.println("TestBeanAdvice.afterAdvice()");
+	}
+
+	@Around("execution(* pl.softService.spring.interfaces.TestBeanInterface.getInfo(..))")
+	public Object aroundAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+		System.out.println("TestBeanAdvice.aroundAdvice()");
+		Object retVal = proceedingJoinPoint.proceed();
+		System.out.println(retVal.toString());
+		System.out.println("TestBeanAdvice.aroundAdvice()");
+		return retVal;
+	}
+
+	@AfterReturning(pointcut = "execution(* pl.softService.spring.interfaces.TestBeanInterface.getInfo(..))", returning = "result")
+	public void afterReturningAdvice(JoinPoint joinPoint, Object result) {
+		System.out.println("TestBeanAdvice.afterReturningAdvice()");
+		System.out.println("Method returned value is: " + result.toString());
+	}
+
+	@AfterThrowing(pointcut = "execution(* pl.softService.spring.interfaces.TestBeanInterface.getInfo(..))", throwing = "error")
+	public void afterThrowingAdvice(JoinPoint joinPoint, Throwable error) {
+		System.out.println("TestBeanAdvice.afterThrowingAdvice()");
+		System.out.println("Exception: " + error);
+	}
+
+}	
 	</div>	
 
 </div>

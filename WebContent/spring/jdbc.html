@@ -4,17 +4,17 @@
 	<p>Aby umożliwić połączenie z bazą danych naszej aplikacji Springowej należy wykonać kilka kroków. Trzeba dodać odpowiednie zależności do pliku pom.xml:</p>
 	
 	<div class="codeDiv">
-		&lt;dependency&gt;<br>
-			&nbsp;&lt;groupId&gt;org.springframework&lt;/groupId&gt;<br>
-			&nbsp;&lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;<br>
-			&nbsp;&lt;version&gt;5.0.8.RELEASE&lt;/version&gt;<br>
-		&lt;/dependency&gt;<br>
-		<br>
-		&lt;dependency&gt;<br>
-			&nbsp;&lt;groupId&gt;mysql&lt;/groupId&gt;<br>
-			&nbsp;&lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;<br>
-			&nbsp;&lt;version&gt;5.0.5&lt;/version&gt;&nbsp;// 5.1.39 Też działa dobrze<br>
-		&lt;/dependency&gt;
+&lt;dependency&gt;
+	&lt;groupId&gt;org.springframework&lt;/groupId&gt;
+	&lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;
+	&lt;version&gt;5.0.8.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+	&lt;groupId&gt;mysql&lt;/groupId&gt;
+	&lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+	&lt;version&gt;5.0.5&lt;/version&gt;// 5.1.39 Też działa dobrze
+&lt;/dependency&gt;
 	</div>
 	
 	<p>Pierwszy artefakt <code>spring-jdbc</code> to są odpowiednie biblioteki springowe, niezbędne do skorzystania z jdbc w Spring. Drugi artefakc <code>mysql-connector-java</code> to jest
@@ -28,67 +28,68 @@
 	Należy zatem w pliku <code>applicationContext.xml</code> umieścić następujący wpis:</p>
 	
 	<div class="codeDiv">
-		&lt;bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"&gt;<br>
-		&nbsp;&lt;property name="driverClassName" value="com.mysql.jdbc.Driver" /&gt;<br>
-		&nbsp;&lt;property name="url" value="jdbc:mysql://localhost:3306/nazwaBazyDanych?useUnicode=yes&amp;characterEncoding=utf8" /&gt;<br>
-		&nbsp;&lt;property name="username" value="login" /&gt;<br>
-		&nbsp;&lt;property name="password" value="hasło" /&gt;<br>
-	&lt;/bean&gt;
+&lt;bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"&gt;
+	&lt;property name="driverClassName" value="com.mysql.jdbc.Driver" /&gt;
+	&lt;property name="url" value="jdbc:mysql://localhost:3306/nazwaBazyDanych?useUnicode=yes&amp;characterEncoding=utf8" /&gt;
+	&lt;property name="username" value="login" /&gt;
+	&lt;property name="password" value="hasło" /&gt;
+&lt;/bean&gt;
 	</div>
 	
 	<p>lub metodę w klasie <code>WebConfig.java</code>:</p>
 	
 	<div class="codeDiv">
-		@Bean<br>
-		public DataSource dataSource() {<br>
-			&nbsp;DriverManagerDataSource dataSource = new DriverManagerDataSource();<br>
-			&nbsp;dataSource.setDriverClassName("com.mysql.jdbc.Driver");<br>
-			&nbsp;dataSource.setUrl("jdbc:mysql://localhost:3306/nazwa_bazy_danych");<br>
-			&nbsp;dataSource.setUsername("login");<br>
-			&nbsp;dataSource.setPassword("hasło");<br>
-			<br>	
-			return dataSource;<br>
-		}	
+@Bean<br>
+public DataSource dataSource() {
+	DriverManagerDataSource dataSource = new DriverManagerDataSource();
+	dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+	dataSource.setUrl("jdbc:mysql://localhost:3306/nazwa_bazy_danych");
+	dataSource.setUsername("login");
+	dataSource.setPassword("hasło");
+
+	return dataSource;
+}	
 	</div>
 	
 	<p>To już cała konfiguracja, która umożliwia skorzystanie w najprostrzej z opcji z dostępu do bazy danych. Przykład w jaki należy uzyskać dostęp do bazy danych znajduje się na
 	listingu poniżej:</p>
 	
 	<div class="codeDiv">
-		@Controller<br>
-		@RequestMapping("/kontroler")<br>
-		public class Kontroler {<br>
-		<br>
-			&nbsp;@Autowired<br>
-			&nbsp;private DataSource dataSource;<br>
-			<br>		
-			&nbsp;String sql = "SELECT * FROM nazwaTabeli";<br>
-			<br>			
-			&nbsp;@RequestMapping("/metoda")<br>
-			&nbsp;public String metoda(Model model) {<br>
-			<br>		
-				&nbsp;&nbsp;java.sql.Connection conn = null;<br>
-				&nbsp;&nbsp;try {<br>
-					&nbsp;&nbsp;&nbsp;conn = dataSource.getConnection();<br>
-					&nbsp;&nbsp;&nbsp;PreparedStatement ps = conn.prepareStatement(sql);<br>
-					&nbsp;&nbsp;&nbsp;ResultSet rs = ps.executeQuery();<br>
-					&nbsp;&nbsp;&nbsp;if(rs.next()) {<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;String informacjaZBazy_01 = rs.getString("nazwaKolumny_01");<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;String informacjaZBazy_02 = rs.getString("nazwaKolumny_02");<br>
-					&nbsp;&nbsp;&nbsp;}<br>
-					&nbsp;&nbsp;&nbsp;rs.close();<br>
-					&nbsp;&nbsp;&nbsp;ps.close();<br>
-				&nbsp;&nbsp;} catch (SQLException e) {<br>
-					&nbsp;&nbsp;&nbsp;throw new RuntimeException(e);<br>
-				&nbsp;&nbsp;} finally {<br>
-					&nbsp;&nbsp;&nbsp;if(conn != null) {<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conn.close();<br>
-						&nbsp;&nbsp;&nbsp;&nbsp;} catch(SQLException e) {}<br>
-					&nbsp;&nbsp;&nbsp;}<br>
-				&nbsp;&nbsp;}<br>		
-			&nbsp;}<br>
+@Controller
+@RequestMapping("/kontroler")
+public class Kontroler {
+
+	@Autowired
+	private DataSource dataSource;
+
+	String sql = "SELECT * FROM nazwaTabeli";
+
+	@RequestMapping("/metoda")
+	public String metoda(Model model) {
+
+		java.sql.Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				String informacjaZBazy_01 = rs.getString("nazwaKolumny_01");
+				String informacjaZBazy_02 = rs.getString("nazwaKolumny_02");
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+				}
+			}
 		}
+	}
+}
 	</div>
 	
 	<p>Powyżej pokazany przykład umożliwia dostęp do bazy danych w bardzo uproszczony sposób.</p>
@@ -99,87 +100,121 @@
 	z możliwości hibernate należy dodać oczywiście niezbędne zależności do projektu oprócz tych opisanych powyżej:</p>
 	
 	<div class="codeDiv">
-		&lt;dependency&gt;<br>
-			&nbsp;&lt;groupId&gt;org.hibernate&lt;/groupId&gt;<br>
-			&nbsp;&lt;artifactId&gt;hibernate-core&lt;/artifactId&gt;<br>
-			&lt;version&gt;5.0.8.Final&lt;/version&gt;<br>
-		&lt;/dependency&gt;<br>
-		&lt;dependency&gt;<br>
-			&nbsp;&lt;groupId&gt;org.hibernate&lt;/groupId&gt;<br>
-			&nbsp;&lt;artifactId&gt;hibernate-entitymanager&lt;/artifactId&gt;<br>
-			&nbsp;&lt;version&gt;5.0.8.Final&lt;/version&gt;<br>
-		&lt;/dependency&gt;<br>
-		&lt;dependency&gt;<br>
-			&nbsp;&lt;groupId&gt;org.springframework&lt;/groupId&gt;<br>
-			&nbsp;&lt;artifactId&gt;spring-orm&lt;/artifactId&gt;<br>
-			&nbsp;&lt;version&gt;5.0.8.RELEASE&lt;/version&gt;<br>
-		&lt;/dependency&gt;	
+&lt;dependency&gt;
+	&lt;groupId&gt;org.hibernate&lt;/groupId&gt;
+	&lt;artifactId&gt;hibernate-core&lt;/artifactId&gt;
+	&lt;version&gt;5.0.8.Final&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+	&lt;groupId&gt;org.hibernate&lt;/groupId&gt;
+	&lt;artifactId&gt;hibernate-entitymanager&lt;/artifactId&gt;
+	&lt;version&gt;5.0.8.Final&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+	&lt;groupId&gt;org.springframework&lt;/groupId&gt;
+	&lt;artifactId&gt;spring-orm&lt;/artifactId&gt;
+	&lt;version&gt;5.0.8.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;	
 	</div>
 	
 	<p>Następną czynnością jaką należy wykonać jest odpowiednia konfiguracja w pliku <code>applicationContext.xml</code></p>
 
 	<div class="codeDiv">
-		&lt;tx:annotation-driven /&gt;<br> 
-		&lt;bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"&gt;<br> 
-			&nbsp;&lt;property name="dataSource" ref="dataSource" /&gt;<br> 
-			&nbsp;&lt;property name="packagesToScan" value="pl.nazwaDomeny.nazwaAplikacji.model" /&gt;<br> 
-			&nbsp;&lt;property name="jpaVendorAdapter"&gt;<br> 
-				&nbsp;&nbsp;&lt;bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"&gt;<br> 
-					&nbsp;&nbsp;&nbsp;&lt;property name="showSql" value="false" /&gt;<br> 
-					&nbsp;&nbsp;&nbsp;&lt;property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" /&gt;<br> 
-				&nbsp;&nbsp;&lt;/bean&gt;<br> 
-			&nbsp;&lt;/property&gt;<br> 
-			&nbsp;&lt;property name="jpaProperties"&gt;<br> 
-				&nbsp;&nbsp;&lt;props&gt;<br> 
-					&nbsp;&nbsp;&nbsp;&lt;prop key="hibernate.hbm2ddl.auto"&gt;update&lt;/prop&gt;<br> 
-				&nbsp;&nbsp;&lt;/props&gt;<br> 
-			&nbsp;&lt;/property&gt;<br> 
-		&lt;/bean&gt;<br> 
-		&lt;bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" /&gt;<br> 
-		&lt;bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" /&gt;<br> 
-		&lt;bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"&gt;<br>
-			&nbsp;&lt;property name="entityManagerFactory" ref="entityManagerFactory" /&gt;<br>
-	&lt;/bean&gt;	
+&lt;tx:annotation-driven /&gt; 
+&lt;bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"&gt; 
+	&lt;property name="dataSource" ref="dataSource" /&gt; 
+	&lt;property name="packagesToScan" value="pl.nazwaDomeny.nazwaAplikacji.model" /&gt; 
+	&lt;property name="jpaVendorAdapter"&gt; 
+		&lt;bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"&gt; 
+			&lt;property name="showSql" value="false" /&gt; 
+			&lt;property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" /&gt; 
+		&lt;/bean&gt; 
+	&lt;/property&gt; 
+	&lt;property name="jpaProperties"&gt; 
+		&lt;props&gt; 
+			&lt;prop key="hibernate.hbm2ddl.auto"&gt;update&lt;/prop&gt; 
+		&lt;/props&gt; 
+	&lt;/property&gt; 
+&lt;/bean&gt; 
+&lt;bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" /&gt; 
+&lt;bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" /&gt; 
+&lt;bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"&gt;
+	&lt;property name="entityManagerFactory" ref="entityManagerFactory" /&gt;
+&lt;/bean&gt;
 	</div>
 	
 	<p>lub jeżeli korzystamy z konfiguracji adnotacjami, to w pliku <span class="clickDiv">WebConfig.java</span> należy dodać kilka
 	beanów, jak przedstawiono to poniżej:</p>
 	
 	<div class="codeDiv">
-		@Bean<br>
-		public LocalContainerEntityManagerFactoryBean entityManagerFactory() {<br>
-			&nbsp;LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();<br>
-			&nbsp;em.setDataSource(dataSource());<br>
-			&nbsp;em.setPackagesToScan(new String[] { "pl.softService.springMVC.domain" });<br>
-		<br>
-			&nbsp;JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();<br>
-			&nbsp;em.setJpaVendorAdapter(vendorAdapter);<br>
-			&nbsp;em.setJpaProperties(additionalProperties());<br>
-		<br>
-			&nbsp;return em;<br>
-		}<br>
-		<br>
-		@Bean<br>
-		public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {<br>
-			&nbsp;JpaTransactionManager transactionManager = new JpaTransactionManager();<br>
-			&nbsp;transactionManager.setEntityManagerFactory(emf);<br>
-		<br>
-			&nbsp;return transactionManager;<br>
-		}<br>
-		<br>
-		@Bean<br>
-		public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {<br>
-			&nbsp;return new PersistenceExceptionTranslationPostProcessor();<br>
-		}<br>
-		<br>
-		Properties additionalProperties() {<br>
-			&nbsp;Properties properties = new Properties();<br>
-			&nbsp;/* properties.setProperty("hibernate.hbm2ddl.auto", "create-drop"); */&nbsp;// nie używać na produkcji<br>
-			&nbsp;properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");<br>
-		<br>
-			&nbsp;return properties;<br>
-		}	
-	</div>
+@Bean
+public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+	LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+	em.setDataSource(dataSource());
+	em.setPackagesToScan(new String[] { "pl.softService.springMVC.domain" });
+
+	JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+	em.setJpaVendorAdapter(vendorAdapter);
+	em.setJpaProperties(additionalProperties());
+
+	return em;
+}
+
+@Bean
+public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+	JpaTransactionManager transactionManager = new JpaTransactionManager();
+	transactionManager.setEntityManagerFactory(emf);
+
+	return transactionManager;
+}
+
+@Bean
+public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+	return new PersistenceExceptionTranslationPostProcessor();
+}
+
+Properties additionalProperties() {
+	Properties properties = new Properties();
+	/* properties.setProperty("hibernate.hbm2ddl.auto", "create-drop"); */// nie używać na produkcji
+	properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+
+	return properties;
+}	
+@Controller
+@RequestMapping("/kontroler")
+public class Kontroler {
+
+	@Autowired
+	private DataSource dataSource;
+
+	String sql = "SELECT * FROM nazwaTabeli";
+
+	@RequestMapping("/metoda")
+	public String metoda(Model model) {
+
+		java.sql.Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				String informacjaZBazy_01 = rs.getString("nazwaKolumny_01");
+				String informacjaZBazy_02 = rs.getString("nazwaKolumny_02");
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+	}
+}	</div>
 	
 	<p>
 		Znaczenie poszczególnych elementów konfiguracyjnych:<br>
@@ -207,35 +242,36 @@
 		przy jego użyciu, jak pokazano to poniżej:</p>
 	
 	<div class="codeDiv">
-		@Controller<br>
-		@RequestMapping("/kontroler")<br>
-		public class Kontroler {<br>
-			&nbsp;@PersistenceContext EntityManager entityManager;<br>
-			<br>				
-				&nbsp;@RequestMapping("/metoda")<br>
-				&nbsp;@Transactional<br>
-				&nbsp;public String metoda(Model model) {<br>
-					<br>					
-					&nbsp;&nbsp;// BAZA DANYCH<br>
-					&nbsp;&nbsp;// Klasa encji to Czlowiek, ktora opatrzona jest adnotacja @Table(name="ludzie")<br>
-					<br>					
-					&nbsp;&nbsp;Czlowiek czlowiek = new Czlowiek();<br>
-					&nbsp;&nbsp;czlowiek = entityManager.find(Czlowiek.class, 1);<br>
-					&nbsp;&nbsp;System.out.println("Pobrano z bazy: " + czlowiek.getImie() + " " + czlowiek.getNazwisko());<br>
-					<br>
-					&nbsp;&nbsp;// Przyklad pobierania listy ludzi<br>
-					&nbsp;&nbsp;Query query = entityManager.createNativeQuery("select * from ludzie where imie = :imie", Czlowiek.class);<br>
-					&nbsp;&nbsp;query.setParameter("imie", "dawid");<br>
-					<br>
-					&nbsp;&nbsp;@SuppressWarnings("unchecked")<br>
-					&nbsp;&nbsp;List&lt;Czlowiek.class&gt; listaLudzi = query.getResultList();<br>
-					<br>
-					&nbsp;&nbsp;// Lub z wykorzystaniem JPQL<br>
-					&nbsp;&nbsp;TypedQuery&lt;Czlowiek&gt; typedQuery = entityManager.createQuery("select l from Ludzie l where l.imie = :imie", Czlowiek.class);<br>
-					&nbsp;&nbsp;typedQuery.setParameter("imie", "dawid");<br>
-					&nbsp;&nbsp;List&lt;Czlowiek&gt; listaLudzi2 = typedQuery.getResultList();<br>
-				&nbsp;}<br>	
-		}		
+@Controller
+@RequestMapping("/kontroler")
+public class Kontroler {
+	@PersistenceContext
+	EntityManager entityManager;
+
+	@RequestMapping("/metoda")
+				@Transactional
+				public String metoda(Model model) {
+										
+					// BAZA DANYCH
+					// Klasa encji to Czlowiek, ktora opatrzona jest adnotacja @Table(name="ludzie")
+										
+					Czlowiek czlowiek = new Czlowiek();
+					czlowiek = entityManager.find(Czlowiek.class, 1);
+					System.out.println("Pobrano z bazy: " + czlowiek.getImie() + " " + czlowiek.getNazwisko());
+					
+					// Przyklad pobierania listy ludzi
+					Query query = entityManager.createNativeQuery("select * from ludzie where imie = :imie", Czlowiek.class);
+					query.setParameter("imie", "dawid");
+					
+					@SuppressWarnings("unchecked")
+					List&lt;Czlowiek.class&gt; listaLudzi = query.getResultList();
+					
+					// Lub z wykorzystaniem JPQL
+					TypedQuery&lt;Czlowiek&gt; typedQuery = entityManager.createQuery("select l from Ludzie l where l.imie = :imie", Czlowiek.class);
+					typedQuery.setParameter("imie", "dawid");
+					List&lt;Czlowiek&gt; listaLudzi2 = typedQuery.getResultList();
+				}
+}
 	</div>
 	
 	<p><span class="important">UWAGA: </span>Jeżeli będą występować problemy z uruchomieniem się aplikacji na serwerze, to należy spróbować
@@ -246,7 +282,7 @@
 	zrobić <span class="important">Rollback</span> to należy to zrobić w sposób następujący:</p>
 	
 	<div class="codeDiv">
-		TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 	</div>
 
 </div>

@@ -6,64 +6,64 @@
 	należy dodać następujące zależności:</p>
 	
 	<div class="codeDiv">
-		&lt;dependency&gt;<br>
-			&nbsp;&lt;groupId&gt;org.springframework.security&lt;/groupId&gt;<br>
-			&nbsp;&lt;artifactId&gt;spring-security-config&lt;/artifactId&gt;<br>
-			&nbsp;&lt;version&gt;5.0.7.RELEASE&lt;/version&gt;<br>
-		&lt;/dependency&gt;<br>
-		&lt;dependency&gt;<br>
-			&nbsp;&lt;groupId&gt;org.springframework.security&lt;/groupId&gt;<br>
-			&nbsp;&lt;artifactId&gt;spring-security-web&lt;/artifactId&gt;<br>
-			&nbsp;&lt;version&gt;5.0.7.RELEASE&lt;/version&gt;<br>
-		&lt;/dependency&gt;
+&lt;dependency&gt;
+	&lt;groupId&gt;org.springframework.security&lt;/groupId&gt;
+	&lt;artifactId&gt;spring-security-config&lt;/artifactId&gt;
+	&lt;version&gt;5.0.7.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+	&lt;groupId&gt;org.springframework.security&lt;/groupId&gt;
+	&lt;artifactId&gt;spring-security-web&lt;/artifactId&gt;
+	&lt;version&gt;5.0.7.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
 	</div>
 	
 	<p>Następnie należy utworzyć plik konfiguracyjny dla Spring Security. Plik ten nazywamy np. <code>security-context.xml</code>
 	i umieszczamy go np. w katalogu <code>webapp/WEB-INF/</code>. Poniżej zawartość pliku <code>security-context.xml</code>:</p>
 	
 	<div class="codeDiv">
-		&lt;?xml version="1.0" encoding="UTF-8"?&gt;<br>
-		&lt;b:beans xmlns="http://www.springframework.org/schema/security"<br>
-				 &nbsp;xmlns:b="http://www.springframework.org/schema/beans"<br>
-				 &nbsp;xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"<br>
-				 &nbsp;xsi:schemaLocation="http://www.springframework.org/schema/beans<br> 
-				 	&nbsp;&nbsp;http://www.springframework.org/schema/beans/spring-beans.xsd<br>
-					&nbsp;&nbsp;http://www.springframework.org/schema/security <br>
-					&nbsp;http://www.springframework.org/schema/security/spring-security.xsd"&gt;<br>
-		<br>
-			&nbsp;&lt;http /&gt;<br>
-		<br>
-			&nbsp;&lt;user-service&gt;<br>
-				&nbsp;&nbsp;&lt;user name="user" password="{noop}password" authorities="ROLE_USER" /&gt;<br>
-			&nbsp;&lt;/user-service&gt;<br>
-		<br>
-		&lt;/b:beans&gt;	
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;b:beans xmlns="http://www.springframework.org/schema/security"
+		 xmlns:b="http://www.springframework.org/schema/beans"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 	http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/security 
+			http://www.springframework.org/schema/security/spring-security.xsd"&gt;
+
+	&lt;http /&gt;
+
+	&lt;user-service&gt;
+		&lt;user name="user" password="{noop}password" authorities="ROLE_USER" /&gt;
+	&lt;/user-service&gt;
+
+&lt;/b:beans&gt;	
 	</div>
 	
 	<p>Mając już przygotowany powyższy plik z konfiguracją Spring Security należy w pliku konfiguracyjnym <code>web.xml</code>
 	dokonać kilku zmian. Należy dołączyć plik konfiguracyjny, czyli dopisujemy jedną linijkę:</p>
 	
 	<div class="codeDiv">
-		&lt;context-param&gt;<br>
-			&nbsp;&lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;<br>
-			&nbsp;&lt;param-value&gt;<br>
-				&nbsp;&nbsp;/WEB-INF/rootApplicationContext.xml<br>
-				&nbsp;&nbsp;/WEB-INF/security-context.xml<br>
-			&lt;/param-value&gt;<br>
-		&lt;/context-param&gt;<br>															
+&lt;context-param&gt;
+	&lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+	&lt;param-value&gt;
+		/WEB-INF/rootApplicationContext.xml
+		/WEB-INF/security-context.xml
+	&lt;/param-value&gt;
+&lt;/context-param&gt;															
 	</div>
 
 	<p>Oraz w tym samym pliku konfiguracyjnym <code>web.xml</code> należy skonfigurować filtr:</p>
 	
 	<div class="codeDiv">
-		&lt;filter&gt;<br>
-			&nbsp;&lt;filter-name&gt;springSecurityFilterChain&lt;/filter-name&gt;<br>
-			&nbsp;&lt;filter-class&gt;org.springframework.web.filter.DelegatingFilterProxy&lt;/filter-class&gt;<br>
-		&lt;/filter&gt;<br>
-		&lt;filter-mapping&gt;<br>
-			&nbsp;&lt;filter-name&gt;springSecurityFilterChain&lt;/filter-name&gt;<br>
-			&nbsp;&lt;url-pattern&gt;/*&lt;/url-pattern&gt;<br>
-		&lt;/filter-mapping&gt;	
+&lt;filter&gt;
+	&lt;filter-name&gt;springSecurityFilterChain&lt;/filter-name&gt;
+	&lt;filter-class&gt;org.springframework.web.filter.DelegatingFilterProxy&lt;/filter-class&gt;
+&lt;/filter&gt;
+&lt;filter-mapping&gt;
+	&lt;filter-name&gt;springSecurityFilterChain&lt;/filter-name&gt;
+	&lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;	
 	</div>
 	
 	<p>W przypadku gdy konfigurujemy Springa adnotacjami to należy utworzyć klasę konfiguracyjną dla <code>Spring Security</code>.
@@ -71,57 +71,56 @@
 	Jej zawartość jest przedstawiona na listingu poniżej:</p>
 
 	<div class="codeDiv">
-		@EnableWebSecurity<br>
-		public class WebSecurityConfig extends WebSecurityConfigurerAdapter {<br>
-		<br>
-		<span class='tabbed1'>@Autowired</span><br>
-		<span class='tabbed1'>private DataSource dataSource;</span><br>
-		<br>
-		<span class='tabbed1'>@Override</span><br>
-		<span class='tabbed1'>protected void configure(AuthenticationManagerBuilder auth) throws Exception {</span><br>
-		<span class='tabbed2'>auth.jdbcAuthentication().dataSource(dataSource)</span><br>
-		<span class='tabbed4'>.usersByUsernameQuery("select username, password, enabled"</span><br>
-		<span class='tabbed6'>+ " from users where username=?")</span><br>
-		<span class='tabbed4'>.authoritiesByUsernameQuery("select username, authority "</span><br>
-		<span class='tabbed6'>+ "from authorities where username=?")</span><br>
-		<span class='tabbed4'>.passwordEncoder(new BCryptPasswordEncoder());</span><br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		<span class='tabbed1'>@Override</span><br>
-		<span class='tabbed1'>protected void configure(HttpSecurity http) throws Exception {</span><br>
-		<span class='tabbed2'>http</span><br>
-		<span class='tabbed4'>.authorizeRequests()</span><br>
-		<span class='tabbed4'>.antMatchers("/signin/**").anonymous()</span><br>
-		<span class='tabbed4'>.antMatchers("/kalkulator/pobierzKalkulator").permitAll()</span><br>
-		<span class='tabbed4'>.antMatchers("/signin/potwierdzAdresMailowy").permitAll()</span><br>
-		<span class='tabbed4'>.antMatchers("/resources/**").permitAll()</span><br>
-		<span class='tabbed4'>.antMatchers("/login*").permitAll()</span><br>
-		<span class='tabbed4'>.anyRequest().authenticated()</span><br>
-		<span class='tabbed4'>.and()</span><br>
-		<span class='tabbed4'>.formLogin()</span><br>
-		<span class='tabbed4'>.loginPage("/login")</span><br>
-		<span class='tabbed4'>.defaultSuccessUrl("/kalkulator/menuUzytkownika", true)</span><br>
-		<span class='tabbed4'>.failureForwardUrl("/login?error=true")</span><br>
-		<span class='tabbed4'>.permitAll()</span><br>
-		<span class='tabbed4'>.and()</span><br>
-		<span class='tabbed4'>.logout()</span><br>
-		<span class='tabbed4'>.logoutSuccessUrl("/login?logout=successfull")</span><br>
-		<span class='tabbed4'>.deleteCookies("JSESSIONID")</span><br>
-		<span class='tabbed4'>.invalidateHttpSession(false)</span><br>
-		<span class='tabbed4'>.permitAll()</span><br>
-		<span class='tabbed4'>.and()</span><br>
-		<span class='tabbed4'>.sessionManagement()</span><br>
-		<span class='tabbed4'>.invalidSessionUrl("/login?logout=successfull")</span><br>
-		<span class='tabbed4'>.sessionFixation().newSession();</span><br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		}<br>
-		<br>
-		<span class='tabbed1'>@Override</span><br>
-		<span class='tabbed1'>public void configure(WebSecurity web) throws Exception {</span><br>
-		<span class='tabbed2'>web.ignoring().antMatchers("/kalkulator/pobierzKalkulator","/resources/**");</span><br>
-		<span class='tabbed1'>}</span><br>
-	</div>
+@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+	@Autowired
+	private DataSource dataSource;
+
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.jdbcAuthentication().dataSource(dataSource)
+				.usersByUsernameQuery("select username, password, enabled"
+						+ " from users where username=?")
+				.authoritiesByUsernameQuery("select username, authority "
+						+ "from authorities where username=?")
+				.passwordEncoder(new BCryptPasswordEncoder());
+	}
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http
+				.authorizeRequests()
+				.antMatchers("/signin/**").anonymous()
+				.antMatchers("/kalkulator/pobierzKalkulator").permitAll()
+				.antMatchers("/signin/potwierdzAdresMailowy").permitAll()
+				.antMatchers("/resources/**").permitAll()
+				.antMatchers("/login*").permitAll()
+				.anyRequest().authenticated()
+				.and()
+				.formLogin()
+				.loginPage("/login")
+				.defaultSuccessUrl("/kalkulator/menuUzytkownika", true)
+				.failureForwardUrl("/login?error=true")
+				.permitAll()
+				.and()
+				.logout()
+				.logoutSuccessUrl("/login?logout=successfull")
+				.deleteCookies("JSESSIONID")
+				.invalidateHttpSession(false)
+				.permitAll()
+				.and()
+				.sessionManagement()
+				.invalidSessionUrl("/login?logout=successfull")
+				.sessionFixation().newSession();
+	}
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/kalkulator/pobierzKalkulator", "/resources/**");
+	}
+
+}	</div>
 	
 	<p>
 	&nbsp;&nbsp;&nbsp;* <code>.failureForwardUrl("/login?error=true")</code> - Przechodzi pod ten URL w chwili niepoprawnej autentykacji (logowania)<br>
@@ -155,19 +154,19 @@
 	która dziedziczy po <code>AbstractSecurityWebApplicationInitializer</code>:</p>
 	
 	<div class="codeDiv">
-		public class SecurityWebApplicationInitializer extends AbstractSecurityWebApplicationInitializer {<br>
-		    &nbsp;@Override<br>
-		   &nbsp; protected void beforeSpringSecurityFilterChain(ServletContext servletContext) {<br>
-		        &nbsp;&nbsp;super.beforeSpringSecurityFilterChain(servletContext);<br>
-		 <br>
-		        &nbsp;&nbsp;FilterRegistration.Dynamic characterEncodingFilter;<br>
-		        &nbsp;&nbsp;characterEncodingFilter = servletContext.addFilter("encodingFilter",<br>
-		                &nbsp;&nbsp;&nbsp;new CharacterEncodingFilter());<br>
-		        &nbsp;&nbsp;characterEncodingFilter.setInitParameter("encoding", "UTF-8");<br>
-		        &nbsp;&nbsp;characterEncodingFilter.setInitParameter("forceEncoding", "true");<br>
-		        &nbsp;&nbsp;characterEncodingFilter.addMappingForUrlPatterns(null, false, "/*");<br>
-		    &nbsp;}<br>
-		}	
+public class SecurityWebApplicationInitializer extends AbstractSecurityWebApplicationInitializer {
+    @Override
+    protected void beforeSpringSecurityFilterChain(ServletContext servletContext) {
+        super.beforeSpringSecurityFilterChain(servletContext);
+ 
+        FilterRegistration.Dynamic characterEncodingFilter;
+        characterEncodingFilter = servletContext.addFilter("encodingFilter",
+                new CharacterEncodingFilter());
+        characterEncodingFilter.setInitParameter("encoding", "UTF-8");
+        characterEncodingFilter.setInitParameter("forceEncoding", "true");
+        characterEncodingFilter.addMappingForUrlPatterns(null, false, "/*");
+    }
+}	
 	</div>
 	
 	<p>Umieszczenie tej klasy w pakiecie z pozostałymi klasami konfiguracyjnymi włączy już Spring Security. Dodatkowo
@@ -180,20 +179,20 @@
 		robimy to np. w sposób następujący:</p>
 		
 	<div class="codeDiv">
-		@Controller<br>
-		public class Logowanie {<br>
-		<br>
-		<span class='tabbed1'>@RequestMapping("/login")</span><br>
-		<span class='tabbed1'>public String zaloguj(HttpServletRequest request, HttpServletResponse response)</span><br>
-		<span class='tabbed2'>return "login";</span><br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		<span class='tabbed1'>@RequestMapping("/")</span><br>
-		<span class='tabbed1'>public String home(HttpServletRequest request, HttpServletResponse response) {</span><br>
-		<span class='tabbed2'>return "login";</span><br>
-		<span class='tabbed1'>}</span><br>
-		<br>
-		}<br>	
+@Controller
+public class Logowanie {
+
+	@RequestMapping("/login")
+	public String zaloguj(HttpServletRequest request, HttpServletResponse response)
+		return "login";
+	}
+	
+	@RequestMapping("/")
+	public String home(HttpServletRequest request, HttpServletResponse response) {
+		return "login";
+	}
+
+}	
 	</div>
 	
 	<h2>Własny formularz logowania - konfiguracja XML</h2>
@@ -202,75 +201,76 @@
 	Zatem modyfikujemy wcześniej utworzony plik <code>security-context.xml</code> w następujący sposób:</p>
 
 	<div class="codeDiv">
-		&lt;http&gt;<br>
-			&nbsp;&lt;intercept-url pattern="/login*" access="isAnonymous()" /&gt;<br>
-			&nbsp;&lt;intercept-url pattern="/**" access="isAuthenticated()" /&gt;<br>
-			&nbsp;&lt;form-login<br>
-		  		&nbsp;&nbsp;login-page="/login.html"<br>
-		  		&nbsp;&nbsp;default-target-url="/index.jsp"<br>
-		  		&nbsp;&nbsp;authentication-failure-url="/login.html?error=true"<br>
-		  		&nbsp;&nbsp;always-use-default-target="true"/&gt;<br>
-			&nbsp;&lt;http-basic /&gt;<br>
-			&nbsp;&lt;logout invalidate-session="false" delete-cookies="JSESSIONID"/&gt;<br>
-		&lt;/http&gt;
+&lt;http&gt;
+	&lt;intercept-url pattern="/login*" access="isAnonymous()" /&gt;
+	&lt;intercept-url pattern="/**" access="isAuthenticated()" /&gt;
+	&lt;form-login
+  		login-page="/login.html"
+  		default-target-url="/index.jsp"
+  		authentication-failure-url="/login.html?error=true"
+  		always-use-default-target="true"/&gt;
+	&lt;http-basic /&gt;
+	&lt;logout invalidate-session="false" delete-cookies="JSESSIONID"/&gt;
+&lt;/http&gt;
 	</div>
 	
 	<p>Powyższe ustawienia konfigurują również defaultową obsługę wylogowywania poprzez przejście pod adres:</p>
 	
 	<div class="codeDiv">
-		&lt;form action="${pageContext.request.contextPath}/logout" method="post"&gt;<br>
-			&nbsp;&lt;div&gt;<br>
-				&nbsp;&lt;span&gt;Zalogowany:&lt;security:authentication property="principal.username" /&gt;&lt;/span&gt;<br>
-				&nbsp;&nbsp;&lt;input type="submit" class="btn btn-outline-danger" value="Wyloguj" /&gt;<br>				
-				&nbsp;&nbsp;&lt;input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/&gt;<br>	
-			&nbsp;&lt;/div&gt;<br>
-		&lt;/form&gt;		
+&lt;form action="${pageContext.request.contextPath}/logout" method="post"&gt;
+	&lt;div&gt;
+		&lt;span&gt;Zalogowany:&lt;security:authentication property="principal.username" /&gt;&lt;/span&gt;
+		&lt;input type="submit" class="btn btn-outline-danger" value="Wyloguj" /&gt;				
+		&lt;input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/&gt;	
+	&lt;/div&gt;
+&lt;/form&gt;		
 	</div>
 	
 	<p>Aby skorzystać z tagu security na stronie jsp należy dodać odpowiedni taglib do strony jsp:</p>
 	
 	<div class="codeDiv">
-		&lt;%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%&gt;
+&lt;%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%&gt;
 	</div>
 	
 	<p>oraz odpowiednią zależność do projektu:</p>
 
 	<div class="codeDiv">
-		&lt;dependency&gt;<br>
-			&nbsp;&lt;groupId&gt;org.springframework.security&lt;/groupId&gt;<br>
-			&nbsp;&lt;artifactId&gt;spring-security-taglibs&lt;/artifactId&gt;<br>
-			&nbsp;&lt;version&gt;5.0.8.RELEASE&lt;/version&gt;<br>
-		&lt;/dependency&gt;
+&lt;dependency&gt;
+	&lt;groupId&gt;org.springframework.security&lt;/groupId&gt;
+	&lt;artifactId&gt;spring-security-taglibs&lt;/artifactId&gt;
+	&lt;version&gt;5.0.8.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
 	</div>
 		
 	<p>Na końcu dodajemy plik ze stroną logowania. W naszym przypadku będzie to plik <code>html</code> umieszczony w
 	katalogu głównym aplikacji webapp:</p>
 	
 	<div class="codeDiv">
-		&lt;html&gt;<br>
-		&lt;head&gt;&lt;/head&gt;<br>
-		&lt;body&gt;<br>
-		   &nbsp;&lt;h1&gt;Login :)&lt;/h1&gt;<br>
-		   &nbsp;&lt;form name='f' action="login" method='POST'&gt;<br>
-		      &nbsp;&nbsp;&lt;table&gt;<br>
-		         &nbsp;&nbsp;&nbsp;&lt;tr&gt;<br>
-		            &nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;User:&lt;/td&gt;<br>
-		            &nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;&lt;input type='text' name='username' value=''&gt;&lt;/td&gt;<br>
-		         &nbsp;&nbsp;&nbsp;&lt;/tr&gt;<br>
-		         &nbsp;&nbsp;&nbsp;&lt;tr&gt;<br>
-		            &nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;Password:&lt;/td&gt;<br>
-		            &nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;&lt;input type='password' name='password' /&gt;&lt;/td&gt;<br>
-		         &nbsp;&nbsp;&nbsp;&lt;/tr&gt;<br>
-		         &nbsp;&nbsp;&nbsp;&lt;tr&gt;<br>
-		            &nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;&lt;input name="submit" type="submit" value="submit" /&gt;&lt;/td&gt;<br>
-		         &nbsp;&nbsp;&nbsp;&lt;/tr&gt;<br>
-		         &nbsp;&nbsp;&nbsp;&lt;tr&gt;<br>
-		         	&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;&lt;input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/&gt;&lt;/td&gt;<br>
-				&nbsp;&nbsp;&nbsp;&lt;/tr&gt;<br>
-		      &nbsp;&nbsp;&lt;/table&gt;<br>
-		  &nbsp;&lt;/form&gt;<br>
-		&nbsp;&lt;/body&gt;<br>
-		&lt;/html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;/head&gt;
+&lt;body&gt;
+	&lt;h1&gt;Login :)&lt;/h1&gt;
+	&lt;form name='f' action="login" method='POST'&gt;
+		&lt;table&gt;
+			&lt;tr&gt;
+				&lt;td&gt;User:&lt;/td&gt;
+				&lt;td&gt;&lt;input type='text' name='username' value=''&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+				&lt;td&gt;Password:&lt;/td&gt;
+				&lt;td&gt;&lt;input type='password' name='password' /&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+				&lt;td&gt;&lt;input name="submit" type="submit" value="submit" /&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+				&lt;td&gt;&lt;input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" /&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+		&lt;/table&gt;
+	&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 	</div>
 	
 	<h2>Logowanie z wykorzystaniem bazy danych - konfiguracja XML</h2>
@@ -280,18 +280,18 @@
 	podczas prób logowania się do aplikacji. Zatem najpierw należy utworzyć odpowiednie tabele i dodać conajmniej jednego użytkownika:</p>
 
 	<div class="codeDiv">
-		create table users(<br>
-			&nbsp;username varchar(50) not null primary key,<br>
-			&nbsp;password varchar(60) not null,<br>
-			&nbsp;enabled boolean not null<br>
-		);<br>
-		<br>
-		create table authorities (<br>
-			&nbsp;username varchar(50) not null,<br>
-			&nbsp;authority varchar(50) not null,<br>
-			&nbsp;constraint fk_authorities_users foreign key(username) references users(username)<br>
-		);<br>
-		create unique index ix_auth_username on authorities (username,authority);	
+create table users(
+	username varchar(50) not null primary key,
+	password varchar(60) not null,
+	enabled boolean not null
+);
+
+create table authorities (
+	username varchar(50) not null,
+	authority varchar(50) not null,
+	constraint fk_authorities_users foreign key(username) references users(username)
+);
+create unique index ix_auth_username on authorities (username,authority);	
 	</div>
 
 	<p>Następnie należy przenieść bean'a dataSource z pliku <code>applicationContext.xml</code> do pliku <code>security-context.xml</code>
@@ -300,26 +300,26 @@
 	<p>Następnie w pliku <code>security-context.xml</code> należy zamienić:</p>
 	
 	<div class="codeDiv">
-		&lt;user-service&gt;<br>
-			&nbsp;&lt;user name="user" password="{noop}password" authorities="ROLE_USER" /&gt;<br>
-		&lt;/user-service&gt;<br>	
+&lt;user-service&gt;
+	&lt;user name="user" password="{noop}password" authorities="ROLE_USER" /&gt;
+&lt;/user-service&gt;
 	</div>
 	
 	<p>na:</p>
 	
 	<div class="codeDiv">
-		&lt;authentication-manager&gt;<br>
-			&nbsp;&lt;authentication-provider&gt;<br>
-				&nbsp;&nbsp;&lt;password-encoder ref="bcryptEncoder"/&gt;<br>
-				&nbsp;&nbsp;&lt;jdbc-user-service data-source-ref="dataSource"/&gt;<br>
-			&nbsp;&lt;/authentication-provider&gt;<br>
-		&lt;/authentication-manager&gt;	
+&lt;authentication-manager&gt;
+	&lt;authentication-provider&gt;
+		&lt;password-encoder ref="bcryptEncoder"/&gt;
+		&lt;jdbc-user-service data-source-ref="dataSource"/&gt;
+	&lt;/authentication-provider&gt;
+&lt;/authentication-manager&gt;	
 	</div>
 	
 	<p>Należy również do pliku <code>security-context.xml</code> dodać bean'a:</p>
 	
 	<div class="codeDiv">
-		&lt;b:bean name="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/&gt;	
+&lt;b:bean name="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/&gt;	
 	</div>
 	
 </div>

@@ -8,15 +8,15 @@
 	<p>Model jest obiektem do którego można zapisywać dane i odczytywać je później na stronach widoku:</p>
 	
 	<div class="codeDiv">
-	@Controller<br>
-	public class ExampleController {<br>
-	<br>
-	&nbsp;@RequestMapping("/przyklad/model")<br>
-	&nbsp;public String przykladModelu(Model model) {<br>
-	&nbsp;&nbsp;model.addAttribute("message", "To jest jakaś super informacja");<br>
-	&nbsp;&nbsp;return "glowny";<br>
-	&nbsp;}<br>
+@Controller
+public class ExampleController {
+
+	@RequestMapping("/przyklad/model")
+	public String przykladModelu(Model model) {
+		model.addAttribute("message", "To jest jakaś super informacja");
+		return "glowny";
 	}
+}
 	</div>
 	
 	<h3>@RequestParam</h3>
@@ -25,16 +25,16 @@
 	umieszczamy przed argumentami metody obsługującej dane żądanie:</p>
 	
 	<div class="codeDiv">
-	@Controller<br>
-	public class ExampleController {<br>
-	<br>
-	&nbsp;@RequestMapping("/metoda")<br>
-	&nbsp;public String widok(@RequestParam("a") String danaA, @RequestParam("b") Integer danaB) {<br>
-	&nbsp;&nbsp;System.out.println(danaA);<br>
-	&nbsp;&nbsp;System.out.println(danaB);<br>
-	&nbsp;&nbsp;return "glowny";<br>
-	&nbsp;}<br>
+@Controller
+public class ExampleController {
+
+	@RequestMapping("/metoda")
+	public String widok(@RequestParam("a") String danaA, @RequestParam("b") Integer danaB) {
+		System.out.println(danaA);
+		System.out.println(danaB);
+		return "glowny";
 	}
+}
 	</div>
 	
 	<p>Jeśli z kolei wpiszemy adres /aplikacja/metoda?a=1, otrzymamy błąd (400: BadRequest) ponieważ brakuje jednego z argumentów. 
@@ -42,16 +42,17 @@
 	że nie jest to wymagane pole. Przykład poniżej:</p>
 	
 	<div class="codeDiv">
-	@Controller<br>
-	public class ExampleController {<br>
-	<br>
-	&nbsp;@RequestMapping("/metoda")<br>
-	&nbsp;public String widok(@RequestParam("a") String danaA, @RequestParam(value = "b", required = false, defaultValue = "0") Integer danaB) {<br>
-	&nbsp;&nbsp;System.out.println(danaA);<br>
-	&nbsp;&nbsp;System.out.println(danaB);<br>
-	&nbsp;&nbsp;return "glowny";<br>
-	&nbsp;}<br>
+@Controller
+public class ExampleController {
+
+	@RequestMapping("/metoda")
+	public String widok(@RequestParam("a") String danaA,
+			@RequestParam(value = "b", required = false, defaultValue = "0") Integer danaB) {
+		System.out.println(danaA);
+		System.out.println(danaB);
+		return "glowny";
 	}
+}
 	</div>
 	
 	<p>Spring dostarcza specjalny obiekt <code>MultiValueMap</code>, który możemy użyć podczas obsługi żądania HTTP. Spring
@@ -59,17 +60,16 @@
 	zawierającą wartości atrybutów żądania. Przykład poniżej:</p>
 	
 		<div class="codeDiv">
-	@Controller<br>
-	public class ExampleController {<br>
-	<br>
-	&nbsp;@RequestMapping("/metoda")<br>
-	&nbsp;public String widok(@RequestParam MultiValueMap&lt;String, String&gt; params) {<br>
-	&nbsp;&nbsp;System.out.println(params.get("nazwaParametru").get(0););<br>
-	&nbsp;&nbsp;System.out.println(params.get("nazwaParametru").get(1););<br>
-	&nbsp;&nbsp;return "glowny";<br>
-	&nbsp;}<br>
+@Controller
+public class ExampleController {
+
+	@RequestMapping("/metoda")
+	public String widok(@RequestParam MultiValueMap&lt;String, String&gt; params) {
+		System.out.println(params.get("nazwaParametru").get(0));
+		System.out.println(params.get("nazwaParametru").get(1));
+		return "glowny";
 	}
+}
 	</div>
-	
-	
+
 </div>

@@ -14,8 +14,8 @@
 		np: </p>
 	
 	<div class="codeDiv">
-		@Autowired<br>
-		private MessageProvider messageProvider;	
+@Autowired
+private MessageProvider messageProvider;	
 	</div>
 	
 	<p>W powyższym przykładzie Spring szuka w kontenerze zależności typu <code>MessageProvider</code> i wstrzykuje ją w to pole.
@@ -29,9 +29,9 @@
 		będzie szukał komponentu o konkretnej nazwie, np:</p>
 		
 	<div class="codeDiv">
-		@Autowired<br>
-		@Qualifier("messageProvider")<br>
-		private MessageProvider messageProvider;
+@Autowired
+@Qualifier("messageProvider")
+private MessageProvider messageProvider;
 	</div>
 	
 	<p>W powyższym przykładzie Spring w kontenerze poszukuje komponentu o nazwie <span class="important">messageProvider</span> i
@@ -41,19 +41,19 @@
 		<code>MessageProvider</code> jego nazwą defaultową będzie <span class="important">messageProvider</span> np:</p>
 	
 	<div class="codeDiv">
-		@Component<br>
-		class MessageProvider {<br>
-		<span class="tabbed1">...</span><br>
-		}<br>
+@Component
+class MessageProvider {
+...
+}
 	</div>
 	
 	<p>Można zmienić defaultową nazwę komponentu wpisując przy adnotacji określającej dany stereotyp jego nazwę, np:</p>
 	
 	<div class="codeDiv">
-		@Component("nowaNazwaKomponentu")<br>
-		class MessageProvider {<br>
-		<span class="tabbed1">...</span><br>
-		}<br>
+@Component("nowaNazwaKomponentu")
+class MessageProvider {
+...
+}
 	</div>
 	
 </div>

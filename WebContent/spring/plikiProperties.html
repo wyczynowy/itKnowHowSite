@@ -4,28 +4,26 @@
 	<span class="clickDiv">@PropertySource</span>, którą umieszczamy nad deklaracją klasy, jak pokazano to poniżej:</p>
 	
 	<div class="codeDiv">
-		@Configuration<br>
-		@ComponentScan(basePackages = {"com.electroline.myapp"})<br>
-		@PropertySource("classpath:META-INF/spring/database.properties")<br>
-		@PropertySource("classpath:META-INF/spring/fileLogger.properties")<br>
-		@EnableWebMvc<br>
-		public class WebConfig implements WebMvcConfigurer{<br>
-		<br>	
-		    &nbsp;@Value("${database.driverClassName}")<br>
-		    &nbsp;protected String driverClassName;<br>
-		    &nbsp;@Value("${database.url}")<br>
-		    &nbsp;protected String url;<br>
-		    &nbsp;@Value("${database.username}")<br>
-		    &nbsp;protected String username;<br>
-		    &nbsp;@Value("${database.password}")<br>
-		    &nbsp;protected String password;<br>
-		<br>
-		    &nbsp;@Value("${fileLogger.logFolderUrl}")<br>
-		    &nbsp;private String logFolderUrl;<br>
-		<br>    
-		    &nbsp;...<br>
-		<br>    
-		}	
+@Configuration
+@ComponentScan(basePackages = { "com.electroline.myapp" })
+@PropertySource("classpath:META-INF/spring/database.properties")
+@PropertySource("classpath:META-INF/spring/fileLogger.properties")
+@EnableWebMvc
+public class WebConfig implements WebMvcConfigurer {
+
+	@Value("${database.driverClassName}")
+	protected String driverClassName;
+	@Value("${database.url}")
+	protected String url;
+	@Value("${database.username}")
+	protected String username;
+	@Value("${database.password}")
+	protected String password;
+
+	@Value("${fileLogger.logFolderUrl}")
+	private String logFolderUrl;
+
+}
 	</div>
 	
 	<p>Pliki <span class="clickDiv">properties</span> muszą się znajdować w lokalizacji <code>classpath</code>, na
