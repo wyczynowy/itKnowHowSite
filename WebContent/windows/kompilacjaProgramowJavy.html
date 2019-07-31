@@ -3,17 +3,17 @@
 
 	<h3>Kompilowanie klasy bedac w folderze, w ktorym znajduje sie plik.java</h3>
 	<div class="codeConsole">
-		> javac nazwaPlikuKlasy.java
+> javac nazwaPlikuKlasy.java
 	</div>
 	
 	<h3>Kompilowanie klasy bedac w folderze + dolaczenie biblioteki .jar importowanej w klasie</h3>
 	<div class="codeConsole">
-		> javac -cp C:\bibliotekaJar\wymaganaWProjekcie.jar NazwaPlikuKlasy.java	
+> javac -cp C:\bibliotekaJar\wymaganaWProjekcie.jar NazwaPlikuKlasy.java	
 	</div>
 	
 	<h3>Kompilowanie klasy + dolaczenie biblioteki + wskazanie miejsca w ktorym ma sie znalezc skomplikowany plik class</h3>
 	<div class="codeConsole">
-		> javac -cp C:\bibliotekaJar\wymaganaWProjekcie.jar; C:\bibliotekaJar\util.jar -d classes\ src\pl\electroline\web\NazwaKlasy.java 
+> javac -cp C:\bibliotekaJar\wymaganaWProjekcie.jar; C:\bibliotekaJar\util.jar -d classes\ src\pl\electroline\web\NazwaKlasy.java 
 	</div>
 	<p>-d - parametr ten umozliwia wskazanie folderu w ktorym znajdzie sie skompilowana klasa.<br>
 	W tym przypadku skompilowana klasa znajdzie sie w folderze classes\nazwa\pakietu\w\jakim\znajduje\sie\kompilowna\klasa</p>

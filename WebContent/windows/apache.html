@@ -7,22 +7,22 @@
 		znajdujący się w katalogu conf/extra katalogu głównego apache:</p>
 	
 	<div class="codeDiv">
-		&lt;VirtualHost *:80&gt;<br>
-		    <span class='tabbed1'>ServerAdmin webmaster@dummy-host.example.com</span><br>
-		    <span class='tabbed1'>DocumentRoot "C:/xampp/htdocs/itKnowHowsite/WebContent/"</span><br>
-		    <span class='tabbed1'>ServerName itknowhowsite.loc</span><br>
-		    <span class='tabbed1'>ServerAlias www.itknowhowsite.loc</span><br>
-		    <span class='tabbed1'>ErrorLog "logs/itKnowHowSite.loc-error.log"</span><br>
-		    <span class='tabbed1'>CustomLog "logs/itKnowHowSite.loc-access.log" common</span><br>
-		&lt;/VirtualHost&gt;<br>	
+&lt;VirtualHost *:80&gt;
+	ServerAdmin webmaster@dummy-host.example.com
+	DocumentRoot "C:/xampp/htdocs/itKnowHowsite/WebContent/"
+	ServerName itknowhowsite.loc
+	ServerAlias www.itknowhowsite.loc
+	ErrorLog "logs/itKnowHowSite.loc-error.log"
+	CustomLog "logs/itKnowHowSite.loc-access.log" common
+&lt;/VirtualHost&gt;
 	</div>
 	
 	<p>Na koniec należy włączyć obsługę wirtualnych hostów w pliku konfiguracyjnym <span class="important">httpd.conf</span>
 		znajdujący się w katalogu conf katalogu głównego apache, poprzez odkomentowanie linijki:</p>
 	
 	<div class="codeConsole">
-		# Virtual hosts<br>
-		Include conf/extra/httpd-vhosts.conf
+# Virtual hosts
+Include conf/extra/httpd-vhosts.conf
 	</div>
 	
 	<p>Aby móc skorzystać z dobrodziejstwa wirtualnych hostów w systemie windows trzeba jeszcze skonfigurować odpowiednio przekierowania
