@@ -1,0 +1,160 @@
+<h1>Kolekcje</h1>
+<div class="contentDiv">
+
+	<h2>Listy</h2>
+	
+	<p><span class="important">LinkedList vs ArrayList</span> - jak sama nazwa wskazuje LinkedList oznacza, że są wykorzystane powiązania
+	między elementami, ArrayList zaś informuje, że jest wykorzystana tablica.</p>
+	
+	<p>Sprawdzenie szybkości działania dla różnych operacji (<span class="important">ArrayList</span> vs
+	<span class="important">LinkedList</span>) - program testowy:</p>
+	
+	<div class="codeDiv">
+import java.util.ArrayList;
+import java.util.List;
+
+public class TesterKolekcji {
+
+	public static void main(String[] args) {
+
+		List&lt;String&gt; lista = new ArrayList&lt;&gt;();
+		int iloscCykliTestowych = 100;
+
+		long sredniCzasOperacji = 0;
+		long start;
+		long stop;
+
+		for (int i = 0; i &lt; iloscCykliTestowych; i++) {
+			lista.clear();
+			start = System.nanoTime();
+			for (int j = 0; j &lt; 1000000; j++) {
+				lista.add(String.valueOf(j));
+			}
+			stop = System.nanoTime();
+			sredniCzasOperacji += (stop - start);
+		}
+
+		System.out.println("Czas dodawania dla 1 000 000 cykli listy typu "
+				+ lista.getClass().getSimpleName()
+				+ " (dodawanie na koniec listy): " + (sredniCzasOperacji / iloscCykliTestowych) / 1000000 + " ms");
+
+		sredniCzasOperacji = 0;
+
+		for (int i = 0; i &lt; iloscCykliTestowych; i++) {
+			start = System.nanoTime();
+			lista.forEach(x -> String.valueOf(x));
+			stop = System.nanoTime();
+			sredniCzasOperacji += (stop - start);
+		}
+
+		System.out.println(
+				"Czas iteracji po wszystkich elementach listy (lista z 1 000 000 elementów): "
+						+ ((sredniCzasOperacji / 1000000) / iloscCykliTestowych) + " ms");
+
+		sredniCzasOperacji = 0;
+
+		for (int i = 0; i &lt; iloscCykliTestowych; i++) {
+			start = System.nanoTime();
+			lista.add(0, "1000000");
+			stop = System.nanoTime();
+			sredniCzasOperacji += (stop - start);
+		}
+
+		System.out.println(
+				"Czas dodawania 1 elementu na początek listy (lista z 1 000 000 elementów): "
+						+ (sredniCzasOperacji / iloscCykliTestowych) + " ns");
+
+		sredniCzasOperacji = 0;
+
+		for (int i = 0; i &lt; iloscCykliTestowych; i++) {
+			start = System.nanoTime();
+			lista.remove(0);
+			stop = System.nanoTime();
+			sredniCzasOperacji += (stop - start);
+		}
+
+		System.out.println(
+				"Czas usuwania 1 elementu z początku listy (lista z 1 000 000 elementów): "
+						+ (sredniCzasOperacji / iloscCykliTestowych) + " ns");
+
+		sredniCzasOperacji = 0;
+
+		for (int i = 0; i &lt; iloscCykliTestowych; i++) {
+			start = System.nanoTime();
+			lista.get(lista.size() / 2);
+			stop = System.nanoTime();
+			sredniCzasOperacji += (stop - start);
+		}
+
+		System.out.println(
+				"Czas dostępu do elementu w środku listy (lista z 1 000 000 elementów): "
+						+ (sredniCzasOperacji / iloscCykliTestowych) + " ns");
+	}
+
+}
+	</div>
+	
+	<h3>ArrayList</h3>
+	
+	<div class="codeConsole">
+Czas dodawania dla 1 000 000 cykli listy typu ArrayList (dodawanie na koniec listy): 52 ms
+Czas iteracji po wszystkich elementach listy (lista z 1 000 000 elementów): 9 ms
+Czas dodawania 1 elementu na początek listy (lista z 1 000 000 elementów): 1111915 ns
+Czas usuwania 1 elementu z początku listy (lista z 1 000 000 elementów): 1019889 ns
+Czas dostępu do elementu w środku listy (lista z 1 000 000 elementów): 635 ns
+	</div>
+	
+	<h3>LinkedList</h3>
+	
+	<div class="codeConsole">
+Czas dodawania dla 1 000 000 cykli listy typu LinkedList (dodawanie na koniec listy): 93 ms
+Czas iteracji po wszystkich elementach listy (lista z 1 000 000 elementów): 16 ms
+Czas dodawania 1 elementu na początek listy (lista z 1 000 000 elementów): 739 ns
+Czas usuwania 1 elementu z początku listy (lista z 1 000 000 elementów): 727 ns
+Czas dostępu do elementu w środku listy (lista z 1 000 000 elementów): 8780287 ns
+	</div>
+	
+	<h2>Zbiory</h2>
+	
+	<p><span class="important">HashSet</span> - jest najprostrszą implementacją interfejsu Set. Zbudowany jest na HahMap. Umożliwia dodanie
+	null do zbioru. W chwili dodawania obiektu do zbioru następuje wysołanie metody <code>hash()</code> danego obiektu i sprawdzenie czy w
+	zbiorze istnieje już obiekt z takim numerem <code>hash</code>. Jeżeli nie, to obiekt zostaje dodany. W przeciwnym wypadku zostaje wywołana
+	metoda <code>equals()</code> obiektu i porównanie go z pozostałymi.</p>
+
+	<p><span class="important">TreeSet</span> - przechowuje elementy posortowane na podstawie <code>Comparatora</code>, który można
+	definiować na conajmniej dwa sposoby. W obiekcie, który ma być posortowany musimy zaimplementować interfejs <code>Comparable&lt;T&gt;</code>.
+	Możemy też stworzyć klasę implementującą interfejs <code>Comparator&lt;T&gt;</code> i przekazać taki obiekt w konstruktorze Set.</p>
+	
+	<p><span class="important">LinkedHashSet</span> - implementacja wykorzystująca wewnętrznie zarówno tablicę mieszającą jak
+	i dodatkową listę podwójnie wiązaną, dzięki czemu oprócz unikalności elementów zagwarantowana jest także kolejność elementów zgodna z tą
+	w jakiej były one dodawane</p>
+	
+	<p><span class="important">Różnica między HashSet, TreeSet i LinkedHashSet</span> - HashSet jest podstawową implementacją, która zapewnia
+	jedynie unikalność elementów, TreeSet gwarantuje dodatkowe sortowanie, a LinkedHashSet pamięta  dodatkowo kolejnoś wstawiania.</p>
+	
+	<p>Nieważne jakie rozwiązanie wybierzemy, to w zależności od implementowanego interfejsu metoda <code>compareTo(T obj)</code> dla
+	implementowanego interfejsu przez klasę, która będzie dodawana do zbioru czy metoda <code>compare(T obj1, T obj2)</code> dla
+	implementowanego interfejsu przez klasę przekazywaną w argumencie konstruktora Set, musi zwracać wartość liczbową: <code>0</code> - jeżeli
+	obiekty są równe, <code>1</code> - jeżeli obiekt porównywany jest większy (ten z którym porównujemy jest mniejszy) i <code>-1</code> - w
+	przeciwnym przypadku.</p>
+	
+	<h2>Mapy</h2>
+	
+	<p><span class="important">HashMap</span> - podstawowa implementacja oparta podobnie jak HashSet o tablicę mieszaną, więc podobnie jak
+	i ona nie gwarantuje żadnej kolejności elementów.</p>
+	
+	<p><span class="important">TreeMap</span> - implementacja, która zapewnia dodatkowo sortowanie na podstawie naturalnego porządku kluczy wyznaczanego przez
+	implementację interfejsu Comparable lub zdefiniowaniu dodatkowego Comparatora. Podobnie jak TreeSet, TreeMap również wykorzystuje drzewa
+	czerwono czarne.</p>
+	
+	<p><span class="important">LinkedHashMap</span> - implementacja mapy, która zapewnia zapamiętywanie kolejności dodawania elementów, co może być
+	przydatne przy iteracji. Wykorzystuje tablicę mieszaną oraz listę wiązaną</p>
+	
+	<p><span class="important">Różnica między HashSet, TreeSet i LinkedHashSet</span> - HashSet jest podstawową implementacją zapewnia stałą
+	złożoność obliczeniową podstawowych operacji takich jak wstawianie i odczyt elementów. HashMap nie gwarantuje nam niestety żadnej kolejności
+	w sytuacji gdzie będziemy iterowali po mapie. Jeśli nam na tym zależy, to powinniśmy skorzystać z TreeMapy, która sortuje elementy mapy
+	według porządku kluczy lub LinkedHashMapy, gdy wolimy iterować po elementach w kolejności w jakiej były one do niej dodane.
+	TreeMapa zapewnia logarytmiczną a LinkedHashMap stałą złożoność obliczeniową podstawowych operacji. Wszystkie implementacje wymagają prawidłowej
+	implementacji metod equals() i hashCode() w klasie definiującej klucz.</p>
+	
+</div>
