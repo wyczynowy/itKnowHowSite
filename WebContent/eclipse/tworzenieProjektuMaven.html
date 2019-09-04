@@ -29,15 +29,18 @@
 	<code>&lt;outputDirectory&gt;</code> (folder w którym zostanie utworzony plik jar) oraz <code>&lt;mainClass&gt;</code> (ścieżkę do pliku z klasą zawierającą metodę main)</p>
 	
 	<div class="codeDiv">
-
 &lt;project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3&gt;.org/2001/XMLSchema-instance"&gt;
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-	http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
 	&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
 	&lt;groupId&gt;pl.softService&lt;/groupId&gt;
-	&lt;artifactId&gt;testowaAplikacjaMaven&lt;/artifactId&gt;
-	&lt;version&gt;0.0.1&lt;/version&gt;
+	&lt;artifactId&gt;mavenTestApp&lt;/artifactId&gt;
+	&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+	&lt;packaging&gt;jar&lt;/packaging&gt;
+
+	&lt;name&gt;mavenTestApp&lt;/name&gt;
+	&lt;url&gt;http://maven.apache.org&lt;/url&gt;
 
 	&lt;properties&gt;
 		&lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
@@ -52,27 +55,59 @@
 			&lt;artifactId&gt;spring-context&lt;/artifactId&gt;
 			&lt;version&gt;5.0.8.RELEASE&lt;/version&gt;
 		&lt;/dependency&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;junit&lt;/groupId&gt;
+			&lt;artifactId&gt;junit&lt;/artifactId&gt;
+			&lt;version&gt;3.8.1&lt;/version&gt;
+			&lt;scope&gt;test&lt;/scope&gt;
+		&lt;/dependency&gt;
 	&lt;/dependencies&gt;
 
 	&lt;build&gt;
 		&lt;plugins&gt;
+		&lt;!-- kopiuje uzywane zaleznosci do lokalizacji wskazanej w elemencie outputDirectory --&gt;
+			&lt;plugin&gt;
+				&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+				&lt;artifactId&gt;maven-dependency-plugin&lt;/artifactId&gt;
+				&lt;version&gt;3.1.1&lt;/version&gt;
+				&lt;executions&gt;
+					&lt;execution&gt;
+						&lt;id&gt;copy-dependencies&lt;/id&gt;
+						&lt;phase&gt;prepare-package&lt;/phase&gt;
+						&lt;goals&gt;
+							&lt;goal&gt;copy-dependencies&lt;/goal&gt;
+						&lt;/goals&gt;
+						&lt;configuration&gt;
+							&lt;outputDirectory&gt;target/lib&lt;/outputDirectory&gt;
+							&lt;overWriteReleases&gt;false&lt;/overWriteReleases&gt;
+							&lt;overWriteSnapshots&gt;false&lt;/overWriteSnapshots&gt;
+							&lt;overWriteIfNewer&gt;true&lt;/overWriteIfNewer&gt;
+						&lt;/configuration&gt;
+					&lt;/execution&gt;
+				&lt;/executions&gt;
+			&lt;/plugin&gt;
+			&lt;!-- przygotowuje plik jar programu z odpowiednio skonfigurowanym plikiem MANIFEST.MF --&gt;
 			&lt;plugin&gt;
 				&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
 				&lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;
-				&lt;version&gt;2.4&lt;/version&gt;
+				&lt;version&gt;3.1.2&lt;/version&gt;
 				&lt;configuration&gt;
-					&lt;outputDirectory&gt;Output&lt;/outputDirectory&gt;
 					&lt;archive&gt;
 						&lt;manifest&gt;
-							&lt;mainClass&gt;pl.softService.testowaAplikacjaMaven.app.Main
-							&lt;/mainClass&gt;
+							&lt;addClasspath&gt;true&lt;/addClasspath&gt;
+							&lt;!-- classpathPrefix okresla lokalizacje zaleznosci wzgledem programu --&gt;
+							&lt;classpathPrefix&gt;lib/&lt;/classpathPrefix&gt;
+							&lt;!-- mainClass okresla lokalizacje klasy z metoda main() --&gt;
+							&lt;mainClass&gt;pl.softService.mavenTestApp.App&lt;/mainClass&gt;
 						&lt;/manifest&gt;
 					&lt;/archive&gt;
 				&lt;/configuration&gt;
 			&lt;/plugin&gt;
 		&lt;/plugins&gt;
 	&lt;/build&gt;
+
 &lt;/project&gt;
+
 	</div>
 	
 	<p>Po wprowadzeniu jakichkolwiek zmian w pliku pom.xml należy kliknąć ppm na nazwę projektu <span class="clickDiv">Maven -> Update Project</span>. Tak przygotowany projekt można już skompilować.
