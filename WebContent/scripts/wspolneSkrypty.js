@@ -24,18 +24,18 @@ function loadHtmlIntoIframe(id, location) {
 	}
 	
 	function setActive(id) {
-		for(var i = 0; i <= 5; i++){ doSetActive(id,i); }
+		for(var i = 0; i <= 3; i++){ doSetActive(id,i); }
 	}
 	
 	function doSetDisactive(id,i){
 		setTimeout(function(){
-			id.style.fontSize = 22-i+'px';
-			id.style.backgroundColor = tablicaKolorowAnimacji[5-i];
+			id.style.fontSize = 20-i+'px';
+			id.style.backgroundColor = tablicaKolorowAnimacji[3-i];
 		}, i*25);
 	}
 	
 	function setDisactive(id) {
-		for(var i = 0; i <= 5; i++ ){ doSetDisactive(id,i); }
+		for(var i = 0; i <= 3; i++ ){ doSetDisactive(id,i); }
 	}
 	
 	function setActiveSubButton(id){
@@ -58,8 +58,8 @@ function loadHtmlIntoIframe(id, location) {
   			var przyciskiMenu = document.getElementsByClassName('menuButton');
   	  		przyciskiMenu[numerPrzycisku].onmouseover = '';
   	  		przyciskiMenu[numerPrzycisku].onmouseout = '';
-			przyciskiMenu[numerPrzycisku].style.fontSize = '22px';
-			przyciskiMenu[numerPrzycisku].style.backgroundColor = tablicaKolorowAnimacji[5];
+			przyciskiMenu[numerPrzycisku].style.fontSize = '20px';
+			przyciskiMenu[numerPrzycisku].style.backgroundColor = tablicaKolorowAnimacji[3];
   	}
   	
   	var nazwaPrzycisku;
