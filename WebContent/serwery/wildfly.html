@@ -1,0 +1,79 @@
+<h1>Wildfly</h1>
+<div class="contentDiv">
+
+	<h2>Konfiguracja połączenia z bazą danych - mysql</h2>
+
+	<p>
+		Ustawienie połączenia z bazą danych konfiguruje się w pliku konfiguracyjnym <span class="important">standalone.xml</span>, który
+		znajduje się w lokalizacji: <span class="important">wildfly-18.0.1.Final\standalone\configuration\</span>. Można zastąpić zawartość
+		elementu <span class="code">&lt;datasources&gt;</span> lub dodać po prostu kolejną konfigurację bazy danych.
+	</p>
+
+	<div class="codeDiv">
+&lt;datasources&gt;
+    &lt;datasource jndi-name="java:/jdbc/mysql" pool-name="mysql" enabled="true" use-java-context="true"&gt;
+        &lt;connection-url&gt;jdbc:mysql://localhost:3306/nazwa_bazy_danych&lt;/connection-url&gt;
+        &lt;driver&gt;mysql&lt;/driver&gt;
+        &lt;pool&gt;
+            &lt;min-pool-size&gt;10&lt;/min-pool-size&gt;
+            &lt;max-pool-size&gt;100&lt;/max-pool-size&gt;
+            &lt;prefill&gt;true&lt;/prefill&gt;
+        &lt;/pool&gt;
+        &lt;security&gt;
+            &lt;user-name&gt;login&lt;/user-name&gt;
+            &lt;password&gt;password&lt;/password&gt;
+        &lt;/security&gt;
+    &lt;/datasource&gt;
+    &lt;drivers&gt;
+        &lt;driver name="mysql" module="com.mysql"&gt;
+            &lt;driver-class&gt;com.mysql.jdbc.Driver&lt;/driver-class&gt;
+        &lt;/driver&gt;
+    &lt;/drivers&gt;
+&lt;/datasources&gt;
+	</div>
+
+	<p>
+		W sekcji <span class="code">&lt;drivers&gt;</span> są informacje o sterowniku używanym do połączenia z bazą danych.
+		Bibliotekę <span class="code">mysql-connector-java-5.1.48.jar</span> należy umieścić w lokalizacji serwera:
+		<span class="important">wildfly-18.0.1.Final\modules\system\layers\base\com\mysql\main\</span>. W tej lokalizacji
+		musi się znaleźć plik konfigurujący bibliotekę <span class="code">mysql-connector-java-5.1.48.jar</span>. Plik
+		<span class="important">module.xml</span> powinien zawierać informacje o bibliotece, jak pokazano to poniżej:
+	</p>
+	
+	<div class="codeDiv">
+&lt;module xmlns="urn:jboss:module:1.5" name="com.mysql"&gt;
+    &lt;resources&gt;
+        &lt;resource-root path="mysql-connector-java-5.1.48.jar" /&gt;
+    &lt;/resources&gt;
+    &lt;dependencies&gt;
+        &lt;module name="javax.api"/&gt;
+        &lt;module name="javax.transaction.api"/&gt;
+    &lt;/dependencies&gt;
+&lt;/module&gt;	
+	</div>
+	
+	<p>
+		W pliku <span class="important">standalone.xml</span> znajduje się również element <span class="code">&lt;default-bindings&gt;</span>,
+		który konfiguruje defaultowe ustawienia. Linijkę tą można usunąć w całości:
+	</p>
+	
+	<div class="codeDiv">
+&lt;default-bindings context-service="java:jboss/ee/concurrency/context/default" 
+	datasource="java:jboss/datasources/ExampleDS" 
+	managed-executor-service="java:jboss/ee/concurrency/executor/default" 
+	managed-scheduled-executor-service="java:jboss/ee/concurrency/scheduler/default" 
+	managed-thread-factory="java:jboss/ee/concurrency/factory/default"/&gt;
+ 	
+	</div>
+
+	<p>
+		Po wykonaniu dwóch powyższych czynności mamy skonfigurowane połączenie z bazą danych mysql i przy użyciu adnotacji w
+		kodzie Java możemy uzyskać dostęp do skonfigurowanego połączenia:
+	</p>
+	
+	<div class="codeDiv">
+@Resource(lookup = "java:/jdbc/mysql")
+DataSource dataSource;	
+	</div>
+	
+</div>

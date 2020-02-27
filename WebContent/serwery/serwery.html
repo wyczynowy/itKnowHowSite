@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="Stylesheet" type="text/css" href="../style.css">
+	<title>SERWERY</title>
+	<link rel="Shortcut icon" href="../Logo_02a.png" />
+  	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+  	<script src="../scripts/jquery.js"></script>
+  	<script src="../scripts/wspolneSkrypty.js"></script>
+</head>
+<body>
+<script>
+	// Funkcja ustawiajaca podswietlenie pierwszego przycisku subMenu
+	runFunctionAfterPageLoad(function(){setActiveSubButton(document.getElementsByClassName('subMenuButton')[0]);});
+	// Funkcja laduje zawartosc pliku .html do elementu #contentDiv
+	runFunctionAfterPageLoad(function() {$('#contentDiv').load('../serwery/wildfly.html')});
+	// Funkcja laduje menu i podswietla wybrany przycisk menu
+	 zaladujMenuIPodswietlPrzycisk('menu','WILDFLY');
+	// Funckje związane ze mianami rozmiaru okna przeglądarki
+	window.onresize = onResizeWindow;
+</script>
+
+	
+	<!-- MENU -->	
+	<div id="menu"></div>
+	<!-- KONIEC MENU -->
+		
+	<!-- ZAWARTOSC STRONY -->
+	<div class="content">
+		<div class="content-left">
+			<div class="zasoby">
+				<button type="button" class="subMenuButton" onclick="$('#contentDiv').load('wildfly.html'); setActiveSubButton(this);">WILDFLY</button>
+			</div>
+		</div>
+		
+		<div class="content-right">
+			<div class="linki">
+				<!-- TUTAJ JAKIES LINKI DO INNYCH MATERIALOW -->
+			</div>
+		</div>
+
+		<div id="contentDiv" class="content-center"></div>
+	</div>
+	<!-- KONIEC ZAWARTOSC STRONY -->
+	
+	<!-- ELEMENT NIEZBEDNY DO ROBIENIA MASKI NA STRONIE -->
+	<div id="shadow" class="opaqueLayer"></div>
+	
+</body>
+</html>

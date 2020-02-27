@@ -136,7 +136,7 @@ body {
 	border-radius: 20px;
 }
 
-code {
+.code {
 	color: #0066cc;
 	font-family: monospace;
 	font-size: 15px;
@@ -163,7 +163,7 @@ code {
 	margin: 20px 0;
 	overflow: auto;
 	display: block;
-  	font-family: arial;
+  	font-family: monospace;
   	white-space: pre;
 }
 
