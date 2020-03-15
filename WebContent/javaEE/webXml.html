@@ -1,0 +1,37 @@
+<h1>Plik konfiguracyjny web.xml</h1>
+<div class="contentDiv">
+
+	<h2>Konfiguracja filtra struts2 (przekierowanie na struts2):</h2>
+	
+	<p>Poniżej skonfigurowano domyślną stronę powitalną <span class="important">index.jsp</span>, oraz
+		filtr o wzorcu: <span class="important">/*</span>, co umożliwia zmapowanie wszystkich adresów na
+		servlet <span class="important">StrutsPrepareAndExecuteFilter</span> czyli na framework
+		<span class="important">Struts 2</span></p>
+	
+	<div class="codeDiv">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;web-app id="WebApp_ID" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"&gt;
+
+	&lt;display-name&gt;Basic Struts2&lt;/display-name&gt;
+
+	&lt;welcome-file-list&gt;
+		&lt;welcome-file&gt;/WEB-INF/jsp/index.jsp&lt;/welcome-file&gt;
+	&lt;/welcome-file-list&gt;
+
+	&lt;filter&gt;
+		&lt;filter-name&gt;struts2&lt;/filter-name&gt;
+		&lt;filter-class&gt;org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter&lt;/filter-class&gt;
+	&lt;/filter&gt;
+
+	&lt;filter-mapping&gt;
+		&lt;filter-name&gt;struts2&lt;/filter-name&gt;
+		&lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+	&lt;/filter-mapping&gt;
+
+&lt;/web-app&gt;	
+	</div>
+	
+</div>

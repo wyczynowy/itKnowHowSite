@@ -1,0 +1,40 @@
+<h1>Plik konfiguracyjny struts.xml</h1>
+<div class="contentDiv">
+
+	<h2>Konfiguracja frameworku struts2:</h2>
+	
+	<p>Poniżej skonfigurowano dwie akcje struts2. Pierwsza zwraca od razu widok, czyli stronę jsp. Atrybut
+		<span class="important">namespace</span> o wartości: <span class="important">/</span> oznacza, że wejście
+		w tą akcję odbywa się poprzez wywołanie adresu:
+		<span class="important">localhost:8080/aplikacja/noaction.action</span></p>
+	
+	<p>Druga akcja ma ustawiony atrybut <span class="important">namespace</span> o wartości: <span class="important">/common</span>
+		co oznacza, że wejście na tą akcję odbywa się poprzez wywołanie adresu:
+		<span class="important">localhost:8080/aplikacja/common/example.action</span></p>
+	
+	<div class="codeDiv">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd"&gt;
+
+&lt;struts&gt;
+
+    &lt;constant name="struts.devMode" value="true" /&gt;
+    
+    &lt;package name="default" extends="struts-default" namespace="/"&gt;
+        &lt;action name="noaction"&gt;
+        	&lt;result&gt;/WEB-INF/jsp/index.jsp&lt;/result&gt;
+        &lt;/action&gt;
+    &lt;/package&gt;  
+
+    &lt;package name="common" extends="struts-default" namespace="/common"&gt;
+        &lt;action name="example" class="pl.softService.actions.ExampleAction"&gt;
+        	&lt;result name="success"&gt;/WEB-INF/jsp/index.jsp&lt;/result&gt;
+        &lt;/action&gt;
+    &lt;/package&gt;
+
+&lt;/struts&gt;
+	</div>
+	
+</div>
