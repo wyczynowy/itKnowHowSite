@@ -180,6 +180,29 @@ reload
 	 </div>
 	
 	<p>Powyższa konfiguracja nie korzysta z definiowanego formularza logowania, tylko z okna logowania
-		wyświetlanego przez przeglądarkę internetową.</p>
+		wyświetlanego przez przeglądarkę internetową. Aby móc się zalogować przy użyciu powyższej konfiguracji
+		należy utworzyć w skonfigurowanej bazie danych następujące tabele:</p>
+		
+	<div class="codeDiv">
+CREATE TABLE USERS (ID INT, USERNAME VARCHAR(20), PASSWORD VARCHAR(20));
+CREATE TABLE ROLES (ID INT, NAME VARCHAR(20));
+CREATE TABLE USERS_ROLES (USER_ID INT, ROLE_ID INT);
+
+INSERT INTO USERS (ID, USERNAME, PASSWORD) VALUES (1, 'quickstartUser', 'quickstartPwd1!'); 
+INSERT INTO USERS (ID, USERNAME, PASSWORD) VALUES (2, 'guest', 'guestPwd1!');
+
+INSERT INTO ROLES (ID, NAME) VALUES (1, 'quickstarts');
+INSERT INTO ROLES (ID, NAME) VALUES (2, 'guest');
+
+INSERT INTO USERS_ROLES (USER_ID, ROLE_ID) VALUES (1,1);
+INSERT INTO USERS_ROLES (USER_ID, ROLE_ID) VALUES (2,2);	
+	</div>
+	
+	<p>Każdy z servletów, który powinien zostać zabezpieczony przed dostępem musi być odpowiednio adnotowany:</p>
+	
+	<div class="codeDiv">
+@WebServlet("/ServletTestowy")
+@ServletSecurity(@HttpConstraint(rolesAllowed = { "quickstarts" }))	
+	</div>
 	
 </div>
