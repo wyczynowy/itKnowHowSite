@@ -3,6 +3,8 @@
 
 	<h2>Konfiguracja połączenia z bazą danych - mysql</h2>
 
+	<h3>Konfiguracja bezpośrednio w pliku standalone.xml</h3>
+
 	<p>
 		Ustawienie połączenia z bazą danych konfiguruje się w pliku konfiguracyjnym <span class="important">standalone.xml</span>, który
 		znajduje się w lokalizacji: <span class="important">wildfly-18.0.1.Final\standalone\configuration\</span>. Można zastąpić zawartość
@@ -64,6 +66,40 @@
 	managed-scheduled-executor-service="java:jboss/ee/concurrency/scheduler/default" 
 	managed-thread-factory="java:jboss/ee/concurrency/factory/default"/&gt;
  	
+	</div>
+
+	<p>
+		Po wykonaniu dwóch powyższych czynności mamy skonfigurowane połączenie z bazą danych mysql i przy użyciu adnotacji w
+		kodzie Java możemy uzyskać dostęp do skonfigurowanego połączenia:
+	</p>
+	
+	<div class="codeDiv">
+@Resource(lookup = "java:/jdbc/mysql")
+DataSource dataSource;	
+	</div>
+	
+	<h3>Konfiguracja przy użyciu konsoli CLI</h3>
+	
+	<p>
+		Zaczynamy od uruchomienia serwera. Należy przejść do lokalizacji <span class="important">/wildfly-18.0.0.1.Final/bin/</span>
+		oraz uruchomić skrypt <span class="important">standalone.bat</span>. Następnie uruchomić skrypt
+		uruchamiający konsolę CLI <span class="important">jboss-cli.bat</span> oraz za pomocą polecenia:
+		<span class="code">connect</span> połączyć się do wcześniej uruchomionego serwera.
+	</p>
+		
+	<p>
+		Następnie należy uruchomić poniższy skrypt:
+	</p>		
+	
+	<div class="codeConsole">
+# Dodanie sterownika bazy danych mysql -&gt; po uruchomieniu tego skryptu zostanie utworzona lokalizacja /com/mysql/driver w katalogu modules serwera wildfly
+module add --name=com.mysql.driver  --dependencies=javax.api,javax.transaction.api --resources=c:/mysql-connector-java-5.1.48.jar
+
+# Dodanie sterownika do "datasources" -&gt; po uruchomieniu tego skryptu zostanie utworzony wpis w pliku konfiguracyjnym standalone.xml wewnątrz elementu &lt;datasources&gt;&lt;drivers&gt;&lt;driver&gt;
+/subsystem=datasources/jdbc-driver=mysql/:add(driver-module-name=com.mysql.driver, driver-name=mysql, jdbc-compliant=false, driver-class-name=com.mysql.jdbc.Driver)
+
+# Dodanie źródła danych do "datasources" -&gt; po uruchomieniu tego skryptu zostanie utworzony wpis w pliku konfiguracyjnym standalone.xml wewnątrz elementu &lt;datasources&gt;&lt;datasource&gt;
+/subsystem=datasources/data-source=MySqlDS:add(connection-url="jdbc:mysql://localhost:3306/test", jndi-name="java:/jdbc/mysql", driver-name=mysql, user-name="USER", password="PASSWORD")
 	</div>
 
 	<p>
