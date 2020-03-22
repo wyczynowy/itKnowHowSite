@@ -215,7 +215,9 @@ INSERT INTO USERS_ROLES (USER_ID, ROLE_ID) VALUES (2,2);
 
 	<div class="codeDiv">
 &lt;security-constraint&gt;
+	&lt;display-name&gt;SecurityConstraint&lt;/display-name&gt;
     &lt;web-resource-collection&gt;
+    	&lt;web-resource-name&gt;WRCollection&lt;/web-resource-name&gt;
         &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
     &lt;/web-resource-collection&gt;
     &lt;user-data-constraint&gt;
