@@ -1,0 +1,126 @@
+<h1>Wzorce Projektowe</h1>
+<div class="contentDiv">
+
+	<h2>Budowniczy</h2>
+	
+	<p><span class="important">Budowniczy (Builder)</span> - jest wzorcem projektowym, którego celem jest dostarczenie poprawnie
+		zbudowanego obiektu danej klasy. Wzorzec ten implementuje się w postaci klasy zewnętrznej, której obiekt ma zostać dostarczony,
+		oraz klasy wewnętrznej, czyli właśnie <span class="important">Budowniczego (Buildera)</span>. Zadaniem jego jest dostarczenie
+		poprawnie zbudowanego obiektu klasy zewnętrznej.</p>
+	
+	<p>Przykładowa implementacja wzorca znajduje się na poniższym listintu:</p>
+	
+	<div class="codeDiv">
+public class Pizza {
+
+	enum GruboscCiasta {
+		CIENKIE, SREDNIE, GRUBE
+	}
+
+	@SuppressWarnings("unused")
+	private String nazwaPizzy;
+	@SuppressWarnings("unused")
+	private GruboscCiasta ciasto;
+	@SuppressWarnings("unused")
+	private List<String> skladniki = new ArrayList<>();
+	@SuppressWarnings("unused")
+	private float cena;
+
+	private Pizza() {
+	};
+
+	public static final class Builder {
+
+		private String nazwaPizzy;
+		private GruboscCiasta ciasto;
+		private List<String> skladniki = new ArrayList<>();
+		private float cena;
+
+		private Builder() {
+		}
+
+		public Builder nazwa(String nazwaPizzy) {
+			this.nazwaPizzy = nazwaPizzy;
+			return this;
+		}
+
+		public Builder ciasto(GruboscCiasta ciasto) {
+			this.ciasto = ciasto;
+			return this;
+		}
+
+		public Builder skladniki(List<String> skladniki) {
+			this.skladniki = skladniki;
+			return this;
+		}
+
+		public Builder cena(float cena) {
+			this.cena = cena;
+			return this;
+		}
+
+		public Pizza build() {
+			if (nazwaPizzy.isEmpty())
+				throw new IllegalStateException("Nazwa pizzy nie moze byc pusta");
+			if (cena == 0)
+				throw new IllegalStateException("Brak ceny pizzy");
+
+			Pizza pizza = new Pizza();
+			pizza.nazwaPizzy = this.nazwaPizzy;
+			if (ciasto == null)
+				pizza.ciasto = GruboscCiasta.SREDNIE;
+			else
+				pizza.ciasto = this.ciasto;
+			if (skladniki.isEmpty()) {
+				pizza.skladniki.add("Sos");
+				pizza.skladniki.add("Ser");
+			} else
+				pizza.skladniki = this.skladniki;
+			pizza.cena = this.cena;
+
+			return pizza;
+		}
+	}
+
+	public static Builder builder() {
+		return new Builder();
+	}
+
+	public void prezentujSie() {
+		System.out.println("Nazwa pizzy: " + nazwaPizzy);
+		System.out.println("Ciasto: " + ciasto);
+		System.out.print("Skladniki: ");
+		skladniki.forEach(x -> System.out.print(x + ", "));
+		System.out.println();
+		System.out.println("Cena: " + cena);
+	}
+}
+	</div>
+	
+	<p>* Konstruktor klasy <span class="important">Pizza</span> został ukryty, tak aby uniemożliwić tworzenie obiektów klasy 
+		<span class="important">Pizza</span> w niekontrolowany sposób.<br>
+		* Publiczna statyczna metoda <span class="code">builder()</span> zwraca obiekt <span class="important">Budowniczego</span>,
+		za pomocą którego można stworzyć obiekt klasy <span class="important">Pizza</span>. Metoda jest statyczna aby można było
+		korzystać z budowniczego w wygodny sposób.
+	</p>
+	
+	<p>Obiekty klasy <span class="important">Pizza</span> można zatem tworzyć w następujący sposób:</p>
+	
+	<div class="codeDiv">
+public class Main {
+
+	public static void main(String[] args) {
+		Pizza pizza = Pizza.builder()
+				.nazwa("Salami")
+				.skladniki(Arrays.asList("Ser", "Kielbasa salami", "Pieczarki"))
+				.ciasto(Pizza.GruboscCiasta.CIENKIE)
+				.cena(17.70f)
+				.build();
+
+		pizza.prezentujSie();
+	}
+
+}	
+	</div>
+	
+</div>	
