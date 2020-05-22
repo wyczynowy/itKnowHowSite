@@ -1,6 +1,14 @@
 <h1>Know How</h1>
 <div class="contentDiv">
 
-	<p>W przygotowaniu...</p>
+	<h2>Referencja do obiektu</h2>
+	
+	<p>Referencję do obiektu możemy uzyskać wywołując statyczną metodę <span class="important">System.identityHashCode()</span>. Metoda
+		ta zwraca <span class="important">hashCode</span> z klasy <span class="important">Object</span>, czyli referencję do
+		obiektu.</p>
+	
+	<div class="codeDiv">
+System.out.println(Integer.toHexString(System.identityHashCode(objectInstance))));	
+	</div>
 	
 </div>
