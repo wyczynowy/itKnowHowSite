@@ -1,0 +1,58 @@
+<h1>Docker</h1>
+<div class="contentDiv">
+    <h2>Polecenia</h2>
+
+    <div class="codeParagraphDiv">
+        <p class="codeParagraph">&gt; <span class="code">docker ps</span> - wyświetla listę aktualnie uruchomionych kontenerów.</p>
+        <p class="codeParagraph">&gt; <span class="code">docker ps -a</span> - wyświetla listę wszystkich kontenerów.</p>
+    </div>
+
+    <h2>docker-compose</h2>
+
+    <div class="codeParagraphDiv">
+        <p class="codeParagraph">&gt; <span class="code">docker-compose up</span> - uruchamia kontenery skonfigurowane w pliku docker-compose.yml.</p>
+        <p class="codeParagraph">&gt; <span class="code">docker-compose up -d</span> - uruchamia kontener w tle.</p>
+        <p class="codeParagraph">&gt; <span class="code">docker-compose down</span> - zatrzymuje kontenery skonfigurowane w pliku docker-compose.yml.</p>
+        <p class="codeParagraph">&gt; <span class="code">docker-compose ps</span> - wyświetla listę aktualnie uruchomionych kontenerów oraz numery portów na których nasłuchują.</p>
+        <p class="codeParagraph">&gt; <span class="code">docker inspect {idKontenera} | grep IPAddress</span> - wyświetla adres IP przydzielony do tego kontenera.</p>
+    </div>
+
+    <p>Przykładowy plik docker-compose.yml <span class="important">(postgres + pgadmin)</span></p>
+
+    <div class="codeDiv">
+version: '3'
+services:
+  postgres:
+    image: postgres
+    hostname: postgres
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: TEST_SM
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    depends_on:
+      - postgres
+    ports:
+      - "5555:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+    </div>
+
+    <p>Uruchamiając powyższy <span class="important">docker-compose.yml</span> aby podłączyć się do bazy danych <span class="important">pgadmin'em</span>
+        należy w ustawieniach użyć adresu IP przydzielonego do kontenera w którym jest uruchomiony <span class="important">postgres</span>. Aby dowiedzieć
+        się jaki adres został przydzielony do tego kontenera należy użyć polecenia: <span class="important">docker inspect {idKontenera} | grep IPAddress</span></p>
+</div>

@@ -34,7 +34,6 @@ body {
 	min-width: 800px;
 }
 
-
 .menuButton {
 	background-color: #990000;
 	border: 0;
@@ -209,7 +208,7 @@ h1 {
 
 h2 {
 	color: #990000;
-	text-align: center;
+	text-align: left;
 }
 
 h3 {
