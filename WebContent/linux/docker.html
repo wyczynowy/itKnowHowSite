@@ -5,6 +5,19 @@
     <div class="codeParagraphDiv">
         <p class="codeParagraph">&gt; <span class="code">docker ps</span> - wyświetla listę aktualnie uruchomionych kontenerów.</p>
         <p class="codeParagraph">&gt; <span class="code">docker ps -a</span> - wyświetla listę wszystkich kontenerów.</p>
+        <p class="codeParagraph">&gt; <span class="code">docker rm {idKontenera}</span> - usuwa kontener o wskazanym identyfikatorze.</p>
+        <p class="codeParagraph">&gt; <span class="code">docker rm {idKontenera} -v</span> - usuwa kontener o wskazanym identyfikatorze wraz z powiązanymi volume'nami.</p>
+        <p class="codeParagraph">&gt; <span class="code">docker volume ls</span> - wyświetla listę utworzonych volume'nów.</p>
+        <p class="codeParagraph">&gt; <span class="code">docker run -it -v /data --name container1 busybox</span> - tworzy i uruchamia kontener w trybie interaktywnym (-it) oraz
+            montuje volume'n /data.</p>
+        <p class="codeParagraph">&gt; <span class="code">docker run -it --name container1 -v c:/busyboxTrash:/datavol busybox</span> - tworzy i uruchamia kontener w trybie interaktywnym (-it) oraz
+            montuje katalog /Users jako volume'n /data.</p>
+        <p class="codeParagraph">&gt; <span class="code">run -it -p 2222:22 --name ub ubuntu</span> - tworzy i uruchamia kontener oraz ustawia przekierowanie poru nr. 22 kontenera
+            na port nr. 2222 hosta.</p>
+        <p class="codeParagraph">&gt; <span class="code">docker start -i container1</span> - uruchamia kontener w trybie interaktywnym (-i).</p>
+        <p class="codeParagraph">&gt; <span class="code">docker attach {idKontenera}</span> - podłącza się do uruchomionego kontenera.</p>
+        <p class="codeParagraph">&gt; <span class="code">docker attach {nazwaKontenera}</span> - podłącza się do uruchomionego kontenera.</p>
+        <p class="codeParagraph">&gt; <span class="code">ctrl+P -> ctrl+Q</span> - umożliwia odłączenie od kontenera (wyjście) bez zamykania.</p>
     </div>
 
     <h2>docker-compose</h2>
@@ -53,6 +66,7 @@ volumes:
     </div>
 
     <p>Uruchamiając powyższy <span class="important">docker-compose.yml</span> aby podłączyć się do bazy danych <span class="important">pgadmin'em</span>
-        należy w ustawieniach użyć adresu IP przydzielonego do kontenera w którym jest uruchomiony <span class="important">postgres</span>. Aby dowiedzieć
-        się jaki adres został przydzielony do tego kontenera należy użyć polecenia: <span class="important">docker inspect {idKontenera} | grep IPAddress</span></p>
+        należy w ustawieniach użyć adresu IP przydzielonego do kontenera w którym jest uruchomiony <span class="important">postgres</span> lub zdefiniowanej wcześniej
+        nazwy hostname: <span class="important">postgres</span>. Aby dowiedzieć się jaki adres został przydzielony do tego kontenera należy użyć
+        polecenia: <span class="important">docker inspect {idKontenera} | grep IPAddress</span></p>
 </div>
