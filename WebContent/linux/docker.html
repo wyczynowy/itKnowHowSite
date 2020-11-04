@@ -22,13 +22,14 @@
         <p class="codeParagraph">&gt; <span class="code">docker run --name container_ubuntu_02 -it ubuntu</span> - uruchamia kontener w trybie interaktywnym oraz go taguje nazwą.</p>
         <p class="codeParagraph">&gt; <span class="code">docker cp C:\users\uzytkownik\dane_testowe.txt container_ubuntu_01:/home/uzytkownik/</span> - kopiuje pliki pomiędzy hostem a kontenerem.</p>
         <p class="codeParagraph">&gt; <span class="code">docker pull postgres:latest</span> - pobiera obraz z repozytorium.</p>
+        <p class="codeParagraph">&gt; <span class="code">docker reneme stara_nazwa_kontenera nowaNazwaKontenera</span> - zmienia nazwę kontenera.</p>
     </div>
 
     <h3>Polecenia uruchomienia kontenerów wraz z konfiguracją parametrów</h3>
 
     <div class="codeConsole">
-> docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.7.1
-&gt; docker run -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=12345678 -e POSTGRES_DB=rjps_dev -v postgres-data:/var/lib/postgresql/data -d postgres
+> docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -d --name elastic docker.elastic.co/elasticsearch/elasticsearch:7.7.1
+&gt; docker run -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=12345678 -e POSTGRES_DB=rjps_dev -v postgres-data:/var/lib/postgresql/data -d --name postgres postgres
     </div>
 
     <h2>docker-compose</h2>
