@@ -502,4 +502,154 @@ public class SingleTableDAOTest {
 }
 	</div>
 
+	<h2> Strategia Joined Table</h2>
+	<p><a href="DOWNLOAD/hibernateJoinedTable.zip">pobierz</a></p>
+
+	<p>
+		W takiej konfiguracji Każda z klas w hierarchii dziedziczenia będzie się znajdowała w swojej tabeli w bazie danych.
+	</p>
+
+	<h3>Plik sql.sql</h3>
+
+	<div class="codeDiv">
+create database animalsdb;
+
+use animalsdb;
+
+CREATE TABLE animals (
+animal_id bigint NOT NULL AUTO_INCREMENT,
+species varchar(45) NOT NULL,
+PRIMARY KEY (animal_id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE pets (
+pet_id bigint NOT NULL,
+name varchar(45) NOT NULL,
+PRIMARY KEY (pet_id),
+FOREIGN KEY (pet_id) REFERENCES animals(animal_id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+	</div>
+
+	<h3>Plik persistence.sql</h3>
+
+	<div class="codeDiv">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"&gt;
+	&lt;persistence-unit name="AnimalsDB"&gt;
+		&lt;properties&gt;
+			&lt;property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/animalsdb?serverTimezone=UTC" /&gt;
+			&lt;property name="javax.persistence.jdbc.user" value="root" /&gt;
+			&lt;property name="javax.persistence.jdbc.password" value="12345678" /&gt;
+			&lt;property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" /&gt;
+			&lt;property name="hibernate.show_sql" value="true" /&gt;
+			&lt;property name="hibernate.format_sql" value="true" /&gt;
+			&lt;property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" /&gt;
+		&lt;/properties&gt;
+	&lt;/persistence-unit&gt;
+&lt;/persistence&gt;
+	</div>
+
+	<h3>Plik Animal.java</h3>
+
+	<div class="codeDiv">
+package pl.dawidkozub.hibernateJoinedTable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+
+@Entity(name = "ANIMALS")
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Animal {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ANIMAL_ID")
+	private long animalId;
+
+	@Column(name = "SPECIES")
+	private String species;
+
+	public long getAnimalId() {
+		return animalId;
+	}
+
+	public void setAnimalId(long animalId) {
+		this.animalId = animalId;
+	}
+
+	public String getSpecies() {
+		return species;
+	}
+
+	public void setSpecies(String species) {
+		this.species = species;
+	}
+}
+	</div>
+
+	<h3>Plik Pet.java</h3>
+
+	<div class="codeDiv">
+package pl.dawidkozub.hibernateJoinedTable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
+
+@Entity(name = "PETS")
+@PrimaryKeyJoinColumn(name = "PET_ID")
+public class Pet extends Animal {
+
+	@Column(name = "NAME")
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+}
+	</div>
+
+	<h3>Plik JoinedTableDAOTest.java</h3>
+
+	<div class="codeDiv">
+package pl.dawidkozub.hibernateJoinedTable;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+public class JoinedTableDAOTest {
+
+	public static void main(String[] args) {
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("AnimalsDB");
+		EntityManager entityManager = factory.createEntityManager();
+
+		entityManager.getTransaction().begin();
+
+		Pet newPet = new Pet();
+		newPet.setName("Hellboy");
+		newPet.setSpecies("Bulldog");
+
+		entityManager.persist(newPet);
+
+		entityManager.getTransaction().commit();
+
+		entityManager.close();
+		factory.close();
+	}
+}
+	</div>
+
 </div>
