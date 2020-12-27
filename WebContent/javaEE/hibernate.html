@@ -304,4 +304,202 @@ public class MappedSuperclassDAOTest {
 }
 	</div>
 
+	<h2> Strategia Single Table</h2>
+	<p><a href="DOWNLOAD/hibernateSingleTable.zip">pobierz</a></p>
+
+	<p>
+		W takiej konfiguracji Każda z klas w hierarchii dziedziczenia będzie się znajdowała w jednej i tej samej tabeli w bazie danych.
+	</p>
+
+	<h3>Plik sql.sql</h3>
+
+	<div class="codeDiv">
+create database productsdb;
+
+use productsdb;
+
+CREATE TABLE products (
+product_id bigint NOT NULL AUTO_INCREMENT,
+name varchar(45) NOT NULL,
+product_type bigint NOT NULL,
+author varchar(45),
+color varchar(45),
+PRIMARY KEY (product_id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+	</div>
+
+	<h3>Plik persistence.xml</h3>
+
+	<div class="codeDiv">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"&gt;
+	&lt;persistence-unit name="ProductsDB"&gt;
+		&lt;properties&gt;
+			&lt;property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/productsdb?serverTimezone=UTC" /&gt;
+			&lt;property name="javax.persistence.jdbc.user" value="root" /&gt;
+			&lt;property name="javax.persistence.jdbc.password" value="12345678" /&gt;
+			&lt;property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" /&gt;
+			&lt;property name="hibernate.show_sql" value="true" /&gt;
+			&lt;property name="hibernate.format_sql" value="true" /&gt;
+			&lt;property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" /&gt;
+		&lt;/properties&gt;
+	&lt;/persistence-unit&gt;
+&lt;/persistence&gt;
+	</div>
+
+	<h3>Plik Product.java</h3>
+
+	<div class="codeDiv">
+package pl.dawidkozub.hibernateSingleTable;
+
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+
+@Entity(name="PRODUCTS")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="PRODUCT_TYPE", discriminatorType = DiscriminatorType.INTEGER)
+public class Product {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "PRODUCT_ID")
+	private long productId;
+
+	@Column(name = "NAME")
+	private String name;
+
+	@Column(name = "COLOR")
+	private String color;
+
+	@Column(name = "AUTHOR")
+	private String author;
+
+	public long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(long productId) {
+		this.productId = productId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+}
+	</div>
+
+	<h3>Plik Pen.java</h3>
+
+	<div class="codeDiv">
+package pl.dawidkozub.hibernateSingleTable;
+
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("1")
+public class Pen extends Product {
+
+	@Column(name="COLOR")
+	private String color;
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+}
+
+	</div>
+
+	<h3>Plik Book.java</h3>
+
+	<div class="codeDiv">
+package pl.dawidkozub.hibernateSingleTable;
+
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("2")
+public class Book extends Product {
+
+	@Column(name="AUTHOR")
+	private String author;
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+}
+	</div>
+
+	<h3>Plik SingleTableDAOTest.java</h3>
+
+	<div class="codeDiv">
+package pl.dawidkozub.hibernateSingleTable;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+public class SingleTableDAOTest {
+
+	public static void main(String[] args) {
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("ProductsDB");
+		EntityManager entityManager = factory.createEntityManager();
+
+		entityManager.getTransaction().begin();
+
+		Pen newPen = new Pen();
+		newPen.setName("Clasic Pen");
+		newPen.setColor("Red");
+
+		entityManager.persist(newPen);
+
+		entityManager.getTransaction().commit();
+
+		entityManager.close();
+		factory.close();
+	}
+}
+	</div>
+
 </div>
