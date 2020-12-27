@@ -1,0 +1,307 @@
+<h1>Hibernate</h1>
+<div class="contentDiv">
+
+	<p>Przykłady wykorzystania hibernate do interakcji z bazą danych.</p>
+	
+	<h2>Podstawowe użycie</h2>
+	<p><a href="DOWNLOAD/hibernate.zip">pobierz</a></p>
+
+	<p>
+		W takiej konfiguracji każda klasa adnotowana adnotacją <span class="important">@Entity</span> będzie posiadała swoją tabelkę w bazie danych.
+	</p>
+
+	<h3>Plik sql.sql</h3>
+
+	<div class="codeDiv">
+create database usersdb;
+
+use usersdb;
+
+CREATE TABLE users (
+user_id int(11) NOT NULL AUTO_INCREMENT,
+fullname varchar(45) NOT NULL,
+email varchar(45) NOT NULL,
+password varchar(45) NOT NULL,
+PRIMARY KEY (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+	</div>
+
+	<h3>Plik pom.xml</h3>
+	
+	<div class="codeDiv">
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+	&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+	&lt;groupId&gt;pl.softservice&lt;/groupId&gt;
+	&lt;artifactId&gt;hibernate&lt;/artifactId&gt;
+	&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+	&lt;dependencies&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;org.hibernate&lt;/groupId&gt;
+			&lt;artifactId&gt;hibernate-core&lt;/artifactId&gt;
+			&lt;version&gt;5.4.27.Final&lt;/version&gt;
+		&lt;/dependency&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;mysql&lt;/groupId&gt;
+			&lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+			&lt;version&gt;8.0.22&lt;/version&gt;
+		&lt;/dependency&gt;
+
+		&lt;dependency&gt;
+			&lt;groupId&gt;junit&lt;/groupId&gt;
+			&lt;artifactId&gt;junit&lt;/artifactId&gt;
+			&lt;version&gt;4.12&lt;/version&gt;
+			&lt;scope&gt;test&lt;/scope&gt;
+		&lt;/dependency&gt;
+	&lt;/dependencies&gt;
+	&lt;build&gt;
+		&lt;sourceDirectory&gt;src/main/java&lt;/sourceDirectory&gt;
+		&lt;plugins&gt;
+			&lt;plugin&gt;
+				&lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+				&lt;version&gt;3.5.1&lt;/version&gt;
+				&lt;configuration&gt;
+					&lt;source&gt;1.8&lt;/source&gt;
+					&lt;target&gt;1.8&lt;/target&gt;
+				&lt;/configuration&gt;
+			&lt;/plugin&gt;
+		&lt;/plugins&gt;
+	&lt;/build&gt;
+&lt;/project&gt;
+	</div>
+
+	<h3>Plik User.java</h3>
+
+	<div class="codeDiv">
+package pl.dawidkozub.hibernate;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "USERS")
+public class User {
+	private Integer id;
+	private String fullname;
+	private String email;
+	private String password;
+
+	@Column(name = "USER_ID")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getFullname() {
+		return fullname;
+	}
+
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+}
+	</div>
+
+	<h3>Plik UserDAOTest.java</h3>
+
+	<div class="codeDiv">
+package pl.dawidkozub.hibernate;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+public class UserDAOTest {
+
+	public static void main(String[] args) {
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("UsersDB");
+		EntityManager entityManager = factory.createEntityManager();
+
+		entityManager.getTransaction().begin();
+
+		User newUser = new User();
+		newUser.setEmail("dawidkozub@gmail.com");
+		newUser.setFullname("Dawid Kozub");
+		newUser.setPassword("java");
+
+		entityManager.persist(newUser);
+
+		entityManager.getTransaction().commit();
+
+		entityManager.close();
+		factory.close();
+	}
+}
+	</div>
+
+	<h2>Strategia MappedSuperclass</h2>
+
+	<p><a href="DOWNLOAD/hibernateMappedSuperclass.zip">pobierz</a></p>
+
+	<p>
+		Taka konfiguracja umożliwia utworzenie klasy bazowej dla encji, którą będą rozszerzać klasy adnotowane adnotacją <span class="important">@Entity</span>.
+		Klasa bazowa oznaczona będzie adnotacją <span class="important">@MappedSuperclass</span> i ona nie będzie miała w bazie danych swojej tabeli.
+		Klasy rozszerzające ją będą już miały swoje tabelki w bazie danych. Każda z klas mająca swoją tabelkę w bazie będzie posiadała kolumny ze swojej klasy
+		oraz klasy, którą rozszerzają.
+	</p>
+
+	<h3>Plik sql.sql</h3>
+
+	<div class="codeDiv">
+create database employeesdb;
+
+use employeesdb;
+
+CREATE TABLE employees (
+person_id int(11) NOT NULL AUTO_INCREMENT,
+name varchar(45) NOT NULL,
+company varchar(45) NOT NULL,
+PRIMARY KEY (person_id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+	</div>
+
+	<h3>Plik pom.xml</h3>
+
+	<div class="codeDiv">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"&gt;
+	&lt;persistence-unit name="EmployeesDB"&gt;
+		&lt;properties&gt;
+			&lt;property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/employeesdb?serverTimezone=UTC" /&gt;
+			&lt;property name="javax.persistence.jdbc.user" value="root" /&gt;
+			&lt;property name="javax.persistence.jdbc.password" value="12345678" /&gt;
+			&lt;property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" /&gt;
+			&lt;property name="hibernate.show_sql" value="true" /&gt;
+			&lt;property name="hibernate.format_sql" value="true" /&gt;
+			&lt;property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" /&gt;
+		&lt;/properties&gt;
+	&lt;/persistence-unit&gt;
+&lt;/persistence&gt;
+	</div>
+
+	<h3>Plik Person.java</h3>
+
+	<div class="codeDiv">
+package pl.dawidkozub.hibernateMappedSuperclass;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
+public class Person {
+
+	@Id
+	@Column(name = "PERSON_ID")
+	private long personId;
+
+	@Column(name = "NAME")
+	private String name;
+
+	public long getPersonId() {
+		return personId;
+	}
+
+	public void setPersonId(long personId) {
+		this.personId = personId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+}
+	</div>
+
+	<h3>Plik Employee.java</h3>
+
+	<div class="codeDiv">
+package pl.dawidkozub.hibernateMappedSuperclass;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="EMPLOYEES")
+public class Employee extends Person {
+
+	@Column(name = "COMPANY")
+	private String company;
+
+	public String getCompany() {
+		return company;
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
+	}
+}
+	</div>
+
+	<h3>Plik MappedSuperclassDAOTest.java</h3>
+
+	<div class="codeDiv">
+package pl.dawidkozub.hibernateMappedSuperclass;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+public class MappedSuperclassDAOTest {
+
+	public static void main(String[] args) {
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("EmployeesDB");
+		EntityManager entityManager = factory.createEntityManager();
+
+		entityManager.getTransaction().begin();
+
+		Employee newEmployee = new Employee();
+		newEmployee.setName("Jacob");
+		newEmployee.setCompany("superCompany");
+
+		entityManager.persist(newEmployee);
+
+		entityManager.getTransaction().commit();
+
+		entityManager.close();
+		factory.close();
+	}
+}
+	</div>
+
+</div>
