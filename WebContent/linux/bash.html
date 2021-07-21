@@ -1,0 +1,408 @@
+<h1>Bash</h1>
+<div class="contentDiv">
+
+    <h2>Spis treści:</h2>
+    <ul>
+        <li><a href="#rozne">Różne</a></li>
+        <li><a href="#zmienne">Zmienne</a></li>
+        <li><a href="#zmienneSpecjalne">Zmienne specjalne</a></li>
+        <li><a href="#operacjeNaZmiennych">Operacje na zmiennych</a></li>
+        <li><a href="#pobranieDanychOdUzytkownika">Pobranie danych od użytkownika</a></li>
+        <li><a href="#instrukcjeWarunkowe">Instrukcje warunkowe</a></li>
+        <li><a href="#petle">Pętle</a></li>
+        <li><a href="#operatoryLogiczne">Operatory logiczne</a></li>
+        <li><a href="#wyjscieZProgramu">Wyjście z programu</a></li>
+        <li><a href="#zapisWynikuProgramuDoZmiennej">Zapis wyniku programu do zmiennej</a></li>
+    </ul>
+    <br>
+
+    <h2 id="rozne">ROŻNE</h2>
+
+    <p>Określa lokalizacje bash’a. Musi się znaleźć w pierwszej linijce programu wsadowego:</p>
+    <div class="codeDiv">
+#!/usr/bin/bash
+    </div>
+
+    <p>Rozpoznawanie typu. Wyświetla informacje o elemencie:</p>
+    <div class="codeConsole">
+$ type -a [
+    </div>
+
+    <h2 id="zmienne">ZMIENNE</h2>
+
+    <p>Jeżeli wystepuje Bialy znak to wartość musi być w cudzysłowach:</p>
+    <div class="codeConsole">
+$ nazwaZmiennej=„wartość zmiennej”$
+    </div>
+
+    <p>Konkatenacja zmiennych (ciągów znaków):</p>
+    <div class="codeConsole">
+$ echo $zmienna1$zmienna2
+    </div>
+
+    <p>Podwójne rozwiniecie zmiennej. Oznacza wypisane zmiennej o nazwie takiej jak wartość zmiennej o nazwie zmienna:</p>
+    <div class="codeConsole">
+$ echo ${!zmienna}
+    </div>
+
+    <p><span class="code">declare -i</span> - wewnętrzne polecenie powłoki Bash, które pozwala oznaczyć zmienną typem. Parametr -i oznacza w tym wypadku typ całkowitoliczbowy (ang. integer):</p>
+    <div class="codeDiv">
+#!/usr/bin/bash
+declare -i reszta
+reszta=$1%2
+if [[ $reszta == 0 ]]
+then
+echo "Parzysta"
+else
+echo "Nieparzysta"
+fi
+    </div>
+
+    <h2 id="zmienneSpecjalne">ZMIENNE SPECJALNE</h2>
+
+    <p>Wartość znaku zachęty w trybie interaktywnym. Pusty String w trybie wsadowym:</p>
+    <div class="codeConsole">
+$ echo $PS1
+    </div>
+
+    <p>Wartość himBH w trybie interaktywnym. hB w trybie wsadowym:</p>
+    <div class="codeConsole">
+$ echo $-
+    </div>
+
+    <h2 id="operacjeNaZmiennych">OPERACJE NA ZMIENNYCH</h2>
+
+    <p>Długość stringa:</p>
+    <div class="codeConsole">
+dlugoscImienia=${#imie}
+    </div>
+
+    <p>Wycinanie części stringa:</p>
+    <div class="codeConsole">
+ostatniaLitera=${imie:$dlugoscImienia-1}
+    </div>
+
+    <p>Wycięcie stringa od znaku 0 do znaku 3:</p>
+    <div class="codeConsole">
+$ echo ${imie:0:3}
+    </div>
+
+    <p>Wytnie string od litery ósmej od początku do litery ósmej od końca:</p>
+    <div class="codeConsole">
+$ echo ${napis:8:-8}
+    </div>
+
+    <p>Zamieneni na małe znaki:</p>
+    <div class="codeConsole">
+$ echo ${napis,,}
+    </div>
+
+    <p>Zamieneni na duże znaki:</p>
+    <div class="codeConsole">
+$ echo ${napis^^}
+    </div>
+
+    <div class="codeParagraphDiv">
+        <p class="codeParagraph"><span class="code">#</span> - Usunięcie do pierwszego wystąpienia (prefiks).</p>
+        <p class="codeParagraph"><span class="code">##</span> - Usunięcie do ostatniego wystąpienia (prefiks).</p>
+        <p class="codeParagraph"><span class="code">%</span> - Usunięcie od pierwszego wystąpienia (sufiks).</p>
+        <p class="codeParagraph"><span class="code">%%</span> - Usunięcie od ostatniego wystąpienia (sufiks).</p>
+    </div>
+
+    <div class="codeDiv">
+#!/usr/bin/bash
+napis="Windows;GNU/Linux;MacOS X"
+echo ${napis##*;} # obcięto maksymalny prefiks
+echo ${napis#*;} # obcięto minimalny prefiks
+echo ${napis%;*} # obcięto minimalny sufiks
+echo ${napis%%;*} # obcięto maksymalny sufix
+    </div>
+
+    <p>Wynik wykonania powyższego skryptu:</p>
+
+    <div class="codeConsole">
+MacOS X
+GNU/Linux;MacOS X
+Windows;GNU/Linux
+Windows
+$
+    </div>
+
+    <h2 id="pobranieDanychOdUzytkownika">POBRANIE DANYCH OD UŻYTKOWNIKA</h2>
+
+    <p>Pobiera ciąg znaków od użytkownika i zapisuje do zmiennej. -p „znak zachęty” - określa prompt. -t 20 - określa
+        limit czasowy na wprowadzenie danych. -n/-N - określa limit dolny/górny podczas wprowadzania znaków:</p>
+    <div class="codeConsole">
+$ read nazwaZmiennej
+    </div>
+
+    <h2 id="instrukcjeWarunkowe">INSTRUKCJE WARUNKOWE</h2>
+
+    <p>Notacja z nawiasem kwadratowym <span class="important">[]</span>:</p>
+    <div class="codeDiv">
+#!/usr/bin/bash
+
+if [ $warunek1 = "T" ] # if [ "a"=="a" ]
+then
+echo "Warunek pierwszy spełniony";
+elif [ $warunek2 = "T" ]
+then
+echo "Warunek drugi spełniony"
+else
+echo "Warunek niespełniony";
+fi
+    </div>
+
+    <p>Notacja bez niczego (sprawdza wartość zmiennej czy jest równa true):</p>
+    <div class="codeDiv">
+#!/usr/bin/bash
+
+prawda=true
+if $prawda
+then
+echo "Warunek jest spełniony"
+else
+echo "Warunek nie jest spełniony"
+fi
+falsz=false
+if $falsz
+then
+echo "Warunek jest spełniony"
+else
+echo "Warunek nie jest spełniony"
+fi
+    </div>
+
+    <p>Wykonanie programu przez bash, zwraca wartość 0, która jest prawdą:</p>
+<div class="codeDiv">
+#!/usr/bin/bash
+
+c="echo wykonane"
+if $c; then echo "spełniony"; else echo "niespełniony"; fi
+
+echo "Wartość wyniku wykonanego programu \$?: $?"
+</div>
+
+    <p>Notacja z użyciem wewnętrznego polecenia powłoki <span class="important">test</span>:</p>
+    <div class="codeDiv">
+#!/usr/bin/bash
+
+echo "Czy chcesz spełnić warunek? [T/n]";
+read zmienna;
+if test $zmienna = "T"
+then
+echo "Warunek spełniono, wynik to: $?";
+else
+echo "Warunku nie spełniono, wynik to: $?";
+fi
+    </div>
+
+    <p>Notacja z użyciem słowa kluczowego powłoki <span class="important">[[]]</span>:</p>
+    <div class="codeDiv">
+#!/usr/bin/bash
+
+echo "Czy zakończyć program z błędem? [T/n]"
+read decyzja
+if [[ "$decyzja" == "T" ]]
+then
+echo "Podaj numeryczny kod błędu:"
+read kod
+exit $kod
+else
+exit 0
+fi
+    </div>
+
+    <p>Notacja z użyciem <span class="important">(())</span>:</p>
+    <div class="codeDiv">
+#!/usr/bin/bash
+
+if (($1 % 2 == 0))
+then
+echo "Parzysta"
+else
+echo "Nieparzysta"
+fi
+    </div>
+
+    <p>Wykonanie powyższego kodu (($1 % 2 == 0)) powoduje zapis wyniku do specjalnej zmiennej $? i to jej wartość jest
+        testowana przez instrukcję warunkową. Działa to w taki sposób:/p>
+    <div class="codeDiv">
+#!/usr/bin/bash
+
+(($1 % 2 == 0))
+if [[ $? == 0 ]]
+then
+echo "Parzysta"
+else
+echo "Nieparzysta"
+fi
+    </div>
+
+    <p>Poniższy kod to skrócona instrukcja warunkowa do wykonania kodu zależnego od warunku:/p>
+    <div class="codeDiv">
+#!/usr/bin/bash
+
+a=4
+[ $a = 4 ] && echo "Kod po &&" || echo "Kod po ||";”
+    </div>
+
+    <p>W ten sam sposób można zapisać wykonanie polecenia w przypadku, gdy warunek nie jest spełniony:</p>
+    <div class="codeDiv">
+$ [ warunek ] || polecenie
+    </div>
+
+    <p>Wykorzystując operatory logiczne i jedną z ich podstawowych cech, czyli fakt, że są to operatory leniwe,
+        możemy uwarunkować wykonanie drugiego polecenia wynikiem wykonania pierwszego, na przykład:
+    </p>
+    <div class="codeDiv">
+polecenie1 && polecenie2
+    </div>
+
+    <h2 id="petle">PĘTLE</h2>
+
+    <p>Pętla while:</p>
+    <div class="codeDIv">
+#!/usr/bin/bash
+
+min=$1
+max=$2
+modulo=$3
+i=$min
+while [[ $i -le $2 ]]   # while (( $i <= $2 ))
+do
+reszta=$(($i % $modulo))
+if [[ $reszta == 0 ]]
+then
+echo $i
+fi
+i=$(($i + 1))
+done
+    </div>
+
+    <p>Pętla for (przykład obliczenia silni dla podanej wartości parametru uruchomieniowego programu):</p>
+    <div class="codeDiv">
+#!/usr/bin/bash
+
+wynik=1 # nie-zero bo tworzy iloczyn
+for ((i=1; $i <= $1; i++))
+do
+wynik=$(($wynik * $i))
+done
+echo $wynik
+    </div>
+
+    <p>Pętla for dla podanych wartości:</p>
+    <div class="codeDiv">
+#!/usr/bin/bash
+
+for dzien in "Poniedziałek" "Wtorek" "Środa" "Czwartek" "Piątek"
+do
+echo $dzien
+done”
+    </div>
+
+    <h2 id="operatoryLogiczne">OPERATORY LOGICZNE</h2>
+
+    <p>Znak równości <span class="important">==</span> oraz alternatywa <span class="important">||</span></p>
+    <div class="codeDiv">
+#!/usr/bin/bash
+
+imie=$1
+if [[ $imie == "Inez" || $imie == "Bogodarz" ]]
+then
+echo "K"
+else
+echo "M"
+fi
+    </div>
+
+    <p>Znak różności <span class="important">!=</span></p>
+    <div class="codeDiv">
+#!/usr/bin/bash
+
+wartosc=""
+if [[ $wartosc != "" ]]
+then
+echo "Wartość nie jest pusta"
+else
+echo "Wartość jest pusta"
+fi
+    </div>
+
+    <p>Negacja:</p>
+    <div class="codeDiv">
+#!/usr/bin/bash
+
+wartosc=$1
+if [[ ! $wartosc == "" ]]
+then
+echo "alternatywa"
+fi
+    </div>
+
+    <p>Koniunkcja <span class="important">&&</span></p>
+    <div class="codeDiv">
+#!/usr/bin/bash
+
+a=$1
+b=$2
+if [[ $a == "A" && $b == "B" ]]
+then
+echo "Warunek spełniono”
+fi
+    </div>
+
+    <h2 id="wyjscieZProgramu">WYJŚCIE Z PROGRAMU</h2>
+
+    <p>Polecenie exit, które zapisuje wynik pracy skryptu w specjalnej zmiennej $?</p>
+    <div class="codeDiv">
+#!/usr/bin/bash
+
+echo "Czy zakończyć program z błędem? [T/n]"
+read decyzja
+if [ $decyzja = "T" ]
+then
+echo "Podaj numeryczny kod błędu:"
+read kod
+exit $kod
+else
+exit 0
+fi
+    </div>
+
+    <h2 id="zapisWynikuProgramuDoZmiennej">ZAPIS WYNIU PROGRAMU DO ZMIENNEJ</h2>
+
+    <div class="codeDiv">
+#!/usr/bin/bash
+
+katalog=$1
+rozszerzenie=$([ $2 ] && echo "."$2 || echo "")
+sciezka=$katalog"/*"$rozszerzenie
+przesuniecieDni=$([ $3 ] && echo $3 || echo 1)
+przesuniecieSekund=$(($przesuniecieDni * 86400))
+for plik in $sciezka
+do
+czas=$(stat -c "%X" $plik)
+minCzas=$(date +"%s")
+minCzas=$(($minCzas - $przesuniecieSekund))
+if (($czas >= $minCzas))
+then
+echo $plik" czas: "$czas
+fi
+done
+    </div>
+
+    <div class="codeParagraphDiv">
+        <p class="codeParagraph"><span class="code">$()</span> - Jest to składnia, która pozwala wykonać inne polecenie lub kod Basha i pobrać wynik,
+            zapisując go jednocześnie do zmiennej.</p>
+
+        <p class="codeParagraph"><span class="code">stat</span> - Program, który umożliwia badanie statusu plików i katalogów.</p>
+
+        <p class="codeParagraph"><span class="code">date</span> - Program, który umożliwia formatowanie dat w różny sposób i pobranie aktualnej daty systemowej.
+        W tym przypadku polecenie to zwraca aktualny czas w formie wartości całkowitoliczbowej.
+        Wartość ta jest niczym innym jak liczbą sekund, które upłynęły od rozpoczęcia odliczania.
+            Tutaj rozpoczęciem odliczania była data 1 stycznia 1970 roku.</p>
+    </div>
+
+</div>
